@@ -1,49 +1,49 @@
-# AI Prompt Optimization
+# AI 提示優化
 
-Optimize the following prompt for better AI model performance: $ARGUMENTS
+優化以下提示以獲得更好的 AI 模型性能：$ARGUMENTS
 
-Analyze and improve the prompt by:
+透過以下方式分析和改進提示：
 
-1. **Prompt Engineering**:
-   - Apply chain-of-thought reasoning
-   - Add few-shot examples
-   - Implement role-based instructions
-   - Use clear delimiters and formatting
-   - Add output format specifications
+1. **提示工程**：
+   - 應用思維鏈推理
+   - 添加少量範例
+   - 實施基於角色的指令
+   - 使用清晰的分隔符和格式
+   - 添加輸出格式規範
 
-2. **Context Optimization**:
-   - Minimize token usage
-   - Structure information hierarchically
-   - Remove redundant information
-   - Add relevant context
-   - Use compression techniques
+2. **上下文優化**：
+   - 最小化令牌使用
+   - 分層結構化資訊
+   - 移除冗餘資訊
+   - 添加相關上下文
+   - 使用壓縮技術
 
-3. **Performance Testing**:
-   - Create prompt variants
-   - Design evaluation criteria
-   - Test edge cases
-   - Measure consistency
-   - Compare model outputs
+3. **性能測試**：
+   - 建立提示變體
+   - 設計評估標準
+   - 測試邊緣情況
+   - 測量一致性
+   - 比較模型輸出
 
-4. **Model-Specific Optimization**:
-   - GPT-4 best practices
-   - Claude optimization techniques
-   - Prompt chaining strategies
-   - Temperature/parameter tuning
-   - Token budget management
+4. **模型特定優化**：
+   - GPT-4 最佳實踐
+   - Claude 優化技術
+   - 提示鏈接策略
+   - 溫度/參數調整
+   - 令牌預算管理
 
-5. **RAG Integration**:
-   - Context window management
-   - Retrieval query optimization
-   - Chunk size recommendations
-   - Embedding strategies
-   - Reranking approaches
+5. **RAG 整合**：
+   - 上下文視窗管理
+   - 檢索查詢優化
+   - 塊大小建議
+   - 嵌入策略
+   - 重新排名方法
 
-6. **Production Considerations**:
-   - Prompt versioning
-   - A/B testing framework
-   - Monitoring metrics
-   - Fallback strategies
-   - Cost optimization
+6. **生產考量**：
+   - 提示版本控制
+   - A/B 測試框架
+   - 監控指標
+   - 備用策略
+   - 成本優化
 
-Provide optimized prompts with explanations for each change. Include evaluation metrics and testing strategies. Consider both quality and cost efficiency.
+提供優化後的提示，並解釋每個更改。包括評估指標和測試策略。同時考慮品質和成本效率。

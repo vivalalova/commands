@@ -1,66 +1,66 @@
-Save current project context for future agent coordination:
+# 儲存當前專案上下文以供未來代理協調：
 
-[Extended thinking: This tool uses the context-manager agent to capture and preserve project state, decisions, and patterns. This enables better continuity across sessions and improved agent coordination.]
+[延伸思考：此工具使用上下文管理器代理來捕獲和保留專案狀態、決策和模式。這有助於在會話之間實現更好的連續性，並改進代理協調。]
 
-## Context Capture Process
+## 上下文捕獲流程
 
-Use Task tool with subagent_type="context-manager" to save comprehensive project context.
+使用任務工具，子代理類型為「context-manager」以儲存全面的專案上下文。
 
-Prompt: "Save comprehensive project context for: $ARGUMENTS. Capture:
+提示：「儲存：$ARGUMENTS 的全面專案上下文。捕獲：
 
-1. **Project Overview**
-   - Project goals and objectives
-   - Key architectural decisions
-   - Technology stack and dependencies
-   - Team conventions and patterns
+1. **專案概覽**
+   - 專案目標和目的
+   - 關鍵架構決策
+   - 技術堆疊和依賴項
+   - 團隊慣例和模式
 
-2. **Current State**
-   - Recently implemented features
-   - Work in progress
-   - Known issues and technical debt
-   - Performance baselines
+2. **當前狀態**
+   - 最近實施的功能
+   - 進行中的工作
+   - 已知問題和技術債務
+   - 性能基準
 
-3. **Design Decisions**
-   - Architectural choices and rationale
-   - API design patterns
-   - Database schema decisions
-   - Security implementations
+3. **設計決策**
+   - 架構選擇和理由
+   - API 設計模式
+   - 資料庫模式決策
+   - 安全實施
 
-4. **Code Patterns**
-   - Coding conventions used
-   - Common patterns and abstractions
-   - Testing strategies
-   - Error handling approaches
+4. **程式碼模式**
+   - 使用的編碼慣例
+   - 常見模式和抽象
+   - 測試策略
+   - 錯誤處理方法
 
-5. **Agent Coordination History**
-   - Which agents worked on what
-   - Successful agent combinations
-   - Agent-specific context and findings
-   - Cross-agent dependencies
+5. **代理協調歷史**
+   - 哪些代理處理了什麼
+   - 成功的代理組合
+   - 代理特定上下文和發現
+   - 跨代理依賴項
 
-6. **Future Roadmap**
-   - Planned features
-   - Identified improvements
-   - Technical debt to address
-   - Performance optimization opportunities
+6. **未來路線圖**
+   - 計劃中的功能
+   - 已識別的改進
+   - 要解決的技術債務
+   - 性能優化機會
 
-Save this context in a structured format that can be easily restored and used by future agent invocations."
+將此上下文儲存為結構化格式，以便未來代理調用可以輕鬆恢復和使用。」
 
-## Context Storage
+## 上下文儲存
 
-The context will be saved to `.claude/context/` with:
-- Timestamp-based versioning
-- Structured JSON/Markdown format
-- Easy restoration capabilities
-- Context diffing between versions
+上下文將儲存到 `.claude/context/`，並具有：
+- 基於時間戳的版本控制
+- 結構化 JSON/Markdown 格式
+- 輕鬆恢復功能
+- 版本之間的上下文差異
 
-## Usage Scenarios
+## 使用場景
 
-This saved context enables:
-- Resuming work after breaks
-- Onboarding new team members
-- Maintaining consistency across agent invocations
-- Preserving architectural decisions
-- Tracking project evolution
+此儲存的上下文可實現：
+- 中斷後恢復工作
+- 新團隊成員入職
+- 代理調用之間保持一致性
+- 保留架構決策
+- 追蹤專案演變
 
-Context to save: $ARGUMENTS
+要儲存的上下文：$ARGUMENTS

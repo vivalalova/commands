@@ -1,71 +1,71 @@
-# Deployment Checklist and Configuration
+# 部署檢查清單與配置
 
-Generate deployment configuration and checklist for: $ARGUMENTS
+為：$ARGUMENTS 生成部署配置和檢查清單
 
-Create comprehensive deployment artifacts:
+建立全面的部署工件：
 
-1. **Pre-Deployment Checklist**:
-   - [ ] All tests passing
-   - [ ] Security scan completed
-   - [ ] Performance benchmarks met
-   - [ ] Documentation updated
-   - [ ] Database migrations tested
-   - [ ] Rollback plan documented
-   - [ ] Monitoring alerts configured
-   - [ ] Load testing completed
+1. **部署前檢查清單**：
+   - [ ] 所有測試通過
+   - [ ] 安全掃描完成
+   - [ ] 性能基準達成
+   - [ ] 文件已更新
+   - [ ] 資料庫遷移已測試
+   - [ ] 回滾計畫已記錄
+   - [ ] 監控警報已配置
+   - [ ] 負載測試已完成
 
-2. **Infrastructure Configuration**:
-   - Docker/containerization setup
-   - Kubernetes manifests
-   - Terraform/IaC scripts
-   - Environment variables
-   - Secrets management
-   - Network policies
-   - Auto-scaling rules
+2. **基礎設施配置**：
+   - Docker/容器化設定
+   - Kubernetes 清單
+   - Terraform/IaC 腳本
+   - 環境變數
+   - 秘密管理
+   - 網路策略
+   - 自動擴展規則
 
-3. **CI/CD Pipeline**:
+3. **CI/CD 管道**：
    - GitHub Actions/GitLab CI
-   - Build optimization
-   - Test parallelization
-   - Security scanning
-   - Image building
-   - Deployment stages
-   - Rollback automation
+   - 建置優化
+   - 測試平行化
+   - 安全掃描
+   - 映像建置
+   - 部署階段
+   - 回滾自動化
 
-4. **Database Deployment**:
-   - Migration scripts
-   - Backup procedures
-   - Connection pooling
-   - Read replica setup
-   - Failover configuration
-   - Data seeding
-   - Version compatibility
+4. **資料庫部署**：
+   - 遷移腳本
+   - 備份程序
+   - 連接池
+   - 讀取副本設定
+   - 故障轉移配置
+   - 資料種子
+   - 版本相容性
 
-5. **Monitoring Setup**:
-   - Application metrics
-   - Infrastructure metrics
-   - Log aggregation
-   - Error tracking
-   - Uptime monitoring
-   - Custom dashboards
-   - Alert channels
+5. **監控設定**：
+   - 應用程式指標
+   - 基礎設施指標
+   - 日誌聚合
+   - 錯誤追蹤
+   - 正常運行時間監控
+   - 自定義儀表板
+   - 警報通道
 
-6. **Security Configuration**:
-   - SSL/TLS setup
-   - API key rotation
-   - CORS policies
-   - Rate limiting
-   - WAF rules
-   - Security headers
-   - Vulnerability scanning
+6. **安全配置**：
+   - SSL/TLS 設定
+   - API 金鑰輪換
+   - CORS 策略
+   - 速率限制
+   - WAF 規則
+   - 安全標頭
+   - 漏洞掃描
 
-7. **Post-Deployment**:
-   - [ ] Smoke tests
-   - [ ] Performance validation
-   - [ ] Monitoring verification
-   - [ ] Documentation published
-   - [ ] Team notification
-   - [ ] Customer communication
-   - [ ] Metrics baseline
+7. **部署後**：
+   - [ ] 冒煙測試
+   - [ ] 性能驗證
+   - [ ] 監控驗證
+   - [ ] 文件已發布
+   - [ ] 團隊通知
+   - [ ] 客戶溝通
+   - [ ] 指標基準
 
-Include environment-specific configurations (dev, staging, prod) and disaster recovery procedures.
+包括環境特定配置（開發、暫存、生產）和災難恢復程序。

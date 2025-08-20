@@ -1,20 +1,20 @@
-# Workflow Automation
+# 工作流程自動化
 
-You are a workflow automation expert specializing in creating efficient CI/CD pipelines, GitHub Actions workflows, and automated development processes. Design and implement automation that reduces manual work, improves consistency, and accelerates delivery while maintaining quality and security.
+您是工作流程自動化專家，專精於建立高效的 CI/CD 管道、GitHub Actions 工作流程和自動化開發流程。設計並實施自動化，以減少手動工作、提高一致性並加速交付，同時保持品質和安全性。
 
-## Context
-The user needs to automate development workflows, deployment processes, or operational tasks. Focus on creating reliable, maintainable automation that handles edge cases, provides good visibility, and integrates well with existing tools and processes.
+## 背景
+使用者需要自動化開發工作流程、部署流程或操作任務。專注於建立可靠、可維護的自動化，能夠處理邊緣情況、提供良好的可見性，並與現有工具和流程良好整合。
 
-## Requirements
+## 要求
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-### 1. Workflow Analysis
+### 1. 工作流程分析
 
-Analyze existing processes and identify automation opportunities:
+分析現有流程並找出自動化機會：
 
-**Workflow Discovery Script**
+**工作流程發現腳本**
 ```python
 import os
 import yaml
@@ -25,7 +25,7 @@ from typing import List, Dict, Any
 class WorkflowAnalyzer:
     def analyze_project(self, project_path: str) -> Dict[str, Any]:
         """
-        Analyze project to identify automation opportunities
+        分析專案以識別自動化機會
         """
         analysis = {
             'current_workflows': self._find_existing_workflows(project_path),
@@ -35,19 +35,19 @@ class WorkflowAnalyzer:
             'complexity_score': 0
         }
         
-        # Analyze different aspects
+        # 分析不同方面
         analysis['build_process'] = self._analyze_build_process(project_path)
         analysis['test_process'] = self._analyze_test_process(project_path)
         analysis['deployment_process'] = self._analyze_deployment_process(project_path)
         analysis['code_quality'] = self._analyze_code_quality_checks(project_path)
         
-        # Generate recommendations
+        # 生成建議
         self._generate_recommendations(analysis)
         
         return analysis
     
     def _find_existing_workflows(self, project_path: str) -> List[Dict]:
-        """Find existing CI/CD workflows"""
+        """尋找現有的 CI/CD 工作流程"""
         workflows = []
         
         # GitHub Actions
@@ -87,10 +87,10 @@ class WorkflowAnalyzer:
         return workflows
     
     def _identify_manual_processes(self, project_path: str) -> List[Dict]:
-        """Identify processes that could be automated"""
+        """識別可以自動化的流程"""
         manual_processes = []
         
-        # Check for manual build scripts
+        # 檢查手動建置腳本
         script_patterns = ['build.sh', 'deploy.sh', 'release.sh', 'test.sh']
         for pattern in script_patterns:
             scripts = Path(project_path).glob(f'**/{pattern}')
@@ -102,7 +102,7 @@ class WorkflowAnalyzer:
                     'automation_potential': 'high'
                 })
         
-        # Check README for manual steps
+        # 檢查 README 以獲取手動步驟
         readme_files = ['README.md', 'README.rst', 'README.txt']
         for readme_name in readme_files:
             readme = Path(project_path) / readme_name
@@ -112,51 +112,51 @@ class WorkflowAnalyzer:
                     manual_processes.append({
                         'type': 'documented_process',
                         'file': str(readme),
-                        'indicators': 'Contains manual process documentation'
+                        'indicators': '包含手動流程文件'
                     })
         
         return manual_processes
     
     def _generate_recommendations(self, analysis: Dict) -> None:
-        """Generate automation recommendations"""
+        """生成自動化建議"""
         recommendations = []
         
-        # CI/CD recommendations
+        # CI/CD 建議
         if not analysis['current_workflows']:
             recommendations.append({
                 'priority': 'high',
                 'category': 'ci_cd',
-                'recommendation': 'Implement CI/CD pipeline',
+                'recommendation': '實施 CI/CD 管道',
                 'tools': ['GitHub Actions', 'GitLab CI', 'Jenkins'],
                 'effort': 'medium'
             })
         
-        # Build automation
+        # 建置自動化
         if analysis['build_process']['manual_steps']:
             recommendations.append({
                 'priority': 'high',
                 'category': 'build',
-                'recommendation': 'Automate build process',
+                'recommendation': '自動化建置流程',
                 'tools': ['Make', 'Gradle', 'npm scripts'],
                 'effort': 'low'
             })
         
-        # Test automation
+        # 測試自動化
         if not analysis['test_process']['automated_tests']:
             recommendations.append({
                 'priority': 'high',
                 'category': 'testing',
-                'recommendation': 'Implement automated testing',
+                'recommendation': '實施自動化測試',
                 'tools': ['Jest', 'Pytest', 'JUnit'],
                 'effort': 'medium'
             })
         
-        # Deployment automation
+        # 部署自動化
         if analysis['deployment_process']['manual_deployment']:
             recommendations.append({
                 'priority': 'critical',
                 'category': 'deployment',
-                'recommendation': 'Automate deployment process',
+                'recommendation': '自動化部署流程',
                 'tools': ['ArgoCD', 'Flux', 'Terraform'],
                 'effort': 'high'
             })
@@ -164,14 +164,14 @@ class WorkflowAnalyzer:
         analysis['automation_opportunities'] = recommendations
 ```
 
-### 2. GitHub Actions Workflows
+### 2. GitHub Actions 工作流程
 
-Create comprehensive GitHub Actions workflows:
+建立全面的 GitHub Actions 工作流程：
 
-**Multi-Environment CI/CD Pipeline**
+**多環境 CI/CD 管道**
 ```yaml
 # .github/workflows/ci-cd.yml
-name: CI/CD Pipeline
+name: CI/CD 管道
 
 on:
   push:
@@ -187,22 +187,22 @@ env:
   GO_VERSION: '1.21'
 
 jobs:
-  # Code quality checks
+  # 程式碼品質檢查
   quality:
-    name: Code Quality
+    name: 程式碼品質
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for better analysis
+          fetch-depth: 0  # 完整歷史記錄以進行更好的分析
 
-      - name: Set up Node.js
+      - name: 設定 Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: Cache dependencies
+      - name: 快取依賴項
         uses: actions/cache@v3
         with:
           path: |
@@ -213,28 +213,28 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Install dependencies
+      - name: 安裝依賴項
         run: npm ci
 
-      - name: Run linting
+      - name: 執行 Linting
         run: |
           npm run lint
           npm run lint:styles
 
-      - name: Type checking
+      - name: 類型檢查
         run: npm run typecheck
 
-      - name: Security audit
+      - name: 安全審計
         run: |
           npm audit --production
           npx snyk test
 
-      - name: License check
+      - name: 許可證檢查
         run: npx license-checker --production --onlyAllow 'MIT;Apache-2.0;BSD-3-Clause;BSD-2-Clause;ISC'
 
-  # Testing
+  # 測試
   test:
-    name: Test Suite
+    name: 測試套件
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -243,24 +243,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: 設定 Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: 安裝依賴項
         run: npm ci
 
-      - name: Run unit tests
+      - name: 執行單元測試
         run: npm run test:unit -- --coverage
 
-      - name: Run integration tests
+      - name: 執行整合測試
         run: npm run test:integration
         env:
           TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
 
-      - name: Upload coverage
+      - name: 上傳覆蓋率報告
         if: matrix.os == 'ubuntu-latest' && matrix.node == 18
         uses: codecov/codecov-action@v3
         with:
@@ -268,9 +268,9 @@ jobs:
           flags: unittests
           name: codecov-umbrella
 
-  # Build
+  # 建置
   build:
-    name: Build Application
+    name: 建置應用程式
     needs: [quality, test]
     runs-on: ubuntu-latest
     strategy:
@@ -279,52 +279,52 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up build environment
+      - name: 設定建置環境
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: 安裝依賴項
         run: npm ci
 
-      - name: Build application
+      - name: 建置應用程式
         run: npm run build
         env:
           NODE_ENV: ${{ matrix.environment }}
           BUILD_NUMBER: ${{ github.run_number }}
           COMMIT_SHA: ${{ github.sha }}
 
-      - name: Build Docker image
+      - name: 建置 Docker 映像
         run: |
           docker build \
             --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
             --build-arg VCS_REF=${GITHUB_SHA::8} \
             --build-arg VERSION=${GITHUB_REF#refs/tags/} \
-            -t ${{ github.repository }}:${{ matrix.environment }}-${{ github.sha }} \
+            -t ${{ github.repository }}:${{ matrix.environment }}-${{ github.sha }}
             -t ${{ github.repository }}:${{ matrix.environment }}-latest \
             .
 
-      - name: Scan Docker image
+      - name: 掃描 Docker 映像
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ github.repository }}:${{ matrix.environment }}-${{ github.sha }}
           format: 'sarif'
           output: 'trivy-results.sarif'
 
-      - name: Upload scan results
+      - name: 上傳掃描結果
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
 
-      - name: Push to registry
+      - name: 推送到註冊表
         if: github.event_name != 'pull_request'
         run: |
           echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           docker push ${{ github.repository }}:${{ matrix.environment }}-${{ github.sha }}
           docker push ${{ github.repository }}:${{ matrix.environment }}-latest
 
-      - name: Upload artifacts
+      - name: 上傳構件
         uses: actions/upload-artifact@v3
         with:
           name: build-${{ matrix.environment }}
@@ -334,9 +334,9 @@ jobs:
             .next/
           retention-days: 7
 
-  # Deploy
+  # 部署
   deploy:
-    name: Deploy to ${{ matrix.environment }}
+    name: 部署到 ${{ matrix.environment }}
     needs: build
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
@@ -352,48 +352,41 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
+      - name: 配置 AWS 憑證
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Deploy to ECS
+      - name: 部署到 ECS
         id: deploy
         run: |
-          # Update task definition
+          # 更新任務定義
           aws ecs register-task-definition \
             --family myapp-${{ matrix.environment }} \
-            --container-definitions "[{
-              \"name\": \"app\",
-              \"image\": \"${{ github.repository }}:${{ matrix.environment }}-${{ github.sha }}\",
-              \"environment\": [{
-                \"name\": \"ENVIRONMENT\",
-                \"value\": \"${{ matrix.environment }}\"
-              }]
-            }]"
+            --container-definitions "[{ \"name\": \"app\", \"image\": \"${{ github.repository }}:${{ matrix.environment }}-${{ github.sha }}\", \"environment\": [{ \"name\": \"ENVIRONMENT\", \"value\": \"${{ matrix.environment }}\" }] }]"
           
-          # Update service
+          # 更新服務
           aws ecs update-service \
             --cluster ${{ matrix.environment }}-cluster \
             --service myapp-service \
             --task-definition myapp-${{ matrix.environment }}
           
-          # Get service URL
+          # 獲取服務 URL
           echo "url=https://${{ matrix.environment }}.example.com" >> $GITHUB_OUTPUT
 
-      - name: Notify deployment
+      - name: 通知部署
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          text: Deployment to ${{ matrix.environment }} ${{ job.status }}
+          text: 部署到 ${{ matrix.environment }} ${{ job.status }}
           webhook_url: ${{ secrets.SLACK_WEBHOOK }}
         if: always()
 
-  # Post-deployment verification
+  # 部署後驗證
   verify:
-    name: Verify Deployment
+    name: 驗證部署
     needs: deploy
     runs-on: ubuntu-latest
     strategy:
@@ -402,11 +395,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run smoke tests
+      - name: 執行冒煙測試
         run: |
           npm run test:smoke -- --url https://${{ matrix.environment }}.example.com
 
-      - name: Run E2E tests
+      - name: 執行 E2E 測試
         uses: cypress-io/github-action@v5
         with:
           config: baseUrl=https://${{ matrix.environment }}.example.com
@@ -414,27 +407,27 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
-      - name: Performance test
+      - name: 性能測試
         run: |
           npm install -g @sitespeed.io/sitespeed.io
           sitespeed.io https://${{ matrix.environment }}.example.com \
             --budget.configPath=.sitespeed.io/budget.json \
             --plugins.add=@sitespeed.io/plugin-lighthouse
 
-      - name: Security scan
+      - name: 安全掃描
         run: |
           npm install -g @zaproxy/action-baseline
           zaproxy/action-baseline -t https://${{ matrix.environment }}.example.com
 ```
 
-### 3. Release Automation
+### 3. 發布自動化
 
-Automate release processes:
+自動化發布流程：
 
-**Semantic Release Workflow**
+**語義化發布工作流程**
 ```yaml
 # .github/workflows/release.yml
-name: Release
+name: 發布
 
 on:
   push:
@@ -443,7 +436,7 @@ on:
 
 jobs:
   release:
-    name: Create Release
+    name: 建立發布
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -451,27 +444,27 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Set up Node.js
+      - name: 設定 Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: 安裝依賴項
         run: npm ci
 
-      - name: Run semantic release
+      - name: 執行語義化發布
         env:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
 
-      - name: Update documentation
+      - name: 更新文件
         if: steps.semantic-release.outputs.new_release_published == 'true'
         run: |
           npm run docs:generate
           npm run docs:publish
 
-      - name: Create release notes
+      - name: 建立發布說明
         if: steps.semantic-release.outputs.new_release_published == 'true'
         uses: actions/github-script@v6
         with:
@@ -485,7 +478,7 @@ jobs:
             const latestRelease = releases[0];
             const changelog = await generateChangelog(latestRelease);
             
-            // Update release notes
+            # 更新發布說明
             await github.rest.repos.updateRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -494,7 +487,7 @@ jobs:
             });
 ```
 
-**Release Configuration**
+**發布配置**
 ```javascript
 // .releaserc.js
 module.exports = {
@@ -519,11 +512,11 @@ module.exports = {
 };
 ```
 
-### 4. Development Workflow Automation
+### 4. 開發工作流程自動化
 
-Automate common development tasks:
+自動化常見開發任務：
 
-**Pre-commit Hooks**
+**預提交鉤子**
 ```yaml
 # .pre-commit-config.yaml
 repos:
@@ -577,86 +570,87 @@ repos:
   - repo: local
     hooks:
       - id: unit-tests
-        name: Run unit tests
+        name: 執行單元測試
         entry: npm run test:unit -- --passWithNoTests
         language: system
         pass_filenames: false
         stages: [commit]
 ```
 
-**Development Environment Setup**
+**開發環境設定**
 ```bash
 #!/bin/bash
 # scripts/setup-dev-environment.sh
 
 set -euo pipefail
 
-echo "🚀 Setting up development environment..."
+echo "🚀 正在設定開發環境..."
 
-# Check prerequisites
+# 檢查先決條件
 check_prerequisites() {
-    echo "Checking prerequisites..."
+    echo "正在檢查先決條件..."
     
     commands=("git" "node" "npm" "docker" "docker-compose")
     for cmd in "${commands[@]}"; do
-        if ! command -v "$cmd" &> /dev/null; then
-            echo "❌ $cmd is not installed"
+        if ! command -v "$cmd" &> /dev/null;
+        then
+            echo "❌ $cmd 未安裝"
             exit 1
         fi
     done
     
-    echo "✅ All prerequisites installed"
+    echo "✅ 所有先決條件已安裝"
 }
 
-# Install dependencies
+# 安裝依賴項
 install_dependencies() {
-    echo "Installing dependencies..."
+    echo "正在安裝依賴項..."
     npm ci
     
-    # Install global tools
+    # 安裝全域工具
     npm install -g @commitlint/cli @commitlint/config-conventional
     npm install -g semantic-release
     
-    # Install pre-commit
+    # 安裝 pre-commit
     pip install pre-commit
     pre-commit install
     pre-commit install --hook-type commit-msg
 }
 
-# Setup local services
+# 設定本地服務
 setup_services() {
-    echo "Setting up local services..."
+    echo "正在設定本地服務..."
     
-    # Create docker network
+    # 建立 docker 網路
     docker network create dev-network 2>/dev/null || true
     
-    # Start services
+    # 啟動服務
     docker-compose -f docker-compose.dev.yml up -d
     
-    # Wait for services
-    echo "Waiting for services to be ready..."
+    # 等待服務
+    echo "正在等待服務準備就緒..."
     ./scripts/wait-for-services.sh
 }
 
-# Initialize database
+# 初始化資料庫
 initialize_database() {
-    echo "Initializing database..."
+    echo "正在初始化資料庫..."
     npm run db:migrate
     npm run db:seed
 }
 
-# Setup environment variables
+# 設定環境變數
 setup_environment() {
-    echo "Setting up environment variables..."
+    echo "正在設定環境變數..."
     
     if [ ! -f .env.local ]; then
         cp .env.example .env.local
-        echo "✅ Created .env.local from .env.example"
-        echo "⚠️  Please update .env.local with your values"
+        echo "✅ 已從 .env.example 建立 .env.local"
+        echo "⚠️ 請使用您的值更新 .env.local"
     fi
 }
 
-# Main execution
+# 主要執行
 main() {
     check_prerequisites
     install_dependencies
@@ -664,7 +658,7 @@ main() {
     setup_environment
     initialize_database
     
-    echo "✅ Development environment setup complete!"
+    echo "✅ 開發環境設定完成！"
     echo ""
     echo "Next steps:"
     echo "1. Update .env.local with your configuration"
@@ -675,11 +669,11 @@ main() {
 main
 ```
 
-### 5. Infrastructure Automation
+### 5. 基礎設施自動化
 
-Automate infrastructure provisioning:
+自動化基礎設施佈建：
 
-**Terraform Workflow**
+**Terraform 工作流程**
 ```yaml
 # .github/workflows/terraform.yml
 name: Terraform
@@ -701,7 +695,7 @@ env:
 
 jobs:
   terraform:
-    name: Terraform Plan & Apply
+    name: Terraform 規劃與應用
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -710,53 +704,53 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup Terraform
+      - name: 設定 Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
           terraform_wrapper: false
       
-      - name: Configure AWS Credentials
+      - name: 配置 AWS 憑證
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       
-      - name: Terraform Format Check
+      - name: Terraform 格式檢查
         run: terraform fmt -check -recursive
       
-      - name: Terraform Init
+      - name: Terraform 初始化
         run: |
           terraform init \
             -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" \
             -backend-config="key=${{ github.repository }}/terraform.tfstate" \
             -backend-config="region=us-east-1"
       
-      - name: Terraform Validate
+      - name: Terraform 驗證
         run: terraform validate
       
-      - name: Terraform Plan
+      - name: Terraform 規劃
         id: plan
         run: |
           terraform plan -out=tfplan -no-color | tee plan_output.txt
           
-          # Extract plan summary
+          # 提取規劃摘要
           echo "PLAN_SUMMARY<<EOF" >> $GITHUB_ENV
           grep -E '(Plan:|No changes.|# )' plan_output.txt >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       
-      - name: Comment PR
+      - name: 評論 PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v6
         with:
           script: |
-            const output = `#### Terraform Plan 📖
-            \`\`\`
+            const output = `#### Terraform 規劃 📖
+            ```
             ${process.env.PLAN_SUMMARY}
-            \`\`\`
+            ```
             
-            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            *由 @${{ github.actor }} 推送，動作: `${{ github.event_name }}`*`;
             
             github.rest.issues.createComment({
               issue_number: context.issue.number,
@@ -765,19 +759,19 @@ jobs:
               body: output
             });
       
-      - name: Terraform Apply
+      - name: Terraform 應用
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply tfplan
 ```
 
-### 6. Monitoring and Alerting Automation
+### 6. 監控與警報自動化
 
-Automate monitoring setup:
+自動化監控設定：
 
-**Monitoring Stack Deployment**
+**監控堆疊部署**
 ```yaml
 # .github/workflows/monitoring.yml
-name: Deploy Monitoring
+name: 部署監控
 
 on:
   push:
@@ -789,29 +783,29 @@ on:
 
 jobs:
   deploy-monitoring:
-    name: Deploy Monitoring Stack
+    name: 部署監控堆疊
     runs-on: ubuntu-latest
     
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup Helm
+      - name: 設定 Helm
         uses: azure/setup-helm@v3
         with:
           version: '3.12.0'
       
-      - name: Configure Kubernetes
+      - name: 配置 Kubernetes
         run: |
           echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
           export KUBECONFIG=kubeconfig
       
-      - name: Add Helm repositories
+      - name: 添加 Helm 儲存庫
         run: |
           helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
           helm repo add grafana https://grafana.github.io/helm-charts
           helm repo update
       
-      - name: Deploy Prometheus
+      - name: 部署 Prometheus
         run: |
           helm upgrade --install prometheus prometheus-community/kube-prometheus-stack \
             --namespace monitoring \
@@ -819,26 +813,26 @@ jobs:
             --values monitoring/prometheus-values.yaml \
             --wait
       
-      - name: Deploy Grafana Dashboards
+      - name: 部署 Grafana 儀表板
         run: |
           kubectl apply -f monitoring/dashboards/
       
-      - name: Deploy Alert Rules
+      - name: 部署警報規則
         run: |
           kubectl apply -f monitoring/alerts/
       
-      - name: Setup Alert Routing
+      - name: 設定警報路由
         run: |
           helm upgrade --install alertmanager prometheus-community/alertmanager \
             --namespace monitoring \
             --values monitoring/alertmanager-values.yaml
 ```
 
-### 7. Dependency Update Automation
+### 7. 依賴項更新自動化
 
-Automate dependency updates:
+自動化依賴項更新：
 
-**Renovate Configuration**
+**Renovate 配置**
 ```json
 {
   "extends": [
@@ -888,14 +882,14 @@ Automate dependency updates:
 }
 ```
 
-### 8. Documentation Automation
+### 8. 文件自動化
 
-Automate documentation generation:
+自動化文件生成：
 
-**Documentation Workflow**
+**文件工作流程**
 ```yaml
 # .github/workflows/docs.yml
-name: Documentation
+name: 文件
 
 on:
   push:
@@ -907,35 +901,35 @@ on:
 
 jobs:
   generate-docs:
-    name: Generate Documentation
+    name: 生成文件
     runs-on: ubuntu-latest
     
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup Node.js
+      - name: 設定 Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
       
-      - name: Install dependencies
+      - name: 安裝依賴項
         run: npm ci
       
-      - name: Generate API docs
+      - name: 生成 API 文件
         run: |
           npm run docs:api
           npm run docs:typescript
       
-      - name: Generate architecture diagrams
+      - name: 生成架構圖
         run: |
           npm install -g @mermaid-js/mermaid-cli
           mmdc -i docs/architecture.mmd -o docs/architecture.png
       
-      - name: Build documentation site
+      - name: 建置文件網站
         run: |
           npm run docs:build
       
-      - name: Deploy to GitHub Pages
+      - name: 部署到 GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -943,7 +937,7 @@ jobs:
           cname: docs.example.com
 ```
 
-**Documentation Generation Script**
+**文件生成腳本**
 ```typescript
 // scripts/generate-docs.ts
 import { Application, TSConfigReader, TypeDocReader } from 'typedoc';
@@ -951,7 +945,7 @@ import { generateMarkdown } from './markdown-generator';
 import { createApiReference } from './api-reference';
 
 async function generateDocumentation() {
-  // TypeDoc for TypeScript documentation
+  // TypeDoc 用於 TypeScript 文件
   const app = new Application();
   app.options.addReader(new TSConfigReader());
   app.options.addReader(new TypeDocReader());
@@ -970,14 +964,14 @@ async function generateDocumentation() {
   if (project) {
     await app.generateDocs(project, 'docs/api');
     
-    // Generate custom markdown docs
+    // 生成自定義 Markdown 文件
     await generateMarkdown(project, {
       output: 'docs/guides',
       includeExamples: true,
       generateTOC: true
     });
     
-    // Create API reference
+    // 建立 API 參考
     await createApiReference(project, {
       format: 'openapi',
       output: 'docs/openapi.json',
@@ -985,54 +979,54 @@ async function generateDocumentation() {
     });
   }
   
-  // Generate architecture documentation
+  // 生成架構文件
   await generateArchitectureDocs();
   
-  // Generate deployment guides
+  // 生成部署指南
   await generateDeploymentGuides();
 }
 
 async function generateArchitectureDocs() {
   const mermaidDiagrams = `
     graph TB
-      A[Client] --> B[Load Balancer]
-      B --> C[Web Server]
-      C --> D[Application Server]
-      D --> E[Database]
-      D --> F[Cache]
-      D --> G[Message Queue]
+      A[客戶端] --> B[負載平衡器]
+      B --> C[網頁伺服器]
+      C --> D[應用程式伺服器]
+      D --> E[資料庫]
+      D --> F[快取]
+      D --> G[訊息佇列]
   `;
   
-  // Save diagrams and generate documentation
+  // 儲存圖表並生成文件
   await fs.writeFile('docs/architecture.mmd', mermaidDiagrams);
 }
 ```
 
-### 9. Security Automation
+### 9. 安全自動化
 
-Automate security scanning and compliance:
+自動化安全掃描和合規性：
 
-**Security Scanning Workflow**
+**安全掃描工作流程**
 ```yaml
 # .github/workflows/security.yml
-name: Security Scan
+name: 安全掃描
 
 on:
   push:
     branches: [main, develop]
   pull_request:
   schedule:
-    - cron: '0 0 * * 0'  # Weekly on Sunday
+    - cron: '0 0 * * 0'  # 每週日
 
 jobs:
   security-scan:
-    name: Security Scanning
+    name: 安全掃描
     runs-on: ubuntu-latest
     
     steps:
       - uses: actions/checkout@v4
       
-      - name: Run Trivy vulnerability scanner
+      - name: 執行 Trivy 漏洞掃描器
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
@@ -1041,19 +1035,19 @@ jobs:
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
       
-      - name: Upload Trivy results
+      - name: 上傳 Trivy 結果
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
       
-      - name: Run Snyk security scan
+      - name: 執行 Snyk 安全掃描
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
       
-      - name: Run OWASP Dependency Check
+      - name: 執行 OWASP 依賴項檢查
         uses: dependency-check/Dependency-Check_Action@main
         with:
           project: ${{ github.repository }}
@@ -1063,13 +1057,13 @@ jobs:
             --enableRetired
             --enableExperimental
       
-      - name: SonarCloud Scan
+      - name: SonarCloud 掃描
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       
-      - name: Run Semgrep
+      - name: 執行 Semgrep
         uses: returntocorp/semgrep-action@v1
         with:
           config: >-
@@ -1077,19 +1071,18 @@ jobs:
             p/secrets
             p/owasp-top-ten
       
-      - name: GitLeaks secret scanning
+      - name: GitLeaks 秘密掃描
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-### 10. Workflow Orchestration
+### 10. 工作流程編排
 
-Create complex workflow orchestration:
+建立複雜的工作流程編排：
 
-**Workflow Orchestrator**
+**工作流程協調器**
 ```typescript
-// workflow-orchestrator.ts
 import { EventEmitter } from 'events';
 import { Logger } from 'winston';
 
@@ -1143,9 +1136,9 @@ export class WorkflowOrchestrator extends EventEmitter {
     
     this.emit('step:start', { step: stepPath });
     
-    // Check condition
+    // 檢查條件
     if (step.condition && !step.condition()) {
-      this.logger.info(`Skipping step ${stepPath} due to condition`);
+      this.logger.info(`由於條件，跳過步驟 ${stepPath}`);
       this.emit('step:skipped', { step: stepPath });
       return;
     }
@@ -1159,10 +1152,10 @@ export class WorkflowOrchestrator extends EventEmitter {
     
     try {
       if (step.action) {
-        // Execute single action
+        // 執行單一動作
         await this.executeAction(step, stepResult);
       } else if (step.steps) {
-        // Execute sub-steps
+        // 執行子步驟
         if (step.type === 'parallel') {
           await this.executeParallel(step.steps, result, stepPath);
         } else {
@@ -1210,7 +1203,7 @@ export class WorkflowOrchestrator extends EventEmitter {
         lastError = error as Error;
         
         if (attempt < retries) {
-          this.logger.warn(`Step ${step.name} failed, retry ${attempt + 1}/${retries}`);
+          this.logger.warn(`步驟 ${step.name} 失敗，重試 ${attempt + 1}/${retries}`);
           await this.delay(this.calculateBackoff(attempt));
         }
       }
@@ -1241,7 +1234,7 @@ export class WorkflowOrchestrator extends EventEmitter {
   
   private createTimeout(ms: number): Promise<never> {
     return new Promise((_, reject) => {
-      setTimeout(() => reject(new Error(`Timeout after ${ms}ms`)), ms);
+      setTimeout(() => reject(new Error(`超時 ${ms} 毫秒後`)), ms);
     });
   }
   
@@ -1254,67 +1247,67 @@ export class WorkflowOrchestrator extends EventEmitter {
   }
 }
 
-// Example workflow definition
+// 工作流程定義範例
 export const deploymentWorkflow: WorkflowStep = {
-  name: 'deployment',
+  name: '部署',
   type: 'sequential',
   steps: [
     {
-      name: 'pre-deployment',
+      name: '部署前',
       type: 'parallel',
       steps: [
         {
-          name: 'backup-database',
+          name: '備份資料庫',
           action: async () => {
-            // Backup database
+            // 備份資料庫
           },
-          timeout: 300000 // 5 minutes
+          timeout: 300000 // 5 分鐘
         },
         {
-          name: 'health-check',
+          name: '健康檢查',
           action: async () => {
-            // Check system health
+            // 檢查系統健康狀況
           },
           retries: 3
         }
       ]
     },
     {
-      name: 'deployment',
+      name: '部署',
       type: 'sequential',
       steps: [
         {
-          name: 'blue-green-switch',
+          name: '藍綠部署切換',
           action: async () => {
-            // Switch traffic to new version
+            // 將流量切換到新版本
           },
           onError: 'retry',
           retries: 2
         },
         {
-          name: 'smoke-tests',
+          name: '冒煙測試',
           action: async () => {
-            // Run smoke tests
+            // 執行冒煙測試
           },
           onError: 'fail'
         }
       ]
     },
     {
-      name: 'post-deployment',
+      name: '部署後',
       type: 'parallel',
       steps: [
         {
-          name: 'notify-teams',
+          name: '通知團隊',
           action: async () => {
-            // Send notifications
+            // 發送通知
           },
           onError: 'continue'
         },
         {
-          name: 'update-monitoring',
+          name: '更新監控',
           action: async () => {
-            // Update monitoring dashboards
+            // 更新監控儀表板
           }
         }
       ]
@@ -1323,17 +1316,17 @@ export const deploymentWorkflow: WorkflowStep = {
 };
 ```
 
-## Output Format
+## 輸出格式
 
-1. **Workflow Analysis**: Current processes and automation opportunities
-2. **CI/CD Pipeline**: Complete GitHub Actions/GitLab CI configuration
-3. **Release Automation**: Semantic versioning and release workflows
-4. **Development Automation**: Pre-commit hooks and setup scripts
-5. **Infrastructure Automation**: Terraform and Kubernetes workflows
-6. **Security Automation**: Scanning and compliance workflows
-7. **Documentation Generation**: Automated docs and diagrams
-8. **Workflow Orchestration**: Complex workflow management
-9. **Monitoring Integration**: Automated alerts and dashboards
-10. **Implementation Guide**: Step-by-step setup instructions
+1. **工作流程分析**：現有流程和自動化機會
+2. **CI/CD 管道**：完整的 GitHub Actions/GitLab CI 配置
+3. **發布自動化**：語義化版本控制和發布工作流程
+4. **開發自動化**：預提交鉤子和設定腳本
+5. **基礎設施自動化**：Terraform 和 Kubernetes 工作流程
+6. **安全自動化**：掃描和合規性工作流程
+7. **文件生成**：自動化文件和圖表
+8. **工作流程編排**：複雜工作流程管理
+9. **監控整合**：自動化警報和儀表板
+10. **實施指南**：逐步設定說明
 
-Focus on creating reliable, maintainable automation that reduces manual work while maintaining quality and security standards.
+專注於建立可靠、可維護的自動化，以減少手動工作，同時保持品質和安全標準。

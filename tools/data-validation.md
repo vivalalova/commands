@@ -1,56 +1,56 @@
-# Data Validation Pipeline
+# 資料驗證管道
 
-Create a comprehensive data validation system for: $ARGUMENTS
+為：$ARGUMENTS 建立一個全面的資料驗證系統
 
-Implement validation including:
+實施驗證，包括：
 
-1. **Schema Validation**:
-   - Pydantic models for structure
-   - JSON Schema generation
-   - Type checking and coercion
-   - Nested object validation
-   - Custom validators
+1. **模式驗證**：
+   - 用於結構的 Pydantic 模型
+   - JSON 模式生成
+   - 類型檢查和強制轉換
+   - 巢狀物件驗證
+   - 自定義驗證器
 
-2. **Data Quality Checks**:
-   - Null/missing value handling
-   - Outlier detection
-   - Statistical validation
-   - Business rule enforcement
-   - Referential integrity
+2. **資料品質檢查**：
+   - 空值/缺失值處理
+   - 異常值檢測
+   - 統計驗證
+   - 業務規則強制執行
+   - 參照完整性
 
-3. **Data Profiling**:
-   - Automatic type inference
-   - Distribution analysis
-   - Cardinality checks
-   - Pattern detection
-   - Anomaly identification
+3. **資料分析**：
+   - 自動類型推斷
+   - 分佈分析
+   - 基數檢查
+   - 模式檢測
+   - 異常識別
 
-4. **Validation Rules**:
-   - Field-level constraints
-   - Cross-field validation
-   - Temporal consistency
-   - Format validation (email, phone, etc.)
-   - Custom business logic
+4. **驗證規則**：
+   - 欄位級約束
+   - 跨欄位驗證
+   - 時間一致性
+   - 格式驗證（電子郵件、電話等）
+   - 自定義業務邏輯
 
-5. **Error Handling**:
-   - Detailed error messages
-   - Error categorization
-   - Partial validation support
-   - Error recovery strategies
-   - Validation reports
+5. **錯誤處理**：
+   - 詳細錯誤訊息
+   - 錯誤分類
+   - 部分驗證支援
+   - 錯誤恢復策略
+   - 驗證報告
 
-6. **Performance**:
-   - Streaming validation
-   - Batch processing
-   - Parallel validation
-   - Caching strategies
-   - Incremental validation
+6. **性能**：
+   - 串流驗證
+   - 批次處理
+   - 平行驗證
+   - 快取策略
+   - 增量驗證
 
-7. **Integration**:
-   - API endpoint validation
-   - Database constraints
-   - Message queue validation
-   - File upload validation
-   - Real-time validation
+7. **整合**：
+   - API 端點驗證
+   - 資料庫約束
+   - 訊息佇列驗證
+   - 檔案上傳驗證
+   - 即時驗證
 
-Include data quality metrics, monitoring dashboards, and alerting. Make it extensible for custom validation rules.
+包括資料品質指標、監控儀表板和警報。使其可擴展以用於自定義驗證規則。

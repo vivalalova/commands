@@ -1,66 +1,66 @@
-Debug complex issues using specialized debugging agents:
+使用專業的除錯代理除錯複雜問題：
 
-[Extended thinking: This tool command leverages the debugger agent with additional support from performance-engineer when performance issues are involved. It provides deep debugging capabilities with root cause analysis.]
+[延伸思考：此工具指令利用除錯器代理，並在涉及性能問題時獲得性能工程師的額外支援。它提供具有根本原因分析的深度除錯功能。]
 
-## Debugging Approach
+## 除錯方法
 
-### 1. Primary Debug Analysis
-Use Task tool with subagent_type="debugger" to:
-- Analyze error messages and stack traces
-- Identify code paths leading to the issue
-- Reproduce the problem systematically
-- Isolate the root cause
-- Suggest multiple fix approaches
+### 1. 主要除錯分析
+使用任務工具，子代理類型為「debugger」以：
+- 分析錯誤訊息和堆疊追蹤
+- 識別導致問題的程式碼路徑
+- 系統地重現問題
+- 隔離根本原因
+- 建議多種修復方法
 
-Prompt: "Debug issue: $ARGUMENTS. Provide detailed analysis including:
-1. Error reproduction steps
-2. Root cause identification
-3. Code flow analysis leading to the error
-4. Multiple solution approaches with trade-offs
-5. Recommended fix with implementation details"
+提示：「除錯問題：$ARGUMENTS。提供詳細分析，包括：
+1. 錯誤重現步驟
+2. 根本原因識別
+3. 導致錯誤的程式碼流程分析
+4. 具有權衡的多種解決方案方法
+5. 建議的修復和實施細節」
 
-### 2. Performance Debugging (if performance-related)
-If the issue involves performance problems, also use Task tool with subagent_type="performance-engineer" to:
-- Profile code execution
-- Identify bottlenecks
-- Analyze resource usage
-- Suggest optimization strategies
+### 2. 性能除錯（如果與性能相關）
+如果問題涉及性能問題，也使用任務工具，子代理類型為「performance-engineer」以：
+- 分析程式碼執行
+- 識別瓶頸
+- 分析資源使用情況
+- 建議優化策略
 
-Prompt: "Profile and debug performance issue: $ARGUMENTS. Include:
-1. Performance metrics and profiling data
-2. Bottleneck identification
-3. Resource usage analysis
-4. Optimization recommendations
-5. Before/after performance projections"
+提示：「分析並除錯性能問題：$ARGUMENTS。包括：
+1. 性能指標和分析資料
+2. 瓶頸識別
+3. 資源使用分析
+4. 優化建議
+5. 性能預測前後對比」
 
-## Debug Output Structure
+## 除錯輸出結構
 
-### Root Cause Analysis
-- Precise identification of the bug source
-- Explanation of why the issue occurs
-- Impact analysis on other components
+### 根本原因分析
+- 精確識別錯誤來源
+- 解釋問題發生的原因
+- 對其他組件的影響分析
 
-### Reproduction Guide
-- Step-by-step reproduction instructions
-- Required environment setup
-- Test data or conditions needed
+### 重現指南
+- 逐步重現說明
+- 所需的環境設定
+- 所需的測試資料或條件
 
-### Solution Options
-1. **Quick Fix** - Minimal change to resolve issue
-   - Implementation details
-   - Risk assessment
+### 解決方案選項
+1. **快速修復** - 最小化更改以解決問題
+   - 實施細節
+   - 風險評估
    
-2. **Proper Fix** - Best long-term solution
-   - Refactoring requirements
-   - Testing needs
+2. **正確修復** - 最佳長期解決方案
+   - 重構要求
+   - 測試需求
    
-3. **Preventive Measures** - Avoid similar issues
-   - Code patterns to adopt
-   - Tests to add
+3. **預防措施** - 避免類似問題
+   - 要採用的程式碼模式
+   - 要添加的測試
 
-### Implementation Guide
-- Specific code changes needed
-- Order of operations for the fix
-- Validation steps
+### 實施指南
+- 所需的特定程式碼更改
+- 修復的操作順序
+- 驗證步驟
 
-Issue to debug: $ARGUMENTS
+要除錯的問題：$ARGUMENTS

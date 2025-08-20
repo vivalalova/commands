@@ -1,69 +1,69 @@
-# Database Migration Strategy and Implementation
+# 資料庫遷移策略與實施
 
-You are a database migration expert specializing in zero-downtime deployments, data integrity, and multi-database environments. Create comprehensive migration scripts with rollback strategies, validation checks, and performance optimization.
+您是資料庫遷移專家，專精於零停機部署、資料完整性和多資料庫環境。建立包含回滾策略、驗證檢查和性能優化的全面遷移腳本。
 
-## Context
-The user needs help with database migrations that ensure data integrity, minimize downtime, and provide safe rollback options. Focus on production-ready migration strategies that handle edge cases and large datasets.
+## 背景
+使用者需要協助資料庫遷移，以確保資料完整性、最小化停機時間並提供安全的回滾選項。專注於處理邊緣情況和大型資料集的生產就緒遷移策略。
 
-## Requirements
+## 要求
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-### 1. Migration Analysis
+### 1. 遷移分析
 
-Analyze the required database changes:
+分析所需的資料庫變更：
 
-**Schema Changes**
-- **Table Operations**
-  - Create new tables
-  - Drop unused tables
-  - Rename tables
-  - Alter table engines/options
+**模式變更**
+- **表格操作**
+  - 建立新表格
+  - 刪除未使用表格
+  - 重新命名表格
+  - 更改表格引擎/選項
   
-- **Column Operations**
-  - Add columns (nullable vs non-nullable)
-  - Drop columns (with data preservation)
-  - Rename columns
-  - Change data types
-  - Modify constraints
+- **欄位操作**
+  - 添加欄位（可為空 vs 不可為空）
+  - 刪除欄位（保留資料）
+  - 重新命名欄位
+  - 更改資料類型
+  - 修改約束
   
-- **Index Operations**
-  - Create indexes (online vs offline)
-  - Drop indexes
-  - Modify index types
-  - Add composite indexes
+- **索引操作**
+  - 建立索引（線上 vs 離線）
+  - 刪除索引
+  - 修改索引類型
+  - 添加複合索引
   
-- **Constraint Operations**
-  - Foreign keys
-  - Unique constraints
-  - Check constraints
-  - Default values
+- **約束操作**
+  - 外鍵
+  - 唯一約束
+  - 檢查約束
+  - 預設值
 
-**Data Migrations**
-- **Transformations**
-  - Data type conversions
-  - Normalization/denormalization
-  - Calculated fields
-  - Data cleaning
+**資料遷移**
+- **轉換**
+  - 資料類型轉換
+  - 正規化/反正規化
+  - 計算欄位
+  - 資料清理
   
-- **Relationships**
-  - Moving data between tables
-  - Splitting/merging tables
-  - Creating junction tables
-  - Handling orphaned records
+- **關係**
+  - 在表格之間移動資料
+  - 分割/合併表格
+  - 建立連接表格
+  - 處理孤立記錄
 
-### 2. Zero-Downtime Strategy
+### 2. 零停機策略
 
-Implement migrations without service interruption:
+實施無服務中斷的遷移：
 
-**Expand-Contract Pattern**
+**擴展-收縮模式**
 ```sql
--- Phase 1: Expand (backward compatible)
+-- 階段 1：擴展（向後相容）
 ALTER TABLE users ADD COLUMN email_verified BOOLEAN DEFAULT FALSE;
 CREATE INDEX CONCURRENTLY idx_users_email_verified ON users(email_verified);
 
--- Phase 2: Migrate Data (in batches)
+-- 階段 2：遷移資料（分批）
 UPDATE users 
 SET email_verified = (email_confirmation_token IS NOT NULL)
 WHERE id IN (
@@ -72,16 +72,16 @@ WHERE id IN (
   LIMIT 10000
 );
 
--- Phase 3: Contract (after code deployment)
+-- 階段 3：收縮（程式碼部署後）
 ALTER TABLE users DROP COLUMN email_confirmation_token;
 ```
 
-**Blue-Green Schema Migration**
+**藍綠模式遷移**
 ```python
-# Step 1: Create new schema version
+# 步驟 1：建立新模式版本
 def create_v2_schema():
     """
-    Create new tables with v2_ prefix
+    建立帶有 v2_ 前綴的新表格
     """
     execute("""
         CREATE TABLE v2_orders (
@@ -97,12 +97,12 @@ def create_v2_schema():
         CREATE INDEX idx_v2_orders_status ON v2_orders(status);
     """)
 
-# Step 2: Sync data with dual writes
+# 步驟 2：使用雙寫同步資料
 def enable_dual_writes():
     """
-    Application writes to both old and new tables
+    應用程式同時寫入舊表格和新表格
     """
-    # Trigger-based approach
+    # 基於觸發器的方法
     execute("""
         CREATE OR REPLACE FUNCTION sync_orders_to_v2() 
         RETURNS TRIGGER AS $$
@@ -123,10 +123,10 @@ def enable_dual_writes():
         FOR EACH ROW EXECUTE FUNCTION sync_orders_to_v2();
     """)
 
-# Step 3: Backfill historical data
+# 步驟 3：回填歷史資料
 def backfill_data():
     """
-    Copy historical data in batches
+    分批複製歷史資料
     """
     batch_size = 10000
     last_id = None
@@ -151,23 +151,23 @@ def backfill_data():
             break
             
         last_id = results[-1]['id']
-        time.sleep(0.1)  # Prevent overload
+        time.sleep(0.1)  # 防止過載
 
-# Step 4: Switch reads
-# Step 5: Switch writes  
-# Step 6: Drop old schema
+# 步驟 4：切換讀取
+# 步驟 5：切換寫入
+# 步驟 6：刪除舊模式
 ```
 
-### 3. Migration Scripts
+### 3. 遷移腳本
 
-Generate version-controlled migration files:
+生成版本控制的遷移檔案：
 
-**SQL Migrations**
+**SQL 遷移**
 ```sql
 -- migrations/001_add_user_preferences.up.sql
 BEGIN;
 
--- Add new table
+-- 添加新表格
 CREATE TABLE user_preferences (
     user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
     theme VARCHAR(20) DEFAULT 'light',
@@ -177,16 +177,16 @@ CREATE TABLE user_preferences (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Add update trigger
+-- 添加更新觸發器
 CREATE TRIGGER update_user_preferences_updated_at
     BEFORE UPDATE ON user_preferences
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
--- Add indexes
+-- 添加索引
 CREATE INDEX idx_user_preferences_language ON user_preferences(language);
 
--- Seed default data
+-- 填充預設資料
 INSERT INTO user_preferences (user_id)
 SELECT id FROM users
 ON CONFLICT DO NOTHING;
@@ -201,9 +201,9 @@ DROP TABLE IF EXISTS user_preferences CASCADE;
 COMMIT;
 ```
 
-**Framework Migrations (Rails/Django/Laravel)**
+**框架遷移 (Rails/Django/Laravel)**
 ```python
-# Django migration
+# Django 遷移
 from django.db import migrations, models
 import django.contrib.postgres.fields
 
@@ -242,11 +242,11 @@ class Migration(migrations.Migration):
             ],
         ),
         
-        # Custom SQL for complex operations
+        # 用於複雜操作的自定義 SQL
         migrations.RunSQL(
             sql=[
                 """
-                -- Forward migration
+                -- 正向遷移
                 UPDATE products 
                 SET price_cents = CAST(price * 100 AS INTEGER)
                 WHERE price_cents IS NULL;
@@ -254,7 +254,7 @@ class Migration(migrations.Migration):
             ],
             reverse_sql=[
                 """
-                -- Reverse migration
+                -- 反向遷移
                 UPDATE products 
                 SET price = CAST(price_cents AS DECIMAL) / 100
                 WHERE price IS NULL;
@@ -264,19 +264,19 @@ class Migration(migrations.Migration):
     ]
 ```
 
-### 4. Data Integrity Checks
+### 4. 資料完整性檢查
 
-Implement comprehensive validation:
+實施全面的驗證：
 
-**Pre-Migration Validation**
+**遷移前驗證**
 ```python
 def validate_pre_migration():
     """
-    Check data integrity before migration
+    遷移前檢查資料完整性
     """
     checks = []
     
-    # Check for NULL values in required fields
+    # 檢查必填欄位中的 NULL 值
     null_check = execute("""
         SELECT COUNT(*) as count
         FROM users
@@ -287,11 +287,11 @@ def validate_pre_migration():
         checks.append({
             'check': 'null_values',
             'status': 'FAILED',
-            'message': f'{null_check} users with NULL email/username',
-            'action': 'Fix NULL values before migration'
+            'message': f'{null_check} 個使用者電子郵件/使用者名稱為 NULL',
+            'action': '遷移前修復 NULL 值'
         })
     
-    # Check for duplicate values
+    # 檢查重複值
     duplicate_check = execute("""
         SELECT email, COUNT(*) as count
         FROM users
@@ -303,11 +303,11 @@ def validate_pre_migration():
         checks.append({
             'check': 'duplicates',
             'status': 'FAILED', 
-            'message': f'{len(duplicate_check)} duplicate emails found',
-            'action': 'Resolve duplicates before adding unique constraint'
+            'message': f'發現 {len(duplicate_check)} 個重複電子郵件',
+            'action': '添加唯一約束前解決重複問題'
         })
     
-    # Check foreign key integrity
+    # 檢查外鍵完整性
     orphan_check = execute("""
         SELECT COUNT(*) as count
         FROM orders o
@@ -319,22 +319,22 @@ def validate_pre_migration():
         checks.append({
             'check': 'orphaned_records',
             'status': 'WARNING',
-            'message': f'{orphan_check} orders with non-existent users',
-            'action': 'Clean up orphaned records'
+            'message': f'{orphan_check} 個訂單沒有現有使用者',
+            'action': '清理孤立記錄'
         })
     
     return checks
 ```
 
-**Post-Migration Validation**
+**遷移後驗證**
 ```python
 def validate_post_migration():
     """
-    Verify migration success
+    驗證遷移成功
     """
     validations = []
     
-    # Row count validation
+    # 行數驗證
     old_count = execute("SELECT COUNT(*) FROM orders")[0]['count']
     new_count = execute("SELECT COUNT(*) FROM v2_orders")[0]['count']
     
@@ -345,7 +345,7 @@ def validate_post_migration():
         'status': 'PASS' if old_count == new_count else 'FAIL'
     })
     
-    # Checksum validation
+    # 總和驗證
     old_checksum = execute("""
         SELECT 
             SUM(CAST(amount AS DECIMAL)) as total,
@@ -372,11 +372,11 @@ def validate_post_migration():
     return validations
 ```
 
-### 5. Rollback Procedures
+### 5. 回滾程序
 
-Implement safe rollback strategies:
+實施安全回滾策略：
 
-**Automatic Rollback**
+**自動回滾**
 ```python
 class MigrationRunner:
     def __init__(self, migration):
@@ -385,43 +385,43 @@ class MigrationRunner:
         
     def run_with_rollback(self):
         """
-        Execute migration with automatic rollback on failure
+        執行遷移，失敗時自動回滾
         """
         try:
-            # Create restore point
+            # 建立還原點
             self.checkpoint = self.create_checkpoint()
             
-            # Run pre-checks
+            # 運行預檢查
             pre_checks = self.migration.validate_pre()
             if any(c['status'] == 'FAILED' for c in pre_checks):
-                raise MigrationError("Pre-validation failed", pre_checks)
+                raise MigrationError("預驗證失敗", pre_checks)
             
-            # Execute migration
+            # 執行遷移
             with transaction.atomic():
                 self.migration.forward()
                 
-                # Run post-checks
+                # 運行後檢查
                 post_checks = self.migration.validate_post()
                 if any(c['status'] == 'FAILED' for c in post_checks):
-                    raise MigrationError("Post-validation failed", post_checks)
+                    raise MigrationError("後驗證失敗", post_checks)
                     
-            # Clean up checkpoint after success
+            # 成功後清理還原點
             self.cleanup_checkpoint()
             
         except Exception as e:
-            logger.error(f"Migration failed: {e}")
+            logger.error(f"遷移失敗: {e}")
             self.rollback()
             raise
             
     def rollback(self):
         """
-        Restore to checkpoint
+        還原到還原點
         """
         if self.checkpoint:
             execute(f"RESTORE DATABASE FROM CHECKPOINT '{self.checkpoint}'")
 ```
 
-**Manual Rollback Scripts**
+**手動回滾腳本**
 ```bash
 #!/bin/bash
 # rollback_migration.sh
@@ -429,40 +429,40 @@ class MigrationRunner:
 MIGRATION_VERSION=$1
 DATABASE=$2
 
-echo "Rolling back migration $MIGRATION_VERSION on $DATABASE"
+echo "正在回滾遷移 $MIGRATION_VERSION 在 $DATABASE 上"
 
-# Check current version
+# 檢查當前版本
 CURRENT_VERSION=$(psql -d $DATABASE -t -c "SELECT version FROM schema_migrations ORDER BY version DESC LIMIT 1")
 
 if [ "$CURRENT_VERSION" != "$MIGRATION_VERSION" ]; then
-    echo "Error: Current version ($CURRENT_VERSION) doesn't match rollback version ($MIGRATION_VERSION)"
+    echo "錯誤: 當前版本 ($CURRENT_VERSION) 與回滾版本 ($MIGRATION_VERSION) 不匹配"
     exit 1
 fi
 
-# Execute rollback
+# 執行回滾
 psql -d $DATABASE -f "migrations/${MIGRATION_VERSION}.down.sql"
 
-# Update version table
+# 更新版本表
 psql -d $DATABASE -c "DELETE FROM schema_migrations WHERE version = '$MIGRATION_VERSION'"
 
-echo "Rollback completed successfully"
+echo "回滾成功完成"
 ```
 
-### 6. Performance Optimization
+### 6. 性能優化
 
-Minimize migration impact:
+最小化遷移影響：
 
-**Batch Processing**
+**批次處理**
 ```python
 def migrate_large_table(batch_size=10000):
     """
-    Migrate large tables in batches
+    分批遷移大型表格
     """
     total_rows = execute("SELECT COUNT(*) FROM source_table")[0]['count']
     processed = 0
     
     while processed < total_rows:
-        # Process batch
+        # 處理批次
         execute("""
             INSERT INTO target_table (columns...)
             SELECT columns...
@@ -475,33 +475,33 @@ def migrate_large_table(batch_size=10000):
         
         processed += batch_size
         
-        # Progress tracking
+        # 進度追蹤
         progress = (processed / total_rows) * 100
-        logger.info(f"Migration progress: {progress:.1f}%")
+        logger.info(f"遷移進度: {progress:.1f}%")
         
-        # Prevent overload
+        # 防止過載
         time.sleep(0.5)
 ```
 
-**Index Management**
+**索引管理**
 ```sql
--- Drop indexes before bulk insert
+-- 批量插入前刪除索引
 ALTER TABLE large_table DROP INDEX idx_column1;
 ALTER TABLE large_table DROP INDEX idx_column2;
 
--- Bulk insert
+-- 批量插入
 INSERT INTO large_table SELECT * FROM temp_data;
 
--- Recreate indexes concurrently
+-- 並發重新建立索引
 CREATE INDEX CONCURRENTLY idx_column1 ON large_table(column1);
 CREATE INDEX CONCURRENTLY idx_column2 ON large_table(column2);
 ```
 
-### 7. NoSQL and Cross-Platform Migration Support
+### 7. NoSQL 和跨平台遷移支援
 
-Handle modern database migrations across SQL, NoSQL, and hybrid environments:
+處理 SQL、NoSQL 和混合環境中的現代資料庫遷移：
 
-**Advanced Multi-Database Migration Framework**
+**進階多資料庫遷移框架**
 ```python
 from abc import ABC, abstractmethod
 from typing import Dict, List, Any, Optional
@@ -558,11 +558,11 @@ class MongoDBAdapter(DatabaseAdapter):
             await self._add_schema_validation(collection, operation)
     
     async def _add_field(self, collection, operation):
-        """Add new field to all documents"""
+        """將新欄位添加到所有文件"""
         field_name = operation.data['field_name']
         default_value = operation.data.get('default_value')
         
-        # Add field to documents that don't have it
+        # 將欄位添加到沒有它的文件
         result = await collection.update_many(
             {field_name: {"$exists": False}},
             {"$set": {field_name: default_value}}
@@ -574,7 +574,7 @@ class MongoDBAdapter(DatabaseAdapter):
         }
     
     async def _rename_field(self, collection, operation):
-        """Rename field across all documents"""
+        """在所有文件中重新命名欄位"""
         old_name = operation.data['old_name']
         new_name = operation.data['new_name']
         
@@ -589,10 +589,10 @@ class MongoDBAdapter(DatabaseAdapter):
         }
     
     async def _migrate_data(self, collection, operation):
-        """Transform data during migration"""
+        """遷移期間轉換資料"""
         pipeline = operation.data['pipeline']
         
-        # Use aggregation pipeline for complex transformations
+        # 使用聚合管道進行複雜轉換
         cursor = collection.aggregate([
             {"$match": operation.conditions or {}},
             *pipeline,
@@ -606,7 +606,7 @@ class MongoDBAdapter(DatabaseAdapter):
         return [doc async for doc in cursor]
     
     async def _add_schema_validation(self, collection, operation):
-        """Add JSON schema validation to collection"""
+        """將 JSON 模式驗證添加到集合"""
         schema = operation.data['schema']
         
         await self.db.command({
@@ -635,7 +635,7 @@ class DynamoDBAdapter(DatabaseAdapter):
             await self._update_capacity(table, operation)
     
     async def _add_global_secondary_index(self, table, operation):
-        """Add Global Secondary Index"""
+        """添加全域次要索引"""
         gsi_spec = operation.data['gsi_specification']
         
         table.update(
@@ -647,7 +647,7 @@ class DynamoDBAdapter(DatabaseAdapter):
         )
     
     async def _migrate_table_data(self, table, operation):
-        """Migrate data between DynamoDB tables"""
+        """在 DynamoDB 表格之間遷移資料"""
         scan_kwargs = {
             'ProjectionExpression': operation.data.get('projection'),
             'FilterExpression': operation.conditions
@@ -655,11 +655,11 @@ class DynamoDBAdapter(DatabaseAdapter):
         
         target_table = self.dynamodb.Table(operation.data['target_table'])
         
-        # Scan source table and write to target
+        # 掃描源表格並寫入目標
         while True:
             response = table.scan(**scan_kwargs)
             
-            # Transform and write items
+            # 轉換並寫入項目
             with target_table.batch_writer() as batch:
                 for item in response['Items']:
                     transformed_item = self._transform_item(item, operation.data['transformation'])
@@ -677,7 +677,7 @@ class CassandraAdapter(DatabaseAdapter):
         from cassandra.cluster import Cluster
         from cassandra.auth import PlainTextAuthProvider
         
-        # Parse connection string for auth
+        # 解析連接字串以進行身份驗證
         cluster = Cluster(['127.0.0.1'])
         self.session = cluster.connect()
     
@@ -690,7 +690,7 @@ class CassandraAdapter(DatabaseAdapter):
             await self._migrate_data(operation)
     
     async def _add_column(self, operation):
-        """Add column to Cassandra table"""
+        """將欄位添加到 Cassandra 表格"""
         table = operation.collection_or_table
         column_name = operation.data['column_name']
         column_type = operation.data['column_type']
@@ -699,7 +699,7 @@ class CassandraAdapter(DatabaseAdapter):
         self.session.execute(cql)
     
     async def _create_materialized_view(self, operation):
-        """Create materialized view for denormalization"""
+        """建立具體化視圖以進行反正規化"""
         view_spec = operation.data['view_specification']
         self.session.execute(view_spec)
 
@@ -716,14 +716,14 @@ class CrossPlatformMigrator:
         }
     
     async def migrate_between_platforms(self, source_config, target_config, migration_spec):
-        """Migrate data between different database platforms"""
+        """在不同資料庫平台之間遷移資料"""
         source_adapter = self.adapters[source_config['type']]
         target_adapter = self.adapters[target_config['type']]
         
         await source_adapter.connect(source_config['connection_string'])
         await target_adapter.connect(target_config['connection_string'])
         
-        # Execute migration plan
+        # 執行遷移計畫
         for step in migration_spec['steps']:
             if step['type'] == 'extract':
                 data = await self._extract_data(source_adapter, step)
@@ -733,7 +733,7 @@ class CrossPlatformMigrator:
                 await self._load_data(target_adapter, data, step)
     
     async def _extract_data(self, adapter, step):
-        """Extract data from source database"""
+        """從源資料庫提取資料"""
         extraction_op = MigrationOperation(
             operation_type='extract',
             collection_or_table=step['source_table'],
@@ -745,7 +745,7 @@ class CrossPlatformMigrator:
         return await adapter.execute_migration(extraction_op)
     
     async def _transform_data(self, data, step):
-        """Transform data between formats"""
+        """在格式之間轉換資料"""
         transformation_rules = step['transformation_rules']
         
         transformed_data = []
@@ -754,10 +754,10 @@ class CrossPlatformMigrator:
             
             for target_field, source_mapping in transformation_rules.items():
                 if isinstance(source_mapping, str):
-                    # Simple field mapping
+                    # 簡單的欄位映射
                     transformed_record[target_field] = record.get(source_mapping)
                 elif isinstance(source_mapping, dict):
-                    # Complex transformation
+                    # 複雜轉換
                     if source_mapping['type'] == 'function':
                         func = source_mapping['function']
                         args = [record.get(arg) for arg in source_mapping['args']]
@@ -773,7 +773,7 @@ class CrossPlatformMigrator:
         return transformed_data
     
     async def _load_data(self, adapter, data, step):
-        """Load data into target database"""
+        """將資料載入到目標資料庫"""
         load_op = MigrationOperation(
             operation_type='load',
             collection_or_table=step['target_table'],
@@ -783,9 +783,9 @@ class CrossPlatformMigrator:
         
         return await adapter.execute_migration(load_op)
 
-# Example usage
+# 使用範例
 async def migrate_sql_to_nosql():
-    """Example: Migrate from PostgreSQL to MongoDB"""
+    """範例：從 PostgreSQL 遷移到 MongoDB"""
     migrator = CrossPlatformMigrator()
     
     source_config = {
@@ -836,11 +836,11 @@ async def migrate_sql_to_nosql():
     await migrator.migrate_between_platforms(source_config, target_config, migration_spec)
 ```
 
-### 8. Modern Migration Tools and Change Data Capture
+### 8. 現代遷移工具和變更資料擷取
 
-Integrate with enterprise migration tools and real-time sync:
+與企業遷移工具和即時同步整合：
 
-**Atlas Schema Migrations (MongoDB)**
+**Atlas 模式遷移 (MongoDB)**
 ```javascript
 // atlas-migration.js
 const { MongoClient } = require('mongodb');
@@ -859,17 +859,17 @@ class AtlasMigration {
         await this.client.connect();
         const db = this.client.db();
         
-        // Get current version
+        // 獲取當前版本
         const versionsCollection = db.collection('schema_versions');
         const currentVersion = await versionsCollection
             .findOne({}, { sort: { version: -1 } });
         
         const startVersion = currentVersion?.version || 0;
         
-        // Run pending migrations
+        // 運行待處理的遷移
         for (const [version, migration] of this.migrations) {
             if (version > startVersion) {
-                console.log(`Running migration ${version}`);
+                console.log(`正在運行遷移 ${version}`);
                 
                 const session = this.client.startSession();
                 
@@ -883,7 +883,7 @@ class AtlasMigration {
                         });
                     });
                 } catch (error) {
-                    console.error(`Migration ${version} failed:`, error);
+                    console.error(`遷移 ${version} 失敗:`, error);
                     if (migration.down) {
                         await migration.down(db, session);
                     }
@@ -896,12 +896,12 @@ class AtlasMigration {
     }
 }
 
-// Example MongoDB schema migration
+// 範例 MongoDB 模式遷移
 const migration_001 = {
     checksum: 'sha256:abc123...',
     
     async up(db, session) {
-        // Add new field to existing documents
+        // 將新欄位添加到現有文件
         await db.collection('users').updateMany(
             { email_verified: { $exists: false } },
             { 
@@ -914,13 +914,13 @@ const migration_001 = {
             { session }
         );
         
-        // Create new index
+        // 建立新索引
         await db.collection('users').createIndex(
             { email_verified: 1, verification_expires: 1 },
             { session }
         );
         
-        // Add schema validation
+        // 添加模式驗證
         await db.command({
             collMod: 'users',
             validator: {
@@ -940,19 +940,19 @@ const migration_001 = {
     },
     
     async down(db, session) {
-        // Remove schema validation
+        // 移除模式驗證
         await db.command({
             collMod: 'users',
             validator: {}
         }, { session });
         
-        // Drop index
+        // 刪除索引
         await db.collection('users').dropIndex(
             { email_verified: 1, verification_expires: 1 },
             { session }
         );
         
-        // Remove fields
+        // 移除欄位
         await db.collection('users').updateMany(
             {},
             { 
@@ -968,7 +968,7 @@ const migration_001 = {
 };
 ```
 
-**Change Data Capture (CDC) for Real-time Sync**
+**變更資料擷取 (CDC) 以實現即時同步**
 ```python
 # cdc-migration.py
 import asyncio
@@ -986,8 +986,8 @@ class CDCMigrationManager:
         self.active_migrations = {}
     
     async def setup_cdc_pipeline(self):
-        """Setup Change Data Capture pipeline"""
-        # Kafka consumer for CDC events
+        """設定變更資料擷取管道"""
+        # Kafka 消費者用於 CDC 事件
         self.consumer = KafkaConsumer(
             'database.changes',
             bootstrap_servers=self.config['kafka_brokers'],
@@ -997,60 +997,65 @@ class CDCMigrationManager:
             value_deserializer=lambda m: json.loads(m.decode('utf-8'))
         )
         
-        # Kafka producer for processed events
+        # Kafka 生產者用於處理後的事件
         self.producer = KafkaProducer(
             bootstrap_servers=self.config['kafka_brokers'],
             value_serializer=lambda v: json.dumps(v).encode('utf-8')
         )
         
-        # Schema registry for data validation
+        # 模式註冊表用於資料驗證
         self.schema_registry = SchemaRegistryClient({
             'url': self.config['schema_registry_url']
         })
     
     async def process_cdc_events(self):
-        """Process CDC events and apply to target databases"""
+        """處理 CDC 事件並應用到目標資料庫"""
         for message in self.consumer:
             event = message.value
             
-            # Parse CDC event
+            # 解析 CDC 事件
             operation = event['operation']  # INSERT, UPDATE, DELETE
             table = event['table']
             data = event['data']
             
-            # Check if this table has active migration
+            # 檢查此表格是否有活動遷移
             if table in self.active_migrations:
                 migration_config = self.active_migrations[table]
                 await self.apply_migration_transformation(event, migration_config)
             else:
-                # Standard replication
+                # 標準複製
                 await self.replicate_change(event)
     
     async def apply_migration_transformation(self, event, migration_config):
-        """Apply data transformation during migration"""
+        """遷移期間應用資料轉換"""
         transformation_rules = migration_config['transformation_rules']
         target_tables = migration_config['target_tables']
         
-        # Transform data according to migration rules
+        # 根據遷移規則轉換資料
         transformed_data = {}
         for target_field, rule in transformation_rules.items():
             if isinstance(rule, str):
-                # Simple field mapping
+                # 簡單的欄位映射
                 transformed_data[target_field] = event['data'].get(rule)
             elif isinstance(rule, dict):
-                # Complex transformation
+                # 複雜轉換
                 if rule['type'] == 'function':
                     func_name = rule['function']
                     func = getattr(self, f'transform_{func_name}')
                     args = [event['data'].get(arg) for arg in rule['args']]
                     transformed_data[target_field] = func(*args)
+                elif rule['type'] == 'concatenate':
+                    fields = rule['fields']
+                    separator = rule.get('separator', ' ')
+                    values = [str(event['data'].get(field, '')) for field in fields]
+                    transformed_data[target_field] = separator.join(values)
         
-        # Apply to target tables
+        # 應用到目標表格
         for target_table in target_tables:
             await self.apply_to_target(target_table, event['operation'], transformed_data)
     
     async def setup_debezium_connector(self, source_db_config):
-        """Configure Debezium for CDC"""
+        """配置 Debezium 以進行 CDC"""
         connector_config = {
             "name": f"migration-connector-{source_db_config['name']}",
             "config": {
@@ -1072,7 +1077,7 @@ class CDCMigrationManager:
             }
         }
         
-        # Submit connector to Kafka Connect
+        # 將連接器提交到 Kafka Connect
         import requests
         response = requests.post(
             f"{self.config['kafka_connect_url']}/connectors",
@@ -1081,10 +1086,10 @@ class CDCMigrationManager:
         )
         
         if response.status_code != 201:
-            raise Exception(f"Failed to create connector: {response.text}")
+            raise Exception(f"建立連接器失敗: {response.text}")
 ```
 
-**Advanced Monitoring and Observability**
+**進階監控和可觀察性**
 ```python
 class EnterpriseeMigrationMonitor:
     def __init__(self, config):
@@ -1098,7 +1103,7 @@ class EnterpriseeMigrationMonitor:
         }
     
     def setup_metrics_client(self):
-        """Setup Prometheus/Datadog metrics client"""
+        """設定 Prometheus/Datadog 指標客戶端"""
         from prometheus_client import Counter, Gauge, Histogram, CollectorRegistry
         
         registry = CollectorRegistry()
@@ -1106,30 +1111,30 @@ class EnterpriseeMigrationMonitor:
         self.metrics = {
             'migration_duration': Histogram(
                 'migration_duration_seconds',
-                'Time spent on migration',
+                '遷移花費時間',
                 ['migration_id', 'source_db', 'target_db'],
                 registry=registry
             ),
             'rows_migrated': Counter(
                 'migration_rows_total',
-                'Total rows migrated',
+                '遷移的總行數',
                 ['migration_id', 'table_name'],
                 registry=registry
             ),
             'migration_errors': Counter(
                 'migration_errors_total',
-                'Total migration errors',
+                '總遷移錯誤數',
                 ['migration_id', 'error_type'],
                 registry=registry
             ),
             'active_migrations': Gauge(
                 'active_migrations_count',
-                'Number of active migrations',
+                '活動遷移數',
                 registry=registry
             ),
             'data_lag': Gauge(
                 'migration_data_lag_seconds',
-                'Data lag between source and target',
+                '源和目標之間的資料延遲',
                 ['migration_id'],
                 registry=registry
             )
@@ -1138,14 +1143,14 @@ class EnterpriseeMigrationMonitor:
         return registry
     
     async def track_migration_progress(self, migration_id):
-        """Real-time migration progress tracking"""
+        """即時遷移進度追蹤"""
         migration = self.migration_state['current_migrations'][migration_id]
         
         while migration['status'] == 'running':
-            # Calculate progress metrics
+            # 計算進度指標
             progress_stats = await self.calculate_progress_stats(migration)
             
-            # Update Prometheus metrics
+            # 更新 Prometheus 指標
             self.metrics['rows_migrated'].labels(
                 migration_id=migration_id,
                 table_name=migration['table']
@@ -1155,46 +1160,46 @@ class EnterpriseeMigrationMonitor:
                 migration_id=migration_id
             ).set(progress_stats['lag_seconds'])
             
-            # Check for anomalies
+            # 檢查異常
             await self.detect_migration_anomalies(migration_id, progress_stats)
             
-            # Generate alerts if needed
+            # 如果需要，生成警報
             await self.check_alert_conditions(migration_id, progress_stats)
             
-            await asyncio.sleep(30)  # Check every 30 seconds
+            await asyncio.sleep(30)  # 每 30 秒檢查一次
     
     async def detect_migration_anomalies(self, migration_id, stats):
-        """AI-powered anomaly detection for migrations"""
-        # Simple statistical anomaly detection
+        """AI 驅動的遷移異常檢測"""
+        # 簡單的統計異常檢測
         if stats['rows_per_second'] < stats['expected_rows_per_second'] * 0.5:
             await self.trigger_alert(
                 'migration_slow',
-                f"Migration {migration_id} is running slower than expected",
+                f"遷移 {migration_id} 運行速度慢於預期",
                 {'stats': stats}
             )
         
-        if stats['error_rate'] > 0.01:  # 1% error rate threshold
+        if stats['error_rate'] > 0.01:  # 1% 錯誤率閾值
             await self.trigger_alert(
                 'migration_high_error_rate',
-                f"Migration {migration_id} has high error rate: {stats['error_rate']}",
+                f"遷移 {migration_id} 錯誤率高: {stats['error_rate']}",
                 {'stats': stats}
             )
         
-        if stats['memory_usage'] > 0.8:  # 80% memory usage
+        if stats['memory_usage'] > 0.8:  # 80% 記憶體使用率
             await self.trigger_alert(
                 'migration_high_memory',
-                f"Migration {migration_id} is using high memory: {stats['memory_usage']}",
+                f"遷移 {migration_id} 記憶體使用率高: {stats['memory_usage']}",
                 {'stats': stats}
             )
     
     async def setup_migration_dashboard(self):
-        """Setup Grafana dashboard for migration monitoring"""
+        """設定 Grafana 儀表板以進行遷移監控"""
         dashboard_config = {
             "dashboard": {
-                "title": "Database Migration Monitoring",
+                "title": "資料庫遷移監控",
                 "panels": [
                     {
-                        "title": "Migration Progress",
+                        "title": "遷移進度",
                         "type": "graph",
                         "targets": [
                             {
@@ -1204,17 +1209,17 @@ class EnterpriseeMigrationMonitor:
                         ]
                     },
                     {
-                        "title": "Data Lag",
+                        "title": "資料延遲",
                         "type": "singlestat",
                         "targets": [
                             {
                                 "expr": "migration_data_lag_seconds",
-                                "legendFormat": "Lag (seconds)"
+                                "legendFormat": "延遲 (秒)"
                             }
                         ]
                     },
                     {
-                        "title": "Error Rate",
+                        "title": "錯誤率",
                         "type": "graph",
                         "targets": [
                             {
@@ -1224,12 +1229,12 @@ class EnterpriseeMigrationMonitor:
                         ]
                     },
                     {
-                        "title": "Migration Duration",
+                        "title": "遷移持續時間",
                         "type": "heatmap",
                         "targets": [
                             {
                                 "expr": "migration_duration_seconds",
-                                "legendFormat": "Duration"
+                                "legendFormat": "持續時間"
                             }
                         ]
                     }
@@ -1237,7 +1242,7 @@ class EnterpriseeMigrationMonitor:
             }
         }
         
-        # Submit dashboard to Grafana API
+        # 將儀表板提交到 Grafana API
         import requests
         response = requests.post(
             f"{self.config['grafana_url']}/api/dashboards/db",
@@ -1251,11 +1256,11 @@ class EnterpriseeMigrationMonitor:
         return response.json()
 ```
 
-### 9. Event Sourcing and CQRS Migrations
+### 9. 事件溯源和 CQRS 遷移
 
-Handle event-driven architecture migrations:
+處理事件驅動架構遷移：
 
-**Event Store Migration Strategy**
+**事件儲存遷移策略**
 ```python
 class EventStoreMigrator:
     def __init__(self, event_store_config):
@@ -1264,16 +1269,16 @@ class EventStoreMigrator:
         self.aggregate_rebuilders = {}
     
     def register_event_transformer(self, event_type, transformer):
-        """Register transformation for specific event type"""
+        """為特定事件類型註冊轉換"""
         self.event_transformers[event_type] = transformer
     
     def register_aggregate_rebuilder(self, aggregate_type, rebuilder):
-        """Register rebuilder for aggregate snapshots"""
+        """為聚合快照註冊重建器"""
         self.aggregate_rebuilders[aggregate_type] = rebuilder
     
     async def migrate_events(self, from_version, to_version):
-        """Migrate events from one schema version to another"""
-        # Get all events that need migration
+        """將事件從一個模式版本遷移到另一個模式版本"""
+        # 獲取所有需要遷移的事件
         events_cursor = self.event_store.get_events_by_version_range(
             from_version, to_version
         )
@@ -1286,20 +1291,20 @@ class EventStoreMigrator:
                 migrated_event = await transformer.transform(event)
                 migrated_events.append(migrated_event)
             else:
-                # No transformation needed
+                # 不需要轉換
                 migrated_events.append(event)
         
-        # Write migrated events to new stream
+        # 將遷移的事件寫入新串流
         await self.event_store.append_events(
             f"migration-{to_version}",
             migrated_events
         )
         
-        # Rebuild aggregates with new events
+        # 使用新事件重建聚合
         await self.rebuild_aggregates(migrated_events)
     
     async def rebuild_aggregates(self, events):
-        """Rebuild aggregate snapshots from migrated events"""
+        """從遷移的事件重建聚合快照"""
         aggregates_to_rebuild = set()
         
         for event in events:
@@ -1312,13 +1317,13 @@ class EventStoreMigrator:
                 rebuilder = self.aggregate_rebuilders[aggregate_type]
                 await rebuilder.rebuild(aggregate_id)
 
-# Example event transformation
+# 範例事件轉換
 class UserEventTransformer:
     async def transform(self, event):
-        """Transform UserCreated event from v1 to v2"""
+        """將 UserCreated 事件從 v1 轉換為 v2"""
         if event.event_type == 'UserCreated' and event.version == 1:
-            # v1 had separate first_name and last_name
-            # v2 uses full_name
+            # v1 有單獨的 first_name 和 last_name
+            # v2 使用 full_name
             old_data = event.data
             new_data = {
                 'user_id': old_data['user_id'],
@@ -1339,11 +1344,11 @@ class UserEventTransformer:
         return event
 ```
 
-### 10. Cloud Database Migration Automation
+### 10. 雲資料庫遷移自動化
 
-Automate cloud database migrations with infrastructure as code:
+使用基礎設施即程式碼自動化雲資料庫遷移：
 
-**AWS Database Migration with CDK**
+**AWS 資料庫遷移與 CDK**
 ```typescript
 // aws-db-migration.ts
 import * as cdk from 'aws-cdk-lib';
@@ -1358,7 +1363,7 @@ export class DatabaseMigrationStack extends cdk.Stack {
     constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
         
-        // Create VPC for migration
+        // 建立用於遷移的 VPC
         const vpc = new ec2.Vpc(this, 'MigrationVPC', {
             maxAzs: 2,
             subnetConfiguration: [
@@ -1375,7 +1380,7 @@ export class DatabaseMigrationStack extends cdk.Stack {
             ]
         });
         
-        // DMS Replication Instance
+        // DMS 複製實例
         const replicationInstance = new dms.CfnReplicationInstance(this, 'ReplicationInstance', {
             replicationInstanceClass: 'dms.t3.medium',
             replicationInstanceIdentifier: 'migration-instance',
@@ -1386,7 +1391,7 @@ export class DatabaseMigrationStack extends cdk.Stack {
             replicationSubnetGroupIdentifier: this.createSubnetGroup(vpc).ref
         });
         
-        // Source and Target Endpoints
+        // 源和目標端點
         const sourceEndpoint = new dms.CfnEndpoint(this, 'SourceEndpoint', {
             endpointType: 'source',
             engineName: 'postgres',
@@ -1407,7 +1412,7 @@ export class DatabaseMigrationStack extends cdk.Stack {
             password: 'migration_password'
         });
         
-        // Migration Task
+        // 遷移任務
         const migrationTask = new dms.CfnReplicationTask(this, 'MigrationTask', {
             replicationTaskIdentifier: 'full-load-and-cdc',
             sourceEndpointArn: sourceEndpoint.ref,
@@ -1467,20 +1472,20 @@ export class DatabaseMigrationStack extends cdk.Stack {
             })
         });
         
-        // Migration orchestration with Step Functions
+        // 使用 Step Functions 進行遷移編排
         this.createMigrationOrchestration(migrationTask);
     }
     
     private createSubnetGroup(vpc: ec2.Vpc): dms.CfnReplicationSubnetGroup {
         return new dms.CfnReplicationSubnetGroup(this, 'ReplicationSubnetGroup', {
-            replicationSubnetGroupDescription: 'Subnet group for DMS',
+            replicationSubnetGroupDescription: '用於 DMS 的子網組',
             replicationSubnetGroupIdentifier: 'migration-subnet-group',
             subnetIds: vpc.privateSubnets.map(subnet => subnet.subnetId)
         });
     }
     
     private createMigrationOrchestration(migrationTask: dms.CfnReplicationTask): void {
-        // Lambda functions for migration steps
+        // 遷移步驟的 Lambda 函數
         const startMigrationFunction = new lambda.Function(this, 'StartMigration', {
             runtime: lambda.Runtime.PYTHON_3_9,
             handler: 'index.handler',
@@ -1536,7 +1541,7 @@ def handler(event, context):
             `)
         });
         
-        // Step Function definition
+        // Step Function 定義
         const startMigrationTask = new sfnTasks.LambdaInvoke(this, 'StartMigrationTask', {
             lambdaFunction: startMigrationFunction,
             inputPath: '$',
@@ -1556,7 +1561,7 @@ def handler(event, context):
         const migrationComplete = new stepfunctions.Succeed(this, 'MigrationComplete');
         const migrationFailed = new stepfunctions.Fail(this, 'MigrationFailed');
         
-        // Define state machine
+        // 定義狀態機
         const definition = startMigrationTask
             .next(waitTask)
             .next(checkStatusTask)
@@ -1575,54 +1580,54 @@ def handler(event, context):
 }
 ```
 
-## Output Format
+## 輸出格式
 
-1. **Comprehensive Migration Strategy**: Multi-database platform support with NoSQL integration
-2. **Cross-Platform Migration Tools**: SQL to NoSQL, NoSQL to SQL, and hybrid migrations
-3. **Modern Tooling Integration**: Atlas, Debezium, Flyway, Prisma, and cloud-native solutions
-4. **Change Data Capture Pipeline**: Real-time synchronization with Kafka and schema registry
-5. **Event Sourcing Migrations**: Event store transformations and aggregate rebuilding
-6. **Cloud Infrastructure Automation**: AWS DMS, GCP Database Migration Service, Azure DMS
-7. **Enterprise Monitoring Suite**: Prometheus metrics, Grafana dashboards, and anomaly detection
-8. **Advanced Validation Framework**: Multi-database integrity checks and performance benchmarks
-9. **Automated Rollback Procedures**: Platform-specific recovery strategies
-10. **Performance Optimization**: Batch processing, parallel execution, and resource management
+1. **全面遷移策略**：多資料庫平台支援與 NoSQL 整合
+2. **跨平台遷移工具**：SQL 到 NoSQL、NoSQL 到 SQL 和混合遷移
+3. **現代工具整合**：Atlas、Debezium、Flyway、Prisma 和雲原生解決方案
+4. **變更資料擷取管道**：與 Kafka 和模式註冊表的即時同步
+5. **事件溯源遷移**：事件儲存轉換和聚合重建
+6. **雲基礎設施自動化**：AWS DMS、GCP 資料庫遷移服務、Azure DMS
+7. **企業監控套件**：Prometheus 指標、Grafana 儀表板和異常檢測
+8. **進階驗證框架**：多資料庫完整性檢查和性能基準
+9. **自動化回滾程序**：平台特定恢復策略
+10. **性能優化**：批次處理、平行執行和資源管理
 
-Focus on zero-downtime migrations with comprehensive validation, automated rollbacks, and enterprise-grade monitoring across all supported database platforms.
+專注於零停機遷移，並在所有支援的資料庫平台中提供全面的驗證、自動化回滾和企業級監控。
 
-## Cross-Command Integration
+## 跨指令整合
 
-This command integrates seamlessly with other development workflow commands to create a comprehensive database-first development pipeline:
+此命令與其他開發工作流程命令無縫整合，以建立全面的資料庫優先開發管道：
 
-### Integration with API Development (`/api-scaffold`)
+### 與 API 開發整合 (`/api-scaffold`)
 ```python
 # integrated-db-api-config.py
 class IntegratedDatabaseApiConfig:
     def __init__(self):
-        self.api_config = self.load_api_config()        # From /api-scaffold
-        self.db_config = self.load_db_config()          # From /db-migrate
+        self.api_config = self.load_api_config()        # 來自 /api-scaffold
+        self.db_config = self.load_db_config()          # 來自 /db-migrate
         self.migration_config = self.load_migration_config()
     
     def generate_api_aware_migrations(self):
-        """Generate migrations that consider API endpoints and schemas"""
+        """生成考慮 API 端點和模式的遷移"""
         return {
-            # API-aware migration strategy
+            # API 感知遷移策略
             'api_migration_strategy': f"""
--- Migration with API endpoint consideration
--- Migration: {datetime.now().strftime('%Y%m%d_%H%M%S')}_api_aware_schema_update.sql
+-- 考慮 API 端點的遷移
+-- 遷移: {datetime.now().strftime('%Y%m%d_%H%M%S')}_api_aware_schema_update.sql
 
--- Check API dependency before migration
+-- 遷移前檢查 API 依賴項
 DO $$
 BEGIN
-    -- Verify API endpoints that depend on this schema
+    -- 驗證依賴此模式的 API 端點
     IF EXISTS (
         SELECT 1 FROM api_endpoints 
         WHERE schema_dependencies @> '["users", "profiles"]'
         AND is_active = true
     ) THEN
-        RAISE NOTICE 'Found active API endpoints depending on this schema';
+        RAISE NOTICE '發現依賴此模式的活動 API 端點';
         
-        -- Create migration strategy with API versioning
+        -- 建立帶有 API 版本控制的遷移策略
         CREATE TABLE IF NOT EXISTS api_migration_log (
             id SERIAL PRIMARY KEY,
             migration_name VARCHAR(255) NOT NULL,
@@ -1632,7 +1637,7 @@ BEGIN
             created_at TIMESTAMP DEFAULT NOW()
         );
         
-        -- Log this migration for API tracking
+        -- 記錄此遷移以進行 API 追蹤
         INSERT INTO api_migration_log (
             migration_name, 
             api_version, 
@@ -1645,31 +1650,31 @@ BEGIN
     END IF;
 END $$;
 
--- Backward-compatible schema changes
+-- 向後相容的模式變更
 ALTER TABLE users ADD COLUMN IF NOT EXISTS new_field VARCHAR(255);
 
--- Create view for API backward compatibility
+-- 為 API 向後相容性建立視圖
 CREATE OR REPLACE VIEW users_api_v1 AS 
 SELECT 
     id,
     username,
     email,
-    -- Maintain API compatibility
+    -- 維護 API 相容性
     COALESCE(new_field, 'default_value') as new_field,
     created_at,
     updated_at
 FROM users;
 
--- Grant API service access
+-- 授予 API 服務存取權限
 GRANT SELECT ON users_api_v1 TO {self.api_config.get("db_user", "api_service")};
 
 COMMIT;
             """,
             
-            # Database connection pool optimization for API
+            # 資料庫連接池優化用於 API
             'connection_pool_config': {
                 'fastapi': f"""
-# FastAPI with optimized database connections
+# 帶有優化資料庫連接的 FastAPI
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import QueuePool
@@ -1694,9 +1699,9 @@ class DatabaseConfig:
         engine = self.create_engine()
         return sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Migration-aware API dependencies
+# 遷移感知 API 依賴項
 async def get_db_with_migration_check():
-    # Check if migrations are running
+    # 檢查遷移是否正在運行
     async with get_db() as session:
         result = await session.execute(
             text("SELECT COUNT(*) FROM schema_migrations WHERE is_running = true")
@@ -1706,14 +1711,14 @@ async def get_db_with_migration_check():
         if running_migrations > 0:
             raise HTTPException(
                 status_code=503,
-                detail="Database migrations in progress. API temporarily unavailable."
+                detail="資料庫遷移正在進行中。API 暫時不可用。"
             )
         
         yield session
                 """,
                 
                 'express': f"""
-// Express.js with database migration awareness
+// 帶有資料庫遷移感知的 Express.js
 const {{ Pool }} = require('pg');
 const express = require('express');
 const app = express();
@@ -1740,20 +1745,20 @@ class DatabaseManager {{
             
             return result.rows[0].count === '0';
         }} catch (error) {{
-            console.error('Failed to check migration status:', error);
+            console.error('檢查遷移狀態失敗:', error);
             return false;
         }}
     }}
     
-    // Middleware to check migration status
+    // 檢查遷移狀態的中介軟體
     migrationStatusMiddleware() {{
         return async (req, res, next) => {{
             const isSafe = await this.checkMigrationStatus();
             
             if (!isSafe) {{
                 return res.status(503).json({{
-                    error: 'Database migrations in progress',
-                    message: 'API temporarily unavailable during database updates'
+                    error: '資料庫遷移正在進行中',
+                    message: '資料庫更新期間 API 暫時不可用'
                 }});
             }}
             
@@ -1769,9 +1774,9 @@ app.use('/api', dbManager.migrationStatusMiddleware());
         }
     
     def generate_api_schema_sync(self):
-        """Generate API schema synchronization with database"""
+        """生成 API 模式與資料庫同步"""
         return f"""
-# API Schema Synchronization
+# API 模式同步
 import asyncio
 import aiohttp
 from sqlalchemy import text
@@ -1782,7 +1787,7 @@ class ApiSchemaSync:
         self.db_config = {self.db_config}
     
     async def notify_api_of_schema_change(self, migration_name, schema_changes):
-        '''Notify API service of database schema changes'''
+        '''通知 API 服務資料庫模式變更'''
         async with aiohttp.ClientSession() as session:
             payload = {{
                 'migration_name': migration_name,
@@ -1797,14 +1802,14 @@ class ApiSchemaSync:
                     timeout=30
                 ) as response:
                     if response.status == 200:
-                        print(f"API notified of schema changes: {{migration_name}}")
+                        print(f"API 已通知模式變更: {{migration_name}}")
                     else:
-                        print(f"Failed to notify API: {{response.status}}")
+                        print(f"通知 API 失敗: {{response.status}}")
             except Exception as e:
-                print(f"Error notifying API: {{e}}")
+                print(f"通知 API 時出錯: {{e}}")
     
     async def validate_api_compatibility(self, proposed_changes):
-        '''Validate that proposed schema changes won't break API'''
+        '''驗證提議的模式變更不會破壞 API'''
         async with aiohttp.ClientSession() as session:
             try:
                 async with session.post(
@@ -1815,56 +1820,56 @@ class ApiSchemaSync:
                     result = await response.json()
                     return result.get('compatible', False), result.get('issues', [])
             except Exception as e:
-                print(f"Error validating API compatibility: {{e}}")
-                return False, [f"Validation service unavailable: {{e}}"]
+                print(f"驗證 API 相容性時出錯: {{e}}")
+                return False, [f"驗證服務不可用: {{e}}"]
         """
 ```
 
-### Complete Workflow Integration
+### 完整工作流程整合
 ```python
 # complete-database-workflow.py
 class CompleteDatabaseWorkflow:
     def __init__(self):
         self.configs = {
-            'api': self.load_api_config(),           # From /api-scaffold
-            'testing': self.load_test_config(),      # From /test-harness
-            'security': self.load_security_config(), # From /security-scan
-            'docker': self.load_docker_config(),     # From /docker-optimize
-            'k8s': self.load_k8s_config(),          # From /k8s-manifest
-            'frontend': self.load_frontend_config(), # From /frontend-optimize
-            'database': self.load_db_config()        # From /db-migrate
+            'api': self.load_api_config(),           # 來自 /api-scaffold
+            'testing': self.load_test_config(),      # 來自 /test-harness
+            'security': self.load_security_config(), # 來自 /security-scan
+            'docker': self.load_docker_config(),     # 來自 /docker-optimize
+            'k8s': self.load_k8s_config(),          # 來自 /k8s-manifest
+            'frontend': self.load_frontend_config(), # 來自 /frontend-optimize
+            'database': self.load_db_config()        # 來自 /db-migrate
         }
     
     async def execute_complete_workflow(self):
-        console.log("🚀 Starting complete database migration workflow...")
+        console.log("🚀 正在啟動完整的資料庫遷移工作流程...")
         
-        # 1. Pre-migration Security Scan
+        # 1. 遷移前安全掃描
         security_scan = await self.run_security_scan()
-        console.log("✅ Database security scan completed")
+        console.log("✅ 資料庫安全掃描完成")
         
-        # 2. API Compatibility Check
+        # 2. API 相容性檢查
         api_compatibility = await self.check_api_compatibility()
-        console.log("✅ API compatibility verified")
+        console.log("✅ API 相容性已驗證")
         
-        # 3. Container-based Migration Testing
+        # 3. 基於容器的遷移測試
         container_tests = await self.run_container_tests()
-        console.log("✅ Container-based migration tests passed")
+        console.log("✅ 基於容器的遷移測試通過")
         
-        # 4. Production Migration with Monitoring
+        # 4. 生產遷移與監控
         migration_result = await self.run_production_migration()
-        console.log("✅ Production migration completed")
+        console.log("✅ 生產遷移完成")
         
-        # 5. Frontend Cache Invalidation
+        # 5. 前端快取失效
         cache_invalidation = await self.invalidate_frontend_caches()
-        console.log("✅ Frontend caches invalidated")
+        console.log("✅ 前端快取已失效")
         
-        # 6. Kubernetes Deployment Update
+        # 6. Kubernetes 部署更新
         k8s_deployment = await self.update_k8s_deployment()
-        console.log("✅ Kubernetes deployment updated")
+        console.log("✅ Kubernetes 部署已更新")
         
-        # 7. Post-migration Testing Pipeline
+        # 7. 遷移後測試管道
         post_migration_tests = await self.run_post_migration_tests()
-        console.log("✅ Post-migration tests completed")
+        console.log("✅ 遷移後測試完成")
         
         return {
             'status': 'success',
@@ -1880,13 +1885,13 @@ class CompleteDatabaseWorkflow:
             },
             'migration_summary': {
                 'zero_downtime': True,
-                'rollback_plan': 'available',
-                'performance_impact': 'minimal',
+                'rollback_plan': '可用',
+                'performance_impact': '最小',
                 'security_validated': True
             }
         }
 ```
 
-This integrated database migration workflow ensures that database changes are coordinated across all layers of the application stack, from API compatibility to frontend cache invalidation, creating a comprehensive database-first development pipeline that maintains data integrity and system reliability.
+此整合資料庫遷移工作流程確保資料庫變更在應用程式堆疊的所有層次（從 API 相容性到前端快取失效）進行協調，建立一個全面的資料庫優先開發管道，維護資料完整性和系統可靠性。
 
-Focus on enterprise-grade migrations with zero-downtime deployments, comprehensive monitoring, and platform-agnostic strategies for modern polyglot persistence architectures.
+專注於零停機部署的企業級遷移，並在所有支援的資料庫平台中提供全面的驗證、自動化回滾和企業級監控。

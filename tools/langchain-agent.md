@@ -1,56 +1,56 @@
-# LangChain/LangGraph Agent Scaffold
+# LangChain/LangGraph 代理腳手架
 
-Create a production-ready LangChain/LangGraph agent for: $ARGUMENTS
+為：$ARGUMENTS 建立一個生產就緒的 LangChain/LangGraph 代理
 
-Implement a complete agent system including:
+實施一個完整的代理系統，包括：
 
-1. **Agent Architecture**:
-   - LangGraph state machine
-   - Tool selection logic
-   - Memory management
-   - Context window optimization
-   - Multi-agent coordination
+1. **代理架構**：
+   - LangGraph 狀態機
+   - 工具選擇邏輯
+   - 記憶體管理
+   - 上下文視窗優化
+   - 多代理協調
 
-2. **Tool Implementation**:
-   - Custom tool creation
-   - Tool validation
-   - Error handling in tools
-   - Tool composition
-   - Async tool execution
+2. **工具實施**：
+   - 自定義工具創建
+   - 工具驗證
+   - 工具中的錯誤處理
+   - 工具組合
+   - 非同步工具執行
 
-3. **Memory Systems**:
-   - Short-term memory
-   - Long-term storage (vector DB)
-   - Conversation summarization
-   - Entity tracking
-   - Memory retrieval strategies
+3. **記憶體系統**：
+   - 短期記憶體
+   - 長期儲存（向量資料庫）
+   - 對話摘要
+   - 實體追蹤
+   - 記憶體檢索策略
 
-4. **Prompt Engineering**:
-   - System prompts
-   - Few-shot examples
-   - Chain-of-thought reasoning
-   - Output formatting
-   - Prompt templates
+4. **提示工程**：
+   - 系統提示
+   - 少量範例
+   - 思維鏈推理
+   - 輸出格式化
+   - 提示模板
 
-5. **RAG Integration**:
-   - Document loading pipeline
-   - Chunking strategies
-   - Embedding generation
-   - Vector store setup
-   - Retrieval optimization
+5. **RAG 整合**：
+   - 文件載入管道
+   - 分塊策略
+   - 嵌入生成
+   - 向量儲存設定
+   - 檢索優化
 
-6. **Production Features**:
-   - Streaming responses
-   - Token counting
-   - Cost tracking
-   - Rate limiting
-   - Fallback strategies
+6. **生產功能**：
+   - 串流響應
+   - 令牌計數
+   - 成本追蹤
+   - 速率限制
+   - 備用策略
 
-7. **Observability**:
-   - LangSmith integration
-   - Custom callbacks
-   - Performance metrics
-   - Decision tracking
-   - Debug mode
+7. **可觀察性**：
+   - LangSmith 整合
+   - 自定義回調
+   - 性能指標
+   - 決策追蹤
+   - 除錯模式
 
-Include error handling, testing strategies, and deployment considerations. Use the latest LangChain/LangGraph best practices.
+包括錯誤處理、測試策略和部署考量。使用最新的 LangChain/LangGraph 最佳實踐。

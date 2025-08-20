@@ -1,56 +1,56 @@
-# Data Pipeline Architecture
+# 資料管道架構
 
-Design and implement a scalable data pipeline for: $ARGUMENTS
+為：$ARGUMENTS 設計並實施可擴展的資料管道
 
-Create a production-ready data pipeline including:
+建立一個生產就緒的資料管道，包括：
 
-1. **Data Ingestion**:
-   - Multiple source connectors (APIs, databases, files, streams)
-   - Schema evolution handling
-   - Incremental/batch loading
-   - Data quality checks at ingestion
-   - Dead letter queue for failures
+1. **資料攝取**：
+   - 多個來源連接器（API、資料庫、檔案、串流）
+   - 模式演進處理
+   - 增量/批次載入
+   - 攝取時的資料品質檢查
+   - 失敗的死信佇列
 
-2. **Transformation Layer**:
-   - ETL/ELT architecture decision
-   - Apache Beam/Spark transformations
-   - Data cleansing and normalization
-   - Feature engineering pipeline
-   - Business logic implementation
+2. **轉換層**：
+   - ETL/ELT 架構決策
+   - Apache Beam/Spark 轉換
+   - 資料清理和正規化
+   - 特徵工程管道
+   - 業務邏輯實施
 
-3. **Orchestration**:
+3. **編排**：
    - Airflow/Prefect DAGs
-   - Dependency management
-   - Retry and failure handling
-   - SLA monitoring
-   - Dynamic pipeline generation
+   - 依賴項管理
+   - 重試和失敗處理
+   - SLA 監控
+   - 動態管道生成
 
-4. **Storage Strategy**:
-   - Data lake architecture
-   - Partitioning strategy
-   - Compression choices
-   - Retention policies
-   - Hot/cold storage tiers
+4. **儲存策略**：
+   - 資料湖架構
+   - 分區策略
+   - 壓縮選擇
+   - 保留策略
+   - 熱/冷儲存層
 
-5. **Streaming Pipeline**:
-   - Kafka/Kinesis integration
-   - Real-time processing
-   - Windowing strategies
-   - Late data handling
-   - Exactly-once semantics
+5. **串流管道**：
+   - Kafka/Kinesis 整合
+   - 即時處理
+   - 視窗策略
+   - 延遲資料處理
+   - 精確一次語義
 
-6. **Data Quality**:
-   - Automated testing
-   - Data profiling
-   - Anomaly detection
-   - Lineage tracking
-   - Quality metrics and dashboards
+6. **資料品質**：
+   - 自動化測試
+   - 資料分析
+   - 異常檢測
+   - 血緣追蹤
+   - 品質指標和儀表板
 
-7. **Performance & Scale**:
-   - Horizontal scaling
-   - Resource optimization
-   - Caching strategies
-   - Query optimization
-   - Cost management
+7. **性能與擴展**：
+   - 水平擴展
+   - 資源優化
+   - 快取策略
+   - 查詢優化
+   - 成本管理
 
-Include monitoring, alerting, and data governance considerations. Make it cloud-agnostic with specific implementation examples for AWS/GCP/Azure.
+包括監控、警報和資料治理考量。使其與雲端無關，並提供 AWS/GCP/Azure 的具體實施範例。

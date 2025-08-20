@@ -1,64 +1,64 @@
-Implement security-first architecture and hardening measures with coordinated agent orchestration:
+透過協調的代理編排，實施安全優先的架構和強化措施：
 
-[Extended thinking: This workflow prioritizes security at every layer of the application stack. Multiple agents work together to identify vulnerabilities, implement secure patterns, and ensure compliance with security best practices.]
+[延伸思考：此工作流程將安全性置於應用程式堆疊的每個層級。多個代理協同工作，以識別漏洞、實施安全模式並確保符合安全最佳實踐。]
 
-## Phase 1: Security Assessment
+## 階段 1：安全評估
 
-### 1. Initial Security Audit
-- Use Task tool with subagent_type="security-auditor"
-- Prompt: "Perform comprehensive security audit on: $ARGUMENTS. Identify vulnerabilities, compliance gaps, and security risks across all components."
-- Output: Vulnerability report, risk assessment, compliance gaps
+### 1. 初始安全審計
+- 使用任務工具，子代理類型為「security-auditor」
+- 提示：「對：$ARGUMENTS 執行全面的安全審計。識別所有組件中的漏洞、合規性差距和安全風險。」
+- 輸出：漏洞報告、風險評估、合規性差距
 
-### 2. Architecture Security Review
-- Use Task tool with subagent_type="backend-architect"
-- Prompt: "Review and redesign architecture for security: $ARGUMENTS. Focus on secure service boundaries, data isolation, and defense in depth. Use findings from security audit."
-- Output: Secure architecture design, service isolation strategy, data flow diagrams
+### 2. 架構安全審查
+- 使用任務工具，子代理類型為「backend-architect」
+- 提示：「審查並重新設計架構以確保安全：$ARGUMENTS。專注於安全的服務邊界、資料隔離和深度防禦。使用安全審計的發現。」
+- 輸出：安全架構設計、服務隔離策略、資料流圖
 
-## Phase 2: Security Implementation
+## 階段 2：安全實施
 
-### 3. Backend Security Hardening
-- Use Task tool with subagent_type="backend-architect"
-- Prompt: "Implement backend security measures for: $ARGUMENTS. Include authentication, authorization, input validation, and secure data handling based on security audit findings."
-- Output: Secure API implementations, auth middleware, validation layers
+### 3. 後端安全強化
+- 使用任務工具，子代理類型為「backend-architect」
+- 提示：「為：$ARGUMENTS 實施後端安全措施。根據安全審計發現，包括身份驗證、授權、輸入驗證和安全資料處理。」
+- 輸出：安全 API 實施、身份驗證中介軟體、驗證層
 
-### 4. Infrastructure Security
-- Use Task tool with subagent_type="devops-troubleshooter"
-- Prompt: "Implement infrastructure security for: $ARGUMENTS. Configure firewalls, secure secrets management, implement least privilege access, and set up security monitoring."
-- Output: Infrastructure security configs, secrets management, monitoring setup
+### 4. 基礎設施安全
+- 使用任務工具，子代理類型為「devops-troubleshooter」
+- 提示：「為：$ARGUMENTS 實施基礎設施安全。配置防火牆、安全秘密管理、實施最小權限存取，並設定安全監控。」
+- 輸出：基礎設施安全配置、秘密管理、監控設定
 
-### 5. Frontend Security
-- Use Task tool with subagent_type="frontend-developer"
-- Prompt: "Implement frontend security measures for: $ARGUMENTS. Include CSP headers, XSS prevention, secure authentication flows, and sensitive data handling."
-- Output: Secure frontend code, CSP policies, auth integration
+### 5. 前端安全
+- 使用任務工具，子代理類型為「frontend-developer」
+- 提示：「為：$ARGUMENTS 實施前端安全措施。包括 CSP 標頭、XSS 防禦、安全身份驗證流程和敏感資料處理。」
+- 輸出：安全前端程式碼、CSP 策略、身份驗證整合
 
-## Phase 3: Compliance and Testing
+## 階段 3：合規性與測試
 
-### 6. Compliance Verification
-- Use Task tool with subagent_type="security-auditor"
-- Prompt: "Verify compliance with security standards for: $ARGUMENTS. Check OWASP Top 10, GDPR, SOC2, or other relevant standards. Validate all security implementations."
-- Output: Compliance report, remediation requirements
+### 6. 合規性驗證
+- 使用任務工具，子代理類型為「security-auditor」
+- 提示：「驗證：$ARGUMENTS 的安全標準合規性。檢查 OWASP Top 10、GDPR、SOC2 或其他相關標準。驗證所有安全實施。」
+- 輸出：合規性報告、補救要求
 
-### 7. Security Testing
-- Use Task tool with subagent_type="test-automator"
-- Prompt: "Create security test suites for: $ARGUMENTS. Include penetration tests, security regression tests, and automated vulnerability scanning."
-- Output: Security test suite, penetration test results, CI/CD integration
+### 7. 安全測試
+- 使用任務工具，子代理類型為「test-automator」
+- 提示：「為：$ARGUMENTS 建立安全測試套件。包括滲透測試、安全回歸測試和自動化漏洞掃描。」
+- 輸出：安全測試套件、滲透測試結果、CI/CD 整合
 
-## Phase 4: Deployment and Monitoring
+## 階段 4：部署與監控
 
-### 8. Secure Deployment
-- Use Task tool with subagent_type="deployment-engineer"
-- Prompt: "Implement secure deployment pipeline for: $ARGUMENTS. Include security gates, vulnerability scanning in CI/CD, and secure configuration management."
-- Output: Secure CI/CD pipeline, deployment security checks, rollback procedures
+### 8. 安全部署
+- 使用任務工具，子代理類型為「deployment-engineer」
+- 提示：「為：$ARGUMENTS 實施安全部署管道。包括安全閘道、CI/CD 中的漏洞掃描和安全配置管理。」
+- 輸出：安全 CI/CD 管道、部署安全檢查、回滾程序
 
-### 9. Security Monitoring Setup
-- Use Task tool with subagent_type="devops-troubleshooter"
-- Prompt: "Set up security monitoring and incident response for: $ARGUMENTS. Include intrusion detection, log analysis, and automated alerting."
-- Output: Security monitoring dashboards, alert rules, incident response procedures
+### 9. 安全監控設定
+- 使用任務工具，子代理類型為「devops-troubleshooter」
+- 提示：「為：$ARGUMENTS 設定安全監控和事件響應。包括入侵檢測、日誌分析和自動化警報。」
+- 輸出：安全監控儀表板、警報規則、事件響應程序
 
-## Coordination Notes
-- Security findings from each phase inform subsequent implementations
-- All agents must prioritize security in their recommendations
-- Regular security reviews between phases ensure nothing is missed
-- Document all security decisions and trade-offs
+## 協調說明
+- 每個階段的安全發現都會為後續實施提供資訊
+- 所有代理都必須將安全性置於其建議的首位
+- 階段之間的定期安全審查可確保沒有遺漏任何內容
+- 記錄所有安全決策和權衡
 
-Security hardening target: $ARGUMENTS
+安全強化目標：$ARGUMENTS

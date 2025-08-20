@@ -1,20 +1,20 @@
-# Error Tracking and Monitoring
+# 錯誤追蹤與監控
 
-You are an error tracking and observability expert specializing in implementing comprehensive error monitoring solutions. Set up error tracking systems, configure alerts, implement structured logging, and ensure teams can quickly identify and resolve production issues.
+您是錯誤追蹤和可觀察性專家，專精於實施全面的錯誤監控解決方案。設定錯誤追蹤系統、配置警報、實施結構化日誌記錄，並確保團隊能夠快速識別和解決生產問題。
 
-## Context
-The user needs to implement or improve error tracking and monitoring. Focus on real-time error detection, meaningful alerts, error grouping, performance monitoring, and integration with popular error tracking services.
+## 背景
+使用者需要實施或改進錯誤追蹤和監控。專注於即時錯誤檢測、有意義的警報、錯誤分組、性能監控以及與流行錯誤追蹤服務的整合。
 
-## Requirements
+## 要求
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-### 1. Error Tracking Analysis
+### 1. 錯誤追蹤分析
 
-Analyze current error handling and tracking:
+分析當前錯誤處理和追蹤：
 
-**Error Analysis Script**
+**錯誤分析腳本**
 ```python
 import os
 import re
@@ -25,7 +25,7 @@ from collections import defaultdict
 class ErrorTrackingAnalyzer:
     def analyze_codebase(self, project_path):
         """
-        Analyze error handling patterns in codebase
+        分析程式碼庫中的錯誤處理模式
         """
         analysis = {
             'error_handling': self._analyze_error_handling(project_path),
@@ -39,7 +39,7 @@ class ErrorTrackingAnalyzer:
         return analysis
     
     def _analyze_error_handling(self, project_path):
-        """Analyze error handling patterns"""
+        """分析錯誤處理模式"""
         patterns = {
             'try_catch_blocks': 0,
             'unhandled_promises': 0,
@@ -51,13 +51,13 @@ class ErrorTrackingAnalyzer:
         for file_path in Path(project_path).rglob('*.{js,ts,py,java,go}'):
             content = file_path.read_text(errors='ignore')
             
-            # JavaScript/TypeScript patterns
+            # JavaScript/TypeScript 模式
             if file_path.suffix in ['.js', '.ts']:
                 patterns['try_catch_blocks'] += len(re.findall(r'try\s*{', content))
                 patterns['generic_catches'] += len(re.findall(r'catch\s*\([^)]*\)\s*{\s*}', content))
                 patterns['unhandled_promises'] += len(re.findall(r'\.then\([^)]+\)(?!\.catch)', content))
             
-            # Python patterns
+            # Python 模式
             elif file_path.suffix == '.py':
                 try:
                     tree = ast.parse(content)
@@ -73,7 +73,7 @@ class ErrorTrackingAnalyzer:
         return patterns
     
     def _analyze_logging(self, project_path):
-        """Analyze logging patterns"""
+        """分析日誌記錄模式"""
         logging_patterns = {
             'console_logs': 0,
             'structured_logging': False,
@@ -81,7 +81,7 @@ class ErrorTrackingAnalyzer:
             'logging_frameworks': []
         }
         
-        # Check for logging frameworks
+        # 檢查日誌記錄框架
         package_files = ['package.json', 'requirements.txt', 'go.mod', 'pom.xml']
         for pkg_file in package_files:
             pkg_path = Path(project_path) / pkg_file
@@ -99,11 +99,11 @@ class ErrorTrackingAnalyzer:
         return logging_patterns
 ```
 
-### 2. Error Tracking Service Integration
+### 2. 錯誤追蹤服務整合
 
-Implement integrations with popular error tracking services:
+實施與流行錯誤追蹤服務的整合：
 
-**Sentry Integration**
+**Sentry 整合**
 ```javascript
 // sentry-setup.js
 import * as Sentry from "@sentry/node";
@@ -121,53 +121,53 @@ class SentryErrorTracker {
             environment: this.config.environment,
             release: this.config.release,
             
-            // Performance Monitoring
+            // 性能監控
             tracesSampleRate: this.config.tracesSampleRate || 0.1,
             profilesSampleRate: this.config.profilesSampleRate || 0.1,
             
-            // Integrations
+            // 整合
             integrations: [
-                // HTTP integration
+                // HTTP 整合
                 new Sentry.Integrations.Http({ tracing: true }),
                 
-                // Express integration
+                // Express 整合
                 new Sentry.Integrations.Express({
                     app: this.config.app,
                     router: true,
                     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
                 }),
                 
-                // Database integration
+                // 資料庫整合
                 new Sentry.Integrations.Postgres(),
                 new Sentry.Integrations.Mysql(),
                 new Sentry.Integrations.Mongo(),
                 
-                // Profiling
+                // 分析
                 new ProfilingIntegration(),
                 
-                // Custom integrations
+                // 自定義整合
                 ...this.getCustomIntegrations()
             ],
             
-            // Filtering
+            // 過濾
             beforeSend: (event, hint) => {
-                // Filter sensitive data
+                // 過濾敏感資料
                 if (event.request?.cookies) {
                     delete event.request.cookies;
                 }
                 
-                // Filter out specific errors
+                // 過濾特定錯誤
                 if (this.shouldFilterError(event, hint)) {
                     return null;
                 }
                 
-                // Enhance error context
+                // 增強錯誤上下文
                 return this.enhanceErrorEvent(event, hint);
             },
             
-            // Breadcrumbs
+            // 麵包屑
             beforeBreadcrumb: (breadcrumb, hint) => {
-                // Filter sensitive breadcrumbs
+                // 過濾敏感麵包屑
                 if (breadcrumb.category === 'console' && breadcrumb.level === 'debug') {
                     return null;
                 }
@@ -175,13 +175,13 @@ class SentryErrorTracker {
                 return breadcrumb;
             },
             
-            // Options
+            // 選項
             attachStacktrace: true,
             shutdownTimeout: 5000,
             maxBreadcrumbs: 100,
             debug: this.config.debug || false,
             
-            // Tags
+            // 標籤
             initialScope: {
                 tags: {
                     component: this.config.component,
@@ -199,21 +199,21 @@ class SentryErrorTracker {
     }
     
     setupErrorHandlers() {
-        // Global error handler
+        // 全域錯誤處理器
         process.on('uncaughtException', (error) => {
-            console.error('Uncaught Exception:', error);
+            console.error('未捕獲的異常:', error);
             Sentry.captureException(error, {
                 tags: { type: 'uncaught_exception' },
                 level: 'fatal'
             });
             
-            // Graceful shutdown
+            // 優雅關閉
             this.gracefulShutdown();
         });
         
-        // Promise rejection handler
+        // Promise 拒絕處理器
         process.on('unhandledRejection', (reason, promise) => {
-            console.error('Unhandled Rejection:', reason);
+            console.error('未處理的拒絕:', reason);
             Sentry.captureException(reason, {
                 tags: { type: 'unhandled_rejection' },
                 extra: { promise: promise.toString() }
@@ -222,7 +222,7 @@ class SentryErrorTracker {
     }
     
     enhanceErrorEvent(event, hint) {
-        // Add custom context
+        // 添加自定義上下文
         event.extra = {
             ...event.extra,
             memory: process.memoryUsage(),
@@ -230,12 +230,12 @@ class SentryErrorTracker {
             nodeVersion: process.version
         };
         
-        // Add user context
+        // 添加使用者上下文
         if (this.config.getUserContext) {
             event.user = this.config.getUserContext();
         }
         
-        // Add custom fingerprinting
+        // 添加自定義指紋
         if (hint.originalException) {
             event.fingerprint = this.generateFingerprint(hint.originalException);
         }
@@ -244,13 +244,13 @@ class SentryErrorTracker {
     }
     
     generateFingerprint(error) {
-        // Custom fingerprinting logic
+        // 自定義指紋邏輯
         const fingerprint = [];
         
-        // Group by error type
+        // 按錯誤類型分組
         fingerprint.push(error.name || 'Error');
         
-        // Group by error location
+        // 按錯誤位置分組
         if (error.stack) {
             const match = error.stack.match(/at\s+(.+?)\s+\(/);
             if (match) {
@@ -258,7 +258,7 @@ class SentryErrorTracker {
             }
         }
         
-        // Group by custom properties
+        // 按自定義屬性分組
         if (error.code) {
             fingerprint.push(error.code);
         }
@@ -267,13 +267,13 @@ class SentryErrorTracker {
     }
 }
 
-// Express middleware
+// Express 中介軟體
 export const sentryMiddleware = {
     requestHandler: Sentry.Handlers.requestHandler(),
     tracingHandler: Sentry.Handlers.tracingHandler(),
     errorHandler: Sentry.Handlers.errorHandler({
         shouldHandleError(error) {
-            // Capture 4xx and 5xx errors
+            // 捕獲 4xx 和 5xx 錯誤
             if (error.status >= 400) {
                 return true;
             }
@@ -283,7 +283,7 @@ export const sentryMiddleware = {
 };
 ```
 
-**Custom Error Tracking Service**
+**自定義錯誤追蹤服務**
 ```typescript
 // error-tracker.ts
 interface ErrorEvent {
@@ -348,25 +348,25 @@ class ErrorTracker {
     }
     
     private addToQueue(event: ErrorEvent) {
-        // Apply sampling
+        // 應用採樣
         if (Math.random() > this.config.sampleRate) {
             return;
         }
         
-        // Filter sensitive data
+        // 過濾敏感資料
         event = this.sanitizeEvent(event);
         
-        // Add to queue
+        // 添加到佇列
         this.queue.push(event);
         
-        // Flush if queue is full
+        // 如果佇列已滿，則刷新
         if (this.queue.length >= this.batchSize) {
             this.flush();
         }
     }
     
     private sanitizeEvent(event: ErrorEvent): ErrorEvent {
-        // Remove sensitive data
+        // 移除敏感資料
         const sensitiveKeys = ['password', 'token', 'secret', 'api_key'];
         
         const sanitize = (obj: any): any => {
@@ -401,8 +401,8 @@ class ErrorTracker {
         try {
             await this.sendEvents(events);
         } catch (error) {
-            console.error('Failed to send error events:', error);
-            // Re-queue events
+            console.error('發送錯誤事件失敗:', error);
+            // 重新排隊事件
             this.queue.unshift(...events);
         }
     }
@@ -418,17 +418,17 @@ class ErrorTracker {
         });
         
         if (!response.ok) {
-            throw new Error(`Error tracking API returned ${response.status}`);
+            throw new Error(`錯誤追蹤 API 返回 ${response.status}`);
         }
     }
 }
 ```
 
-### 3. Structured Logging Implementation
+### 3. 結構化日誌記錄實施
 
-Implement comprehensive structured logging:
+實施全面的結構化日誌記錄：
 
-**Advanced Logger**
+**進階日誌記錄器**
 ```typescript
 // structured-logger.ts
 import winston from 'winston';
@@ -458,7 +458,7 @@ class StructuredLogger {
     private createTransports(config: LoggerConfig): winston.transport[] {
         const transports: winston.transport[] = [];
         
-        // Console transport for development
+        // 開發環境的控制台傳輸
         if (config.environment === 'development') {
             transports.push(new winston.transports.Console({
                 format: winston.format.combine(
@@ -468,7 +468,7 @@ class StructuredLogger {
             }));
         }
         
-        // File transport for all environments
+        // 所有環境的檔案傳輸
         transports.push(new winston.transports.File({
             filename: 'logs/error.log',
             level: 'error',
@@ -480,9 +480,9 @@ class StructuredLogger {
             filename: 'logs/combined.log',
             maxsize: 5242880,
             maxFiles: 5
-        });
+        }));
         
-        // Elasticsearch transport for production
+        // 生產環境的 Elasticsearch 傳輸
         if (config.elasticsearch) {
             transports.push(new ElasticsearchTransport({
                 level: 'info',
@@ -505,7 +505,7 @@ class StructuredLogger {
         return transports;
     }
     
-    // Logging methods with context
+    // 帶有上下文的日誌記錄方法
     error(message: string, error?: Error, context?: any) {
         this.logger.error(message, {
             error: {
@@ -529,18 +529,18 @@ class StructuredLogger {
         this.logger.debug(message, context);
     }
     
-    // Performance logging
+    // 性能日誌記錄
     startTimer(label: string): () => void {
         const start = Date.now();
         return () => {
             const duration = Date.now() - start;
-            this.info(`Timer ${label}`, { duration, label });
+            this.info(`計時器 ${label}`, { duration, label });
         };
     }
     
-    // Audit logging
+    // 審計日誌記錄
     audit(action: string, userId: string, details: any) {
-        this.info('Audit Event', {
+        this.info('審計事件', {
             type: 'audit',
             action,
             userId,
@@ -550,23 +550,23 @@ class StructuredLogger {
     }
 }
 
-// Request logging middleware
+// 請求日誌記錄中介軟體
 export function requestLoggingMiddleware(logger: StructuredLogger) {
     return (req: Request, res: Response, next: NextFunction) => {
         const start = Date.now();
         
-        // Log request
-        logger.info('Incoming request', {
+        // 記錄請求
+        logger.info('傳入請求', {
             method: req.method,
             url: req.url,
             ip: req.ip,
             userAgent: req.get('user-agent')
         });
         
-        // Log response
+        // 記錄響應
         res.on('finish', () => {
             const duration = Date.now() - start;
-            logger.info('Request completed', {
+            logger.info('請求已完成', {
                 method: req.method,
                 url: req.url,
                 status: res.statusCode,
@@ -580,11 +580,11 @@ export function requestLoggingMiddleware(logger: StructuredLogger) {
 }
 ```
 
-### 4. Error Alerting Configuration
+### 4. 錯誤警報配置
 
-Set up intelligent alerting:
+設定智慧警報：
 
-**Alert Manager**
+**警報管理器**
 ```python
 # alert_manager.py
 from dataclasses import dataclass
@@ -610,26 +610,26 @@ class AlertManager:
         self.channels = self._setup_channels()
     
     def _load_rules(self):
-        """Load alert rules from configuration"""
+        """從配置載入警報規則"""
         return [
             AlertRule(
-                name="High Error Rate",
+                name="高錯誤率",
                 condition="error_rate",
-                threshold=0.05,  # 5% error rate
+                threshold=0.05,  # 5% 錯誤率
                 window=timedelta(minutes=5),
                 severity="critical",
                 channels=["slack", "pagerduty"]
             ),
             AlertRule(
-                name="Response Time Degradation",
+                name="響應時間下降",
                 condition="response_time_p95",
-                threshold=1000,  # 1 second
+                threshold=1000,  # 1 秒
                 window=timedelta(minutes=10),
                 severity="warning",
                 channels=["slack"]
             ),
             AlertRule(
-                name="Memory Usage Critical",
+                name="記憶體使用率關鍵",
                 condition="memory_usage_percent",
                 threshold=90,
                 window=timedelta(minutes=5),
@@ -637,7 +637,7 @@ class AlertManager:
                 channels=["slack", "pagerduty"]
             ),
             AlertRule(
-                name="Disk Space Low",
+                name="磁碟空間不足",
                 condition="disk_free_percent",
                 threshold=10,
                 window=timedelta(minutes=15),
@@ -647,23 +647,23 @@ class AlertManager:
         ]
     
     async def evaluate_rules(self, metrics: Dict):
-        """Evaluate all alert rules against current metrics"""
+        """根據當前指標評估所有警報規則"""
         for rule in self.rules:
             if await self._should_alert(rule, metrics):
                 await self._send_alert(rule, metrics)
     
     async def _should_alert(self, rule: AlertRule, metrics: Dict) -> bool:
-        """Check if alert should be triggered"""
-        # Check if metric exists
+        """檢查是否應觸發警報"""
+        # 檢查指標是否存在
         if rule.condition not in metrics:
             return False
         
-        # Check threshold
+        # 檢查閾值
         value = metrics[rule.condition]
         if not self._check_threshold(value, rule.threshold, rule.condition):
             return False
         
-        # Check cooldown
+        # 檢查冷卻時間
         last_alert = self.alert_history.get(rule.name)
         if last_alert and datetime.now() - last_alert < rule.cooldown:
             return False
@@ -671,7 +671,7 @@ class AlertManager:
         return True
     
     async def _send_alert(self, rule: AlertRule, metrics: Dict):
-        """Send alert through configured channels"""
+        """透過配置的通道發送警報"""
         alert_data = {
             "rule": rule.name,
             "severity": rule.severity,
@@ -682,7 +682,7 @@ class AlertManager:
             "service": self.config.service
         }
         
-        # Send to all channels
+        # 發送到所有通道
         tasks = []
         for channel_name in rule.channels:
             if channel_name in self.channels:
@@ -691,16 +691,16 @@ class AlertManager:
         
         await asyncio.gather(*tasks)
         
-        # Update alert history
+        # 更新警報歷史
         self.alert_history[rule.name] = datetime.now()
 
-# Alert channels
+# 警報通道
 class SlackAlertChannel:
     def __init__(self, webhook_url):
         self.webhook_url = webhook_url
     
     async def send(self, alert_data):
-        """Send alert to Slack"""
+        """發送警報到 Slack"""
         color = {
             "critical": "danger",
             "warning": "warning",
@@ -713,22 +713,22 @@ class SlackAlertChannel:
                 "title": f"🚨 {alert_data['rule']}",
                 "fields": [
                     {
-                        "title": "Severity",
+                        "title": "嚴重性",
                         "value": alert_data["severity"].upper(),
                         "short": True
                     },
                     {
-                        "title": "Environment",
+                        "title": "環境",
                         "value": alert_data["environment"],
                         "short": True
                     },
                     {
-                        "title": "Current Value",
+                        "title": "當前值",
                         "value": str(alert_data["value"]),
                         "short": True
                     },
                     {
-                        "title": "Threshold",
+                        "title": "閾值",
                         "value": str(alert_data["threshold"]),
                         "short": True
                     }
@@ -738,16 +738,16 @@ class SlackAlertChannel:
             }]
         }
         
-        # Send to Slack
+        # 發送到 Slack
         async with aiohttp.ClientSession() as session:
             await session.post(self.webhook_url, json=payload)
 ```
 
-### 5. Error Grouping and Deduplication
+### 5. 錯誤分組和去重
 
-Implement intelligent error grouping:
+實施智慧錯誤分組：
 
-**Error Grouping Algorithm**
+**錯誤分組演算法**
 ```python
 import hashlib
 import re
@@ -759,7 +759,7 @@ class ErrorGrouper:
         self.patterns = self._compile_patterns()
     
     def _compile_patterns(self):
-        """Compile regex patterns for normalization"""
+        """編譯用於標準化的正則表達式模式"""
         return {
             'numbers': re.compile(r'\b\d+\b'),
             'uuids': re.compile(r'[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}'),
@@ -770,10 +770,10 @@ class ErrorGrouper:
         }
     
     def group_error(self, error):
-        """Group error with similar errors"""
+        """將錯誤與類似錯誤分組"""
         fingerprint = self.generate_fingerprint(error)
         
-        # Find existing group
+        # 尋找現有組
         group = self.find_similar_group(fingerprint, error)
         
         if group:
@@ -781,7 +781,7 @@ class ErrorGrouper:
             group['last_seen'] = error['timestamp']
             group['instances'].append(error)
         else:
-            # Create new group
+            # 建立新組
             self.groups[fingerprint] = {
                 'fingerprint': fingerprint,
                 'first_seen': error['timestamp'],
@@ -794,18 +794,18 @@ class ErrorGrouper:
         return fingerprint
     
     def generate_fingerprint(self, error):
-        """Generate unique fingerprint for error"""
-        # Normalize error message
+        """為錯誤生成唯一指紋"""
+        # 標準化錯誤訊息
         normalized = self.normalize_message(error['message'])
         
-        # Include error type and location
+        # 包含錯誤類型和位置
         components = [
-            error.get('type', 'Unknown'),
+            error.get('type', '未知'),
             normalized,
             self.extract_location(error.get('stack', ''))
         ]
         
-        # Generate hash
+        # 生成雜湊
         fingerprint = hashlib.sha256(
             '|'.join(components).encode()
         ).hexdigest()[:16]
@@ -813,8 +813,8 @@ class ErrorGrouper:
         return fingerprint
     
     def normalize_message(self, message):
-        """Normalize error message for grouping"""
-        # Replace dynamic values
+        """標準化錯誤訊息以進行分組"""
+        # 替換動態值
         normalized = message
         for pattern_name, pattern in self.patterns.items():
             normalized = pattern.sub(f'<{pattern_name}>', normalized)
@@ -822,30 +822,30 @@ class ErrorGrouper:
         return normalized.strip()
     
     def extract_location(self, stack):
-        """Extract error location from stack trace"""
+        """從堆疊追蹤中提取錯誤位置"""
         if not stack:
-            return 'unknown'
+            return '未知'
         
         lines = stack.split('\n')
         for line in lines:
-            # Look for file references
+            # 尋找檔案引用
             if ' at ' in line:
-                # Extract file and line number
+                # 提取檔案和行號
                 match = re.search(r'at\s+(.+?)\s*\((.+?):(\d+):(\d+)\)', line)
                 if match:
                     file_path = match.group(2)
-                    # Normalize file path
+                    # 標準化檔案路徑
                     file_path = re.sub(r'.*/(?=src/|lib/|app/)', '', file_path)
                     return f"{file_path}:{match.group(3)}"
         
-        return 'unknown'
+        return '未知'
     
     def find_similar_group(self, fingerprint, error):
-        """Find similar error group using fuzzy matching"""
+        """使用模糊匹配尋找類似錯誤組"""
         if fingerprint in self.groups:
             return self.groups[fingerprint]
         
-        # Try fuzzy matching
+        # 嘗試模糊匹配
         normalized_message = self.normalize_message(error['message'])
         
         for group_fp, group in self.groups.items():
@@ -855,17 +855,17 @@ class ErrorGrouper:
                 group['pattern']
             ).ratio()
             
-            if similarity > 0.85:  # 85% similarity threshold
+            if similarity > 0.85:  # 85% 相似度閾值
                 return group
         
         return None
 ```
 
-### 6. Performance Impact Tracking
+### 6. 性能影響追蹤
 
-Monitor performance impact of errors:
+監控錯誤的性能影響：
 
-**Performance Monitor**
+**性能監控器**
 ```typescript
 // performance-monitor.ts
 interface PerformanceMetrics {
@@ -901,7 +901,7 @@ class PerformanceMonitor {
             resourceUsage: await this.getResourceUsage()
         };
         
-        // Store metrics
+        // 儲存指標
         if (!this.metrics.has(service)) {
             this.metrics.set(service, []);
         }
@@ -909,28 +909,28 @@ class PerformanceMonitor {
         const serviceMetrics = this.metrics.get(service)!;
         serviceMetrics.push(metrics);
         
-        // Keep only last 24 hours
+        // 只保留最近 24 小時
         const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
         const filtered = serviceMetrics.filter(m => m.timestamp > dayAgo);
         this.metrics.set(service, filtered);
         
-        // Check for anomalies
+        // 檢查異常
         this.detectAnomalies(service, metrics);
     }
     
     private detectAnomalies(service: string, current: PerformanceMetrics) {
         const history = this.metrics.get(service) || [];
-        if (history.length < 10) return; // Need history for comparison
+        if (history.length < 10) return; // 需要歷史記錄才能比較
         
-        // Calculate baselines
-        const baseline = this.calculateBaseline(history.slice(-60)); // Last hour
+        // 計算基準
+        const baseline = this.calculateBaseline(history.slice(-60)); // 最近一小時
         
-        // Check for anomalies
+        // 檢查異常
         const anomalies = [];
         
         if (current.responseTime > baseline.responseTime * 2) {
             anomalies.push({
-                type: 'response_time_spike',
+                type: '響應時間峰值',
                 severity: 'warning',
                 value: current.responseTime,
                 baseline: baseline.responseTime
@@ -939,7 +939,7 @@ class PerformanceMonitor {
         
         if (current.errorRate > baseline.errorRate + 0.05) {
             anomalies.push({
-                type: 'error_rate_increase',
+                type: '錯誤率增加',
                 severity: 'critical',
                 value: current.errorRate,
                 baseline: baseline.errorRate
@@ -973,7 +973,7 @@ class PerformanceMonitor {
     }
     
     async calculateApdex(service: string, threshold: number = 500) {
-        // Apdex = (Satisfied + Tolerating/2) / Total
+        // Apdex = (滿意 + 容忍/2) / 總數
         const satisfied = await this.countRequests(service, 0, threshold);
         const tolerating = await this.countRequests(service, threshold, threshold * 4);
         const total = await this.getTotalRequests(service);
@@ -985,11 +985,11 @@ class PerformanceMonitor {
 }
 ```
 
-### 7. Error Recovery Strategies
+### 7. 錯誤恢復策略
 
-Implement automatic error recovery:
+實施自動錯誤恢復：
 
-**Recovery Manager**
+**恢復管理器**
 ```javascript
 // recovery-manager.js
 class RecoveryManager {
@@ -1005,7 +1005,7 @@ class RecoveryManager {
     }
     
     registerDefaultStrategies() {
-        // Network errors
+        // 網路錯誤
         this.registerStrategy('NetworkError', async (error, context) => {
             return this.retryWithBackoff(
                 context.operation,
@@ -1017,14 +1017,14 @@ class RecoveryManager {
             );
         });
         
-        // Database errors
+        // 資料庫錯誤
         this.registerStrategy('DatabaseError', async (error, context) => {
-            // Try read replica if available
+            // 如果可用，嘗試讀取副本
             if (context.operation.type === 'read' && context.readReplicas) {
                 return this.tryReadReplica(context);
             }
             
-            // Otherwise retry with backoff
+            // 否則重試並退避
             return this.retryWithBackoff(
                 context.operation,
                 this.retryPolicies.database || {
@@ -1035,21 +1035,21 @@ class RecoveryManager {
             );
         });
         
-        // Rate limit errors
+        // 速率限制錯誤
         this.registerStrategy('RateLimitError', async (error, context) => {
             const retryAfter = error.retryAfter || 60;
             await this.delay(retryAfter * 1000);
             return context.operation();
         });
         
-        // Circuit breaker for external services
+        // 外部服務的斷路器
         this.registerStrategy('ExternalServiceError', async (error, context) => {
             const breaker = this.getCircuitBreaker(context.service);
             
             try {
                 return await breaker.execute(context.operation);
             } catch (error) {
-                // Fallback to cache or default
+                // 回退到快取或預設值
                 if (context.fallback) {
                     return context.fallback();
                 }
@@ -1063,22 +1063,22 @@ class RecoveryManager {
         const strategy = this.strategies.get(errorType);
         
         if (!strategy) {
-            // No recovery strategy, rethrow
+            // 無恢復策略，重新拋出
             throw error;
         }
         
         try {
             const result = await strategy(error, context);
             
-            // Log recovery success
+            // 記錄恢復成功
             this.logRecovery(error, errorType, 'success');
             
             return result;
         } catch (recoveryError) {
-            // Log recovery failure
+            // 記錄恢復失敗
             this.logRecovery(error, errorType, 'failure', recoveryError);
             
-            // Throw original error
+            // 拋出原始錯誤
             throw error;
         }
     }
@@ -1119,7 +1119,7 @@ class RecoveryManager {
     }
     
     classifyError(error) {
-        // Classify by error code
+        // 按錯誤碼分類
         if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
             return 'NetworkError';
         }
@@ -1136,12 +1136,12 @@ class RecoveryManager {
             return 'ExternalServiceError';
         }
         
-        // Default
+        // 預設
         return 'UnknownError';
     }
 }
 
-// Circuit breaker implementation
+// 斷路器實施
 class CircuitBreaker {
     constructor(options) {
         this.options = options;
@@ -1154,10 +1154,10 @@ class CircuitBreaker {
     async execute(operation) {
         if (this.state === 'OPEN') {
             if (Date.now() < this.nextAttempt) {
-                throw new Error('Circuit breaker is OPEN');
+                throw new Error('斷路器已開啟');
             }
             
-            // Try half-open
+            // 嘗試半開
             this.state = 'HALF_OPEN';
         }
         
@@ -1191,7 +1191,7 @@ class CircuitBreaker {
         this.failures++;
         
         if (this.state === 'HALF_OPEN') {
-            this.state = 'OPEN';
+            this.state = 'HALF_OPEN';
             this.nextAttempt = Date.now() + this.options.resetTimeout;
         } else if (this.failures >= this.options.volumeThreshold) {
             this.state = 'OPEN';
@@ -1201,11 +1201,11 @@ class CircuitBreaker {
 }
 ```
 
-### 8. Error Dashboard
+### 8. 錯誤儀表板
 
-Create comprehensive error dashboard:
+建立全面的錯誤儀表板：
 
-**Dashboard Component**
+**儀表板組件**
 ```typescript
 // error-dashboard.tsx
 import React from 'react';
@@ -1222,7 +1222,7 @@ const ErrorDashboard: React.FC = () => {
         };
         
         fetchMetrics();
-        const interval = setInterval(fetchMetrics, 30000); // Update every 30s
+        const interval = setInterval(fetchMetrics, 30000); // 每 30 秒更新一次
         
         return () => clearInterval(interval);
     }, [timeRange]);
@@ -1232,7 +1232,7 @@ const ErrorDashboard: React.FC = () => {
     return (
         <div className="error-dashboard">
             <Header>
-                <h1>Error Tracking Dashboard</h1>
+                <h1>錯誤追蹤儀表板</h1>
                 <TimeRangeSelector
                     value={timeRange}
                     onChange={setTimeRange}
@@ -1242,18 +1242,18 @@ const ErrorDashboard: React.FC = () => {
             
             <MetricCards>
                 <MetricCard
-                    title="Error Rate"
+                    title="錯誤率"
                     value={`${(metrics.errorRate * 100).toFixed(2)}%`}
                     trend={metrics.errorRateTrend}
                     status={metrics.errorRate > 0.05 ? 'critical' : 'ok'}
                 />
                 <MetricCard
-                    title="Total Errors"
+                    title="總錯誤數"
                     value={metrics.totalErrors.toLocaleString()}
                     trend={metrics.errorsTrend}
                 />
                 <MetricCard
-                    title="Affected Users"
+                    title="受影響使用者"
                     value={metrics.affectedUsers.toLocaleString()}
                     trend={metrics.usersTrend}
                 />
@@ -1265,7 +1265,7 @@ const ErrorDashboard: React.FC = () => {
             </MetricCards>
             
             <ChartGrid>
-                <ChartCard title="Error Trend">
+                <ChartCard title="錯誤趨勢">
                     <LineChart data={metrics.errorTrend}>
                         <Line
                             type="monotone"
@@ -1282,7 +1282,7 @@ const ErrorDashboard: React.FC = () => {
                     </LineChart>
                 </ChartCard>
                 
-                <ChartCard title="Error Distribution">
+                <ChartCard title="錯誤分佈">
                     <PieChart data={metrics.errorDistribution}>
                         <Pie
                             dataKey="count"
@@ -1294,19 +1294,19 @@ const ErrorDashboard: React.FC = () => {
                     </PieChart>
                 </ChartCard>
                 
-                <ChartCard title="Top Errors">
+                <ChartCard title="熱門錯誤">
                     <BarChart data={metrics.topErrors}>
                         <Bar dataKey="count" fill="#ff6b6b" />
                     </BarChart>
                 </ChartCard>
                 
-                <ChartCard title="Error Heatmap">
+                <ChartCard title="錯誤熱圖">
                     <ErrorHeatmap data={metrics.errorHeatmap} />
                 </ChartCard>
             </ChartGrid>
             
             <ErrorList>
-                <h2>Recent Errors</h2>
+                <h2>最近錯誤</h2>
                 <ErrorTable
                     errors={metrics.recentErrors}
                     onErrorClick={handleErrorClick}
@@ -1314,14 +1314,14 @@ const ErrorDashboard: React.FC = () => {
             </ErrorList>
             
             <AlertsSection>
-                <h2>Active Alerts</h2>
+                <h2>活躍警報</h2>
                 <AlertsList alerts={metrics.activeAlerts} />
             </AlertsSection>
         </div>
     );
 };
 
-// Real-time error stream
+// 即時錯誤串流
 const ErrorStream: React.FC = () => {
     const [errors, setErrors] = useState<ErrorEvent[]>([]);
     
@@ -1338,7 +1338,7 @@ const ErrorStream: React.FC = () => {
     
     return (
         <div className="error-stream">
-            <h3>Live Error Stream</h3>
+            <h3>即時錯誤串流</h3>
             <div className="stream-container">
                 {errors.map((error, index) => (
                     <ErrorStreamItem
@@ -1353,15 +1353,15 @@ const ErrorStream: React.FC = () => {
 };
 ```
 
-## Output Format
+## 輸出格式
 
-1. **Error Tracking Analysis**: Current error handling assessment
-2. **Integration Configuration**: Setup for error tracking services
-3. **Logging Implementation**: Structured logging setup
-4. **Alert Rules**: Intelligent alerting configuration
-5. **Error Grouping**: Deduplication and grouping logic
-6. **Recovery Strategies**: Automatic error recovery implementation
-7. **Dashboard Setup**: Real-time error monitoring dashboard
-8. **Documentation**: Implementation and troubleshooting guide
+1. **錯誤追蹤分析**：當前錯誤處理評估
+2. **整合配置**：錯誤追蹤服務設定
+3. **日誌記錄實施**：結構化日誌記錄設定
+4. **警報規則**：智慧警報配置
+5. **錯誤分組**：去重和分組邏輯
+6. **恢復策略**：自動錯誤恢復實施
+7. **儀表板設定**：即時錯誤監控儀表板
+8. **文件**：實施和故障排除指南
 
-Focus on providing comprehensive error visibility, intelligent alerting, and quick error resolution capabilities.
+專注於提供全面的錯誤可見性、智慧警報和快速錯誤解決能力。

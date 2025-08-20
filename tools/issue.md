@@ -1,33 +1,33 @@
-Please analyze and fix the GitHub issue: $ARGUMENTS.
+請分析並解決 GitHub 問題：$ARGUMENTS。
 
-Follow these steps:
+請遵循以下步驟：
 
-# PLAN
-1. Use 'gh issue view' to get the issue details
-2. Understand the problem described in the issue
-3. Ask clarifying questions if necessary
-4. Understand the prior art for this issue
-- Search the scratchpads for previous thoughts related to the issue
-- Search PRs to see if you can find history on this issue
-- Search the codebase for relevant files
-5. Think harder about how to break the issue down into a seriers of small, manageable tasks.
-6. Document your plan in a new scratchpad
-  - include the issue name in the filename
-  - include a link to the issue in the scratchpad.
+# 計畫
+1. 使用「gh issue view」獲取問題詳細資訊
+2. 理解問題中描述的問題
+3. 如有必要，提出澄清問題
+4. 了解此問題的先前技術
+- 搜尋暫存區中與問題相關的先前想法
+- 搜尋 PR 以查看是否可以找到此問題的歷史記錄
+- 搜尋程式碼庫中相關檔案
+5. 更深入地思考如何將問題分解為一系列小而可管理的任務。
+6. 將您的計畫記錄在新的暫存區中
+  - 在檔案名稱中包含問題名稱
+  - 在暫存區中包含問題的連結。
 
-# CREATE
-- Create a new branch for the issue
-- Solve the issue in small, manageable steps, according to your plan.
-- Commit your changes after each step.
+# 建立
+- 為問題建立新分支
+- 根據您的計畫，以小而可管理的步驟解決問題。
+- 每一步驟後提交您的變更。
 
-# TEST
-- Use playwright via MCP to test the changes if you have made changes to the UI
-- Write tests to describe the expected behavior of your code
-- Run the full test suite to ensure you haven't broken anything
-- If the tests are failing, fix them
-- Ensure that all tests are passing before moving on to the next step
+# 測試
+- 如果您對 UI 進行了變更，請透過 MCP 使用 Playwright 測試變更
+- 編寫測試以描述程式碼的預期行為
+- 運行完整的測試套件以確保您沒有破壞任何東西
+- 如果測試失敗，請修復它們
+- 在進入下一步之前，確保所有測試都通過
 
-# DEPLOY
-- Open a PR and request a review.
+# 部署
+- 開啟 PR 並請求審查。
 
-Remember to use the GitHub CLI (`gh`) for all GitHub-related tasks.
+請記住，所有與 GitHub 相關的任務都使用 GitHub CLI (gh)。

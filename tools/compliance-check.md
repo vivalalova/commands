@@ -1,100 +1,100 @@
-# Regulatory Compliance Check
+# 法規合規性檢查
 
-You are a compliance expert specializing in regulatory requirements for software systems including GDPR, HIPAA, SOC2, PCI-DSS, and other industry standards. Perform comprehensive compliance audits and provide implementation guidance for achieving and maintaining compliance.
+您是合規性專家，專精於軟體系統的法規要求，包括 GDPR、HIPAA、SOC2、PCI-DSS 和其他行業標準。執行全面的合規性審計，並提供實現和維護合規性的實施指導。
 
-## Context
-The user needs to ensure their application meets regulatory requirements and industry standards. Focus on practical implementation of compliance controls, automated monitoring, and audit trail generation.
+## 背景
+使用者需要確保其應用程式符合法規要求和行業標準。專注於合規性控制的實際實施、自動化監控和審計追蹤生成。
 
-## Requirements
+## 要求
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-### 1. Compliance Framework Analysis
+### 1. 合規性框架分析
 
-Identify applicable regulations and standards:
+識別適用的法規和標準：
 
-**Regulatory Mapping**
+**法規映射**
 ```python
 class ComplianceAnalyzer:
     def __init__(self):
         self.regulations = {
             'GDPR': {
-                'scope': 'EU data protection',
+                'scope': '歐盟資料保護',
                 'applies_if': [
-                    'Processing EU residents data',
-                    'Offering goods/services to EU',
-                    'Monitoring EU residents behavior'
+                    '處理歐盟居民資料',
+                    '向歐盟提供商品/服務',
+                    '監控歐盟居民行為'
                 ],
                 'key_requirements': [
-                    'Privacy by design',
-                    'Data minimization',
-                    'Right to erasure',
-                    'Data portability',
-                    'Consent management',
-                    'DPO appointment',
-                    'Privacy notices',
-                    'Data breach notification (72hrs)'
+                    '設計隱私',
+                    '資料最小化',
+                    '刪除權',
+                    '資料可攜性',
+                    '同意管理',
+                    'DPO 任命',
+                    '隱私聲明',
+                    '資料洩露通知 (72 小時)'
                 ]
             },
             'HIPAA': {
-                'scope': 'Healthcare data protection (US)',
+                'scope': '醫療保健資料保護 (美國)',
                 'applies_if': [
-                    'Healthcare providers',
-                    'Health plan providers', 
-                    'Healthcare clearinghouses',
-                    'Business associates'
+                    '醫療保健提供者',
+                    '健康計畫提供者',
+                    '醫療保健清算所',
+                    '業務夥伴'
                 ],
                 'key_requirements': [
-                    'PHI encryption',
-                    'Access controls',
-                    'Audit logs',
-                    'Business Associate Agreements',
-                    'Risk assessments',
-                    'Employee training',
-                    'Incident response',
-                    'Physical safeguards'
+                    'PHI 加密',
+                    '存取控制',
+                    '審計日誌',
+                    '業務夥伴協議',
+                    '風險評估',
+                    '員工培訓',
+                    '事件響應',
+                    '實體保護措施'
                 ]
             },
             'SOC2': {
-                'scope': 'Service organization controls',
+                'scope': '服務組織控制',
                 'applies_if': [
-                    'SaaS providers',
-                    'Data processors',
-                    'Cloud services'
+                    'SaaS 提供者',
+                    '資料處理者',
+                    '雲端服務'
                 ],
                 'trust_principles': [
-                    'Security',
-                    'Availability', 
-                    'Processing integrity',
-                    'Confidentiality',
-                    'Privacy'
+                    '安全',
+                    '可用性',
+                    '處理完整性',
+                    '機密性',
+                    '隱私'
                 ]
             },
             'PCI-DSS': {
-                'scope': 'Payment card data security',
+                'scope': '支付卡資料安全',
                 'applies_if': [
-                    'Accept credit/debit cards',
-                    'Process card payments',
-                    'Store card data',
-                    'Transmit card data'
+                    '接受信用卡/金融卡',
+                    '處理卡片支付',
+                    '儲存卡片資料',
+                    '傳輸卡片資料'
                 ],
                 'compliance_levels': {
-                    'Level 1': '>6M transactions/year',
-                    'Level 2': '1M-6M transactions/year',
-                    'Level 3': '20K-1M transactions/year',
-                    'Level 4': '<20K transactions/year'
+                    'Level 1': '>6M 交易/年',
+                    'Level 2': '1M-6M 交易/年',
+                    'Level 3': '20K-1M 交易/年',
+                    'Level 4': '<20K 交易/年'
                 }
             }
         }
     
     def determine_applicable_regulations(self, business_info):
         """
-        Determine which regulations apply based on business context
+        根據業務上下文確定適用的法規
         """
         applicable = []
         
-        # Check each regulation
+        # 檢查每個法規
         for reg_name, reg_info in self.regulations.items():
             if self._check_applicability(business_info, reg_info):
                 applicable.append({
@@ -106,33 +106,33 @@ class ComplianceAnalyzer:
         return sorted(applicable, key=lambda x: x['priority'], reverse=True)
 ```
 
-### 2. Data Privacy Compliance
+### 2. 資料隱私合規性
 
-Implement privacy controls:
+實施隱私控制：
 
-**GDPR Implementation**
+**GDPR 實施**
 ```python
 class GDPRCompliance:
     def implement_privacy_controls(self):
         """
-        Implement GDPR-required privacy controls
+        實施 GDPR 要求的隱私控制
         """
         controls = {}
         
-        # 1. Consent Management
+        # 1. 同意管理
         controls['consent_management'] = '''
 class ConsentManager:
     def __init__(self):
         self.consent_types = [
-            'marketing_emails',
-            'analytics_tracking',
-            'third_party_sharing',
-            'profiling'
+            '行銷電子郵件',
+            '分析追蹤',
+            '第三方共享',
+            '分析'
         ]
     
     def record_consent(self, user_id, consent_type, granted):
         """
-        Record user consent with full audit trail
+        記錄使用者同意，並提供完整的審計追蹤
         """
         consent_record = {
             'user_id': user_id,
@@ -142,35 +142,35 @@ class ConsentManager:
             'ip_address': request.remote_addr,
             'user_agent': request.headers.get('User-Agent'),
             'version': self.get_current_privacy_policy_version(),
-            'method': 'explicit_checkbox'  # Not pre-ticked
+            'method': '明確勾選'  # 不預先勾選
         }
         
-        # Store in append-only audit log
+        # 儲存在僅追加的審計日誌中
         self.consent_audit_log.append(consent_record)
         
-        # Update current consent status
+        # 更新當前同意狀態
         self.update_user_consents(user_id, consent_type, granted)
         
         return consent_record
     
     def verify_consent(self, user_id, consent_type):
         """
-        Verify if user has given consent for specific processing
+        驗證使用者是否已同意特定處理
         """
         consent = self.get_user_consent(user_id, consent_type)
         return consent and consent['granted'] and not consent.get('withdrawn')
 '''
 
-        # 2. Right to Erasure (Right to be Forgotten)
+        # 2. 刪除權（被遺忘權）
         controls['right_to_erasure'] = '''
 class DataErasureService:
     def process_erasure_request(self, user_id, verification_token):
         """
-        Process GDPR Article 17 erasure request
+        處理 GDPR 第 17 條刪除請求
         """
-        # Verify request authenticity
+        # 驗證請求真實性
         if not self.verify_erasure_token(user_id, verification_token):
-            raise ValueError("Invalid erasure request")
+            raise ValueError("無效的刪除請求")
         
         erasure_log = {
             'user_id': user_id,
@@ -178,41 +178,41 @@ class DataErasureService:
             'data_categories': []
         }
         
-        # 1. Personal data
+        # 1. 個人資料
         self.erase_user_profile(user_id)
-        erasure_log['data_categories'].append('profile')
+        erasure_log['data_categories'].append('個人資料')
         
-        # 2. User-generated content (anonymize instead of delete)
+        # 2. 使用者生成內容（匿名化而非刪除）
         self.anonymize_user_content(user_id)
-        erasure_log['data_categories'].append('content_anonymized')
+        erasure_log['data_categories'].append('內容匿名化')
         
-        # 3. Analytics data
+        # 3. 分析資料
         self.remove_from_analytics(user_id)
-        erasure_log['data_categories'].append('analytics')
+        erasure_log['data_categories'].append('分析')
         
-        # 4. Backup data (schedule deletion)
+        # 4. 備份資料（排程刪除）
         self.schedule_backup_deletion(user_id)
-        erasure_log['data_categories'].append('backups_scheduled')
+        erasure_log['data_categories'].append('備份已排程')
         
-        # 5. Notify third parties
+        # 5. 通知第三方
         self.notify_processors_of_erasure(user_id)
         
-        # Keep minimal record for legal compliance
+        # 保留最少記錄以符合法律規定
         self.store_erasure_record(erasure_log)
         
         return {
-            'status': 'completed',
+            'status': '已完成',
             'erasure_id': erasure_log['id'],
             'categories_erased': erasure_log['data_categories']
         }
 '''
 
-        # 3. Data Portability
+        # 3. 資料可攜性
         controls['data_portability'] = '''
 class DataPortabilityService:
     def export_user_data(self, user_id, format='json'):
         """
-        GDPR Article 20 - Data portability
+        GDPR 第 20 條 - 資料可攜性
         """
         user_data = {
             'export_date': datetime.utcnow().isoformat(),
@@ -221,14 +221,14 @@ class DataPortabilityService:
             'data': {}
         }
         
-        # Collect all user data
+        # 收集所有使用者資料
         user_data['data']['profile'] = self.get_user_profile(user_id)
         user_data['data']['preferences'] = self.get_user_preferences(user_id)
         user_data['data']['content'] = self.get_user_content(user_id)
         user_data['data']['activity'] = self.get_user_activity(user_id)
         user_data['data']['consents'] = self.get_consent_history(user_id)
         
-        # Format based on request
+        # 根據請求格式化
         if format == 'json':
             return json.dumps(user_data, indent=2)
         elif format == 'csv':
@@ -239,32 +239,32 @@ class DataPortabilityService:
         
         return controls
 
-**Privacy by Design**
+**設計隱私**
 ```python
-# Implement privacy by design principles
+# 實施設計隱私原則
 class PrivacyByDesign:
     def implement_data_minimization(self):
         """
-        Collect only necessary data
+        僅收集必要的資料
         """
-        # Before (collecting too much)
+        # 之前（收集過多）
         bad_user_model = {
             'email': str,
             'password': str,
             'full_name': str,
             'date_of_birth': date,
-            'ssn': str,  # Unnecessary
-            'address': str,  # Unnecessary for basic service
-            'phone': str,  # Unnecessary
-            'gender': str,  # Unnecessary
-            'income': int  # Unnecessary
+            'ssn': str,  # 不必要
+            'address': str,  # 基本服務不必要
+            'phone': str,  # 不必要
+            'gender': str,  # 不必要
+            'income': int  # 不必要
         }
         
-        # After (data minimization)
+        # 之後（資料最小化）
         good_user_model = {
-            'email': str,  # Required for authentication
-            'password_hash': str,  # Never store plain text
-            'display_name': str,  # Optional, user-provided
+            'email': str,  # 身份驗證必需
+            'password_hash': str,  # 永不儲存純文字
+            'display_name': str,  # 可選，使用者提供
             'created_at': datetime,
             'last_login': datetime
         }
@@ -273,10 +273,10 @@ class PrivacyByDesign:
     
     def implement_pseudonymization(self):
         """
-        Replace identifying fields with pseudonyms
+        用假名替換識別欄位
         """
         def pseudonymize_record(record):
-            # Generate consistent pseudonym
+            # 生成一致的假名
             user_pseudonym = hashlib.sha256(
                 f"{record['user_id']}{SECRET_SALT}".encode()
             ).hexdigest()[:16]
@@ -284,7 +284,7 @@ class PrivacyByDesign:
             return {
                 'pseudonym': user_pseudonym,
                 'data': {
-                    # Remove direct identifiers
+                    # 移除直接識別符
                     'age_group': self._get_age_group(record['age']),
                     'region': self._get_region(record['ip_address']),
                     'activity': record['activity_data']
@@ -292,80 +292,80 @@ class PrivacyByDesign:
             }
 ```
 
-### 3. Security Compliance
+### 3. 安全合規性
 
-Implement security controls for various standards:
+實施各種標準的安全控制：
 
-**SOC2 Security Controls**
+**SOC2 安全控制**
 ```python
 class SOC2SecurityControls:
     def implement_access_controls(self):
         """
-        SOC2 CC6.1 - Logical and physical access controls
+        SOC2 CC6.1 - 邏輯和實體存取控制
         """
         controls = {
             'authentication': '''
-# Multi-factor authentication
+# 多因素身份驗證
 class MFAEnforcement:
     def enforce_mfa(self, user, resource_sensitivity):
-        if resource_sensitivity == 'high':
+        if resource_sensitivity == '高':
             return self.require_mfa(user)
-        elif resource_sensitivity == 'medium' and user.is_admin:
+        elif resource_sensitivity == '中' and user.is_admin:
             return self.require_mfa(user)
         return self.standard_auth(user)
     
     def require_mfa(self, user):
         factors = []
         
-        # Factor 1: Password (something you know)
+        # 因素 1：密碼（您知道的）
         factors.append(self.verify_password(user))
         
-        # Factor 2: TOTP/SMS (something you have)
+        # 因素 2：TOTP/SMS（您擁有的）
         if user.mfa_method == 'totp':
             factors.append(self.verify_totp(user))
         elif user.mfa_method == 'sms':
             factors.append(self.verify_sms_code(user))
             
-        # Factor 3: Biometric (something you are) - optional
+        # 因素 3：生物識別（您是誰）- 可選
         if user.biometric_enabled:
             factors.append(self.verify_biometric(user))
             
         return all(factors)
 ''',
             'authorization': '''
-# Role-based access control
+# 基於角色的存取控制
 class RBACAuthorization:
     def __init__(self):
         self.roles = {
-            'admin': ['read', 'write', 'delete', 'admin'],
-            'user': ['read', 'write:own'],
-            'viewer': ['read']
+            'admin': ['讀取', '寫入', '刪除', '管理'],
+            'user': ['讀取', '寫入:自己的'],
+            'viewer': ['讀取']
         }
         
     def check_permission(self, user, resource, action):
         user_permissions = self.get_user_permissions(user)
         
-        # Check explicit permissions
+        # 檢查明確權限
         if action in user_permissions:
             return True
             
-        # Check ownership-based permissions
+        # 檢查基於所有權的權限
         if f"{action}:own" in user_permissions:
             return self.user_owns_resource(user, resource)
             
-        # Log denied access attempt
+        # 記錄拒絕存取嘗試
         self.log_access_denied(user, resource, action)
         return False
 ''',
             'encryption': '''
-# Encryption at rest and in transit
+# 靜態和傳輸中加密
 class EncryptionControls:
     def __init__(self):
         self.kms = KeyManagementService()
         
     def encrypt_at_rest(self, data, classification):
-        if classification == 'sensitive':
-            # Use envelope encryption
+        if classification == '敏感':
+            # 使用信封加密
             dek = self.kms.generate_data_encryption_key()
             encrypted_data = self.encrypt_with_key(data, dek)
             encrypted_dek = self.kms.encrypt_key(dek)
@@ -393,49 +393,49 @@ class EncryptionControls:
         return controls
 ```
 
-### 4. Audit Logging and Monitoring
+### 4. 審計日誌記錄和監控
 
-Implement comprehensive audit trails:
+實施全面的審計追蹤：
 
-**Audit Log System**
+**審計日誌系統**
 ```python
 class ComplianceAuditLogger:
     def __init__(self):
         self.required_events = {
             'authentication': [
-                'login_success',
-                'login_failure',
-                'logout',
-                'password_change',
-                'mfa_enabled',
-                'mfa_disabled'
+                '登入成功',
+                '登入失敗',
+                '登出',
+                '密碼變更',
+                'MFA 已啟用',
+                'MFA 已禁用'
             ],
             'authorization': [
-                'access_granted',
-                'access_denied',
-                'permission_changed',
-                'role_assigned',
-                'role_revoked'
+                '存取已授予',
+                '存取被拒絕',
+                '權限已變更',
+                '角色已分配',
+                '角色已撤銷'
             ],
             'data_access': [
-                'data_viewed',
-                'data_exported',
-                'data_modified',
-                'data_deleted',
-                'bulk_operation'
+                '資料已查看',
+                '資料已匯出',
+                '資料已修改',
+                '資料已刪除',
+                '批量操作'
             ],
             'compliance': [
-                'consent_given',
-                'consent_withdrawn',
-                'data_request',
-                'data_erasure',
-                'privacy_settings_changed'
+                '同意已給予',
+                '同意已撤回',
+                '資料請求',
+                '資料刪除',
+                '隱私設定已變更'
             ]
         }
     
     def log_event(self, event_type, details):
         """
-        Create tamper-proof audit log entry
+        建立防篡改審計日誌條目
         """
         log_entry = {
             'id': str(uuid.uuid4()),
@@ -449,13 +449,13 @@ class ComplianceAuditLogger:
             'compliance_flags': self._get_compliance_flags(event_type)
         }
         
-        # Add integrity check
+        # 添加完整性檢查
         log_entry['checksum'] = self._calculate_checksum(log_entry)
         
-        # Store in immutable log
+        # 儲存在不可變日誌中
         self._store_audit_log(log_entry)
         
-        # Real-time alerting for critical events
+        # 關鍵事件的即時警報
         if self._is_critical_event(event_type):
             self._send_security_alert(log_entry)
         
@@ -463,9 +463,9 @@ class ComplianceAuditLogger:
     
     def _calculate_checksum(self, entry):
         """
-        Create tamper-evident checksum
+        建立防篡改校驗和
         """
-        # Include previous entry hash for blockchain-like integrity
+        # 包含前一個條目雜湊以實現類似區塊鏈的完整性
         previous_hash = self._get_previous_entry_hash()
         
         content = json.dumps(entry, sort_keys=True)
@@ -474,11 +474,11 @@ class ComplianceAuditLogger:
         ).hexdigest()
 ```
 
-**Compliance Reporting**
+**合規性報告**
 ```python
 def generate_compliance_report(self, regulation, period):
     """
-    Generate compliance report for auditors
+    為審計員生成合規性報告
     """
     report = {
         'regulation': regulation,
@@ -515,18 +515,18 @@ def generate_compliance_report(self, regulation, period):
     return report
 ```
 
-### 5. Healthcare Compliance (HIPAA)
+### 5. 醫療保健合規性 (HIPAA)
 
-Implement HIPAA-specific controls:
+實施 HIPAA 特定控制：
 
-**PHI Protection**
+**PHI 保護**
 ```python
 class HIPAACompliance:
     def protect_phi(self):
         """
-        Implement HIPAA safeguards for Protected Health Information
+        實施 HIPAA 保護健康資訊的保護措施
         """
-        # Technical Safeguards
+        # 技術保護措施
         technical_controls = {
             'access_control': '''
 class PHIAccessControl:
@@ -535,17 +535,17 @@ class PHIAccessControl:
         
     def grant_phi_access(self, user, patient_id, purpose):
         """
-        Implement minimum necessary standard
+        實施最小必要標準
         """
-        # Verify legitimate purpose
+        # 驗證合法目的
         if not self._verify_treatment_relationship(user, patient_id, purpose):
             self._log_denied_access(user, patient_id, purpose)
-            raise PermissionError("No treatment relationship")
+            raise PermissionError("無治療關係")
         
-        # Grant limited access based on role and purpose
+        # 根據角色和目的授予有限存取權限
         access_scope = self._determine_access_scope(user.role, purpose)
         
-        # Time-limited access
+        # 時間限制存取
         access_token = {
             'user_id': user.id,
             'patient_id': patient_id,
@@ -555,7 +555,7 @@ class PHIAccessControl:
             'audit_id': str(uuid.uuid4())
         }
         
-        # Log all access
+        # 記錄所有存取
         self._log_phi_access(access_token)
         
         return access_token
@@ -564,9 +564,9 @@ class PHIAccessControl:
 class PHIEncryption:
     def encrypt_phi_at_rest(self, phi_data):
         """
-        HIPAA-compliant encryption for PHI
+        符合 HIPAA 的 PHI 加密
         """
-        # Use FIPS 140-2 validated encryption
+        # 使用 FIPS 140-2 驗證的加密
         encryption_config = {
             'algorithm': 'AES-256-CBC',
             'key_derivation': 'PBKDF2',
@@ -574,7 +574,7 @@ class PHIEncryption:
             'validation': 'FIPS-140-2-Level-2'
         }
         
-        # Encrypt PHI fields
+        # 加密 PHI 欄位
         encrypted_phi = {}
         for field, value in phi_data.items():
             if self._is_phi_field(field):
@@ -586,32 +586,32 @@ class PHIEncryption:
     
     def secure_phi_transmission(self):
         """
-        Secure PHI during transmission
+        安全傳輸 PHI
         """
         return {
             'protocols': ['TLS 1.2+'],
             'vpn_required': True,
-            'email_encryption': 'S/MIME or PGP required',
-            'fax_alternative': 'Secure messaging portal'
+            'email_encryption': '需要 S/MIME 或 PGP',
+            'fax_alternative': '安全訊息傳送門戶'
         }
 '''
         }
         
-        # Administrative Safeguards
+        # 行政保護措施
         admin_controls = {
             'workforce_training': '''
 class HIPAATraining:
     def track_training_compliance(self, employee):
         """
-        Ensure workforce HIPAA training compliance
+        確保員工 HIPAA 培訓合規性
         """
         required_modules = [
-            'HIPAA Privacy Rule',
-            'HIPAA Security Rule', 
-            'PHI Handling Procedures',
-            'Breach Notification',
-            'Patient Rights',
-            'Minimum Necessary Standard'
+            'HIPAA 隱私規則',
+            'HIPAA 安全規則',
+            'PHI 處理程序',
+            '洩露通知',
+            '患者權利',
+            '最小必要標準'
         ]
         
         training_status = {
@@ -639,32 +639,32 @@ class HIPAATraining:
         }
 ```
 
-### 6. Payment Card Compliance (PCI-DSS)
+### 6. 支付卡合規性 (PCI-DSS)
 
-Implement PCI-DSS requirements:
+實施 PCI-DSS 要求：
 
-**PCI-DSS Controls**
+**PCI-DSS 控制**
 ```python
 class PCIDSSCompliance:
     def implement_pci_controls(self):
         """
-        Implement PCI-DSS v4.0 requirements
+        實施 PCI-DSS v4.0 要求
         """
         controls = {
             'cardholder_data_protection': '''
 class CardDataProtection:
     def __init__(self):
-        # Never store these
+        # 永不儲存這些
         self.prohibited_data = ['cvv', 'cvv2', 'cvc2', 'cid', 'pin', 'pin_block']
         
     def handle_card_data(self, card_info):
         """
-        PCI-DSS compliant card data handling
+        符合 PCI-DSS 的卡片資料處理
         """
-        # Immediately tokenize
+        # 立即標記化
         token = self.tokenize_card(card_info)
         
-        # If must store, only store allowed fields
+        # 如果必須儲存，則僅儲存允許的欄位
         stored_data = {
             'token': token,
             'last_four': card_info['number'][-4:],
@@ -673,16 +673,16 @@ class CardDataProtection:
             'cardholder_name': self._encrypt(card_info['name'])
         }
         
-        # Never log full card number
+        # 永不記錄完整的卡號
         self._log_transaction(token, 'XXXX-XXXX-XXXX-' + stored_data['last_four'])
         
         return stored_data
     
     def tokenize_card(self, card_info):
         """
-        Replace PAN with token
+        用令牌替換 PAN
         """
-        # Use payment processor tokenization
+        # 使用支付處理器令牌化
         response = payment_processor.tokenize({
             'number': card_info['number'],
             'exp_month': card_info['exp_month'],
@@ -692,37 +692,37 @@ class CardDataProtection:
         return response['token']
 ''',
             'network_segmentation': '''
-# Network segmentation for PCI compliance
+# 用於 PCI 合規性的網路分段
 class PCINetworkSegmentation:
     def configure_network_zones(self):
         """
-        Implement network segmentation
+        實施網路分段
         """
         zones = {
-            'cde': {  # Cardholder Data Environment
-                'description': 'Systems that process, store, or transmit CHD',
+            'cde': {  # 持卡人資料環境
+                'description': '處理、儲存或傳輸 CHD 的系統',
                 'controls': [
-                    'Firewall required',
-                    'IDS/IPS monitoring',
-                    'No direct internet access',
-                    'Quarterly vulnerability scans',
-                    'Annual penetration testing'
+                    '需要防火牆',
+                    'IDS/IPS 監控',
+                    '不允許直接網際網路存取',
+                    '季度漏洞掃描',
+                    '年度滲透測試'
                 ]
             },
             'dmz': {
-                'description': 'Public-facing systems',
+                'description': '面向公眾的系統',
                 'controls': [
-                    'Web application firewall',
-                    'No CHD storage allowed',
-                    'Regular security scanning'
+                    'Web 應用程式防火牆',
+                    '不允許儲存 CHD',
+                    '定期安全掃描'
                 ]
             },
             'internal': {
-                'description': 'Internal corporate network',
+                'description': '內部企業網路',
                 'controls': [
-                    'Segmented from CDE',
-                    'Limited CDE access',
-                    'Standard security controls'
+                    '與 CDE 分段',
+                    '有限的 CDE 存取',
+                    '標準安全控制'
                 ]
             }
         }
@@ -733,26 +733,26 @@ class PCINetworkSegmentation:
 class PCIVulnerabilityManagement:
     def quarterly_scan_requirements(self):
         """
-        PCI-DSS quarterly scan requirements
+        PCI-DSS 季度掃描要求
         """
         scan_config = {
             'internal_scans': {
-                'frequency': 'quarterly',
-                'scope': 'all CDE systems',
-                'tool': 'PCI-approved scanning vendor',
-                'passing_criteria': 'No high-risk vulnerabilities'
+                'frequency': '季度',
+                'scope': '所有 CDE 系統',
+                'tool': 'PCI 批准的掃描供應商',
+                'passing_criteria': '無高風險漏洞'
             },
             'external_scans': {
-                'frequency': 'quarterly', 
-                'performed_by': 'ASV (Approved Scanning Vendor)',
-                'scope': 'All external-facing IP addresses',
-                'passing_criteria': 'Clean scan with no failures'
+                'frequency': '季度', 
+                'performed_by': 'ASV (批准的掃描供應商)',
+                'scope': '所有面向外部的 IP 位址',
+                'passing_criteria': '掃描乾淨無故障'
             },
             'remediation_timeline': {
-                'critical': '24 hours',
-                'high': '7 days',
-                'medium': '30 days',
-                'low': '90 days'
+                'critical': '24 小時',
+                'high': '7 天',
+                'medium': '30 天',
+                'low': '90 天'
             }
         }
         
@@ -763,16 +763,16 @@ class PCIVulnerabilityManagement:
         return controls
 ```
 
-### 7. Continuous Compliance Monitoring
+### 7. 持續合規性監控
 
-Set up automated compliance monitoring:
+設定自動化合規性監控：
 
-**Compliance Dashboard**
+**合規性儀表板**
 ```python
 class ComplianceDashboard:
     def generate_realtime_dashboard(self):
         """
-        Real-time compliance status dashboard
+        即時合規性狀態儀表板
         """
         dashboard = {
             'timestamp': datetime.utcnow(),
@@ -780,43 +780,43 @@ class ComplianceDashboard:
             'regulations': {}
         }
         
-        # GDPR Compliance Metrics
+        # GDPR 合規性指標
         dashboard['regulations']['GDPR'] = {
             'score': self.calculate_gdpr_score(),
-            'status': 'COMPLIANT',
+            'status': '合規',
             'metrics': {
-                'consent_rate': '87%',
-                'data_requests_sla': '98% within 30 days',
-                'privacy_policy_version': '2.1',
-                'last_dpia': '2025-06-15',
-                'encryption_coverage': '100%',
-                'third_party_agreements': '12/12 signed'
+                '同意率': '87%',
+                '資料請求 SLA': '98% 在 30 天內',
+                '隱私政策版本': '2.1',
+                '上次 DPIA': '2025-06-15',
+                '加密覆蓋率': '100%',
+                '第三方協議': '12/12 已簽署'
             },
             'issues': [
                 {
-                    'severity': 'medium',
-                    'issue': 'Cookie consent banner update needed',
+                    'severity': '中',
+                    'issue': '需要更新 Cookie 同意橫幅',
                     'due_date': '2025-08-01'
                 }
             ]
         }
         
-        # HIPAA Compliance Metrics
+        # HIPAA 合規性指標
         dashboard['regulations']['HIPAA'] = {
             'score': self.calculate_hipaa_score(),
-            'status': 'NEEDS_ATTENTION',
+            'status': '需要關注',
             'metrics': {
-                'risk_assessment_current': True,
-                'workforce_training_compliance': '94%',
-                'baa_agreements': '8/8 current',
-                'encryption_status': 'All PHI encrypted',
-                'access_reviews': 'Completed 2025-06-30',
-                'incident_response_tested': '2025-05-15'
+                '風險評估當前': True,
+                '員工培訓合規性': '94%',
+                'BAA 協議': '8/8 當前',
+                '加密狀態': '所有 PHI 已加密',
+                '存取審查': '2025-06-30 已完成',
+                '事件響應已測試': '2025-05-15'
             },
             'issues': [
                 {
-                    'severity': 'high',
-                    'issue': '3 employees overdue for training',
+                    'severity': '高',
+                    'issue': '3 名員工培訓逾期',
                     'due_date': '2025-07-25'
                 }
             ]
@@ -825,17 +825,17 @@ class ComplianceDashboard:
         return dashboard
 ```
 
-**Automated Compliance Checks**
+**自動化合規性檢查**
 ```yaml
 # .github/workflows/compliance-check.yml
-name: Compliance Checks
+name: 合規性檢查
 
 on:
   push:
     branches: [main, develop]
   pull_request:
   schedule:
-    - cron: '0 0 * * *'  # Daily compliance check
+    - cron: '0 0 * * *'  # 每日合規性檢查
 
 jobs:
   compliance-scan:
@@ -844,99 +844,99 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: GDPR Compliance Check
+    - name: GDPR 合規性檢查
       run: |
         python scripts/compliance/gdpr_checker.py
         
-    - name: Security Headers Check
+    - name: 安全標頭檢查
       run: |
         python scripts/compliance/security_headers.py
         
-    - name: Dependency License Check
+    - name: 依賴項許可證檢查
       run: |
         license-checker --onlyAllow 'MIT;Apache-2.0;BSD-3-Clause;ISC'
         
-    - name: PII Detection Scan
+    - name: PII 檢測掃描
       run: |
-        # Scan for hardcoded PII
+        # 掃描硬編碼 PII
         python scripts/compliance/pii_scanner.py
         
-    - name: Encryption Verification
+    - name: 加密驗證
       run: |
-        # Verify all sensitive data is encrypted
+        # 驗證所有敏感資料是否已加密
         python scripts/compliance/encryption_checker.py
         
-    - name: Generate Compliance Report
+    - name: 生成合規性報告
       if: always()
       run: |
         python scripts/compliance/generate_report.py > compliance-report.json
         
-    - name: Upload Compliance Report
+    - name: 上傳合規性報告
       uses: actions/upload-artifact@v3
       with:
         name: compliance-report
         path: compliance-report.json
 ```
 
-### 8. Compliance Documentation
+### 8. 合規性文件
 
-Generate required documentation:
+生成所需文件：
 
-**Privacy Policy Generator**
+**隱私政策生成器**
 ```python
 def generate_privacy_policy(company_info, data_practices):
     """
-    Generate GDPR-compliant privacy policy
+    生成符合 GDPR 的隱私政策
     """
     policy = f"""
-# Privacy Policy
+# 隱私政策
 
-**Last Updated**: {datetime.now().strftime('%B %d, %Y')}
+**上次更新**: {datetime.now().strftime('%Y 年 %m 月 %d 日')}
 
-## 1. Data Controller
+## 1. 資料控制者
 {company_info['name']}
 {company_info['address']}
-Email: {company_info['privacy_email']}
+電子郵件: {company_info['privacy_email']}
 DPO: {company_info.get('dpo_contact', 'privacy@company.com')}
 
-## 2. Data We Collect
+## 2. 我們收集的資料
 {generate_data_collection_section(data_practices['data_types'])}
 
-## 3. Legal Basis for Processing
+## 3. 處理的法律依據
 {generate_legal_basis_section(data_practices['purposes'])}
 
-## 4. Your Rights
-Under GDPR, you have the following rights:
-- Right to access your personal data
-- Right to rectification 
-- Right to erasure ('right to be forgotten')
-- Right to restrict processing
-- Right to data portability
-- Right to object
-- Rights related to automated decision making
+## 4. 您的權利
+根據 GDPR，您擁有以下權利：
+- 存取您的個人資料的權利
+- 更正權
+- 刪除權（「被遺忘權」）
+- 限制處理的權利
+- 資料可攜性權利
+- 反對權
+- 與自動化決策相關的權利
 
-## 5. Data Retention
+## 5. 資料保留
 {generate_retention_policy(data_practices['retention_periods'])}
 
-## 6. International Transfers
+## 6. 國際傳輸
 {generate_transfer_section(data_practices['international_transfers'])}
 
-## 7. Contact Us
-To exercise your rights, contact: {company_info['privacy_email']}
+## 7. 聯繫我們
+要行使您的權利，請聯繫: {company_info['privacy_email']}
 """
     
     return policy
 ```
 
-## Output Format
+## 輸出格式
 
-1. **Compliance Assessment**: Current compliance status across all applicable regulations
-2. **Gap Analysis**: Specific areas needing attention with severity ratings
-3. **Implementation Plan**: Prioritized roadmap for achieving compliance
-4. **Technical Controls**: Code implementations for required controls
-5. **Policy Templates**: Privacy policies, consent forms, and notices
-6. **Audit Procedures**: Scripts for continuous compliance monitoring
-7. **Documentation**: Required records and evidence for auditors
-8. **Training Materials**: Workforce compliance training resources
+1. **合規性評估**：所有適用法規的當前合規性狀態
+2. **差距分析**：需要關注的具體領域及其嚴重性評級
+3. **實施計畫**：實現合規性的優先路線圖
+4. **技術控制**：所需控制的程式碼實施
+5. **政策模板**：隱私政策、同意書和通知
+6. **審計程序**：持續合規性監控的腳本
+7. **文件**：審計員所需的記錄和證據
+8. **培訓材料**：員工合規性培訓資源
 
-Focus on practical implementation that balances compliance requirements with business operations and user experience.
+專注於實際實施，平衡合規性要求與業務運營和使用者體驗。

@@ -1,64 +1,64 @@
-Perform comprehensive multi-agent code review with specialized reviewers:
+使用專業審查員執行全面的多代理程式碼審查：
 
-[Extended thinking: This tool command invokes multiple review-focused agents to provide different perspectives on code quality, security, and architecture. Each agent reviews independently, then findings are consolidated.]
+[延伸思考：此工具指令調用多個以審查為重點的代理，以提供程式碼品質、安全性和架構的不同視角。每個代理獨立審查，然後將發現結果整合。]
 
-## Review Process
+## 審查流程
 
-### 1. Code Quality Review
-Use Task tool with subagent_type="code-reviewer" to examine:
-- Code style and readability
-- Adherence to SOLID principles
-- Design patterns and anti-patterns
-- Code duplication and complexity
-- Documentation completeness
-- Test coverage and quality
+### 1. 程式碼品質審查
+使用任務工具，子代理類型為「code-reviewer」以檢查：
+- 程式碼風格和可讀性
+- 是否符合 SOLID 原則
+- 設計模式和反模式
+- 程式碼重複和複雜性
+- 文件完整性
+- 測試覆蓋率和品質
 
-Prompt: "Perform detailed code review of: $ARGUMENTS. Focus on maintainability, readability, and best practices. Provide specific line-by-line feedback where appropriate."
+提示：「對：$ARGUMENTS 執行詳細的程式碼審查。專注於可維護性、可讀性和最佳實踐。適當時提供具體的逐行回饋。」
 
-### 2. Security Review
-Use Task tool with subagent_type="security-auditor" to check:
-- Authentication and authorization flaws
-- Input validation and sanitization
-- SQL injection and XSS vulnerabilities
-- Sensitive data exposure
-- Security misconfigurations
-- Dependency vulnerabilities
+### 2. 安全審查
+使用任務工具，子代理類型為「security-auditor」以檢查：
+- 身份驗證和授權缺陷
+- 輸入驗證和清理
+- SQL 注入和 XSS 漏洞
+- 敏感資料暴露
+- 安全配置錯誤
+- 依賴項漏洞
 
-Prompt: "Conduct security review of: $ARGUMENTS. Identify vulnerabilities, security risks, and OWASP compliance issues. Provide severity ratings and remediation steps."
+提示：「對：$ARGUMENTS 進行安全審查。識別漏洞、安全風險和 OWASP 合規性問題。提供嚴重性評級和補救步驟。」
 
-### 3. Architecture Review
-Use Task tool with subagent_type="architect-reviewer" to evaluate:
-- Service boundaries and coupling
-- Scalability considerations
-- Design pattern appropriateness
-- Technology choices
-- API design quality
-- Data flow and dependencies
+### 3. 架構審查
+使用任務工具，子代理類型為「architect-reviewer」以評估：
+- 服務邊界和耦合
+- 可擴展性考量
+- 設計模式的適用性
+- 技術選擇
+- API 設計品質
+- 資料流和依賴項
 
-Prompt: "Review architecture and design of: $ARGUMENTS. Evaluate scalability, maintainability, and architectural patterns. Identify potential bottlenecks and design improvements."
+提示：「審查：$ARGUMENTS 的架構和設計。評估可擴展性、可維護性和架構模式。識別潛在瓶頸和設計改進。」
 
-## Consolidated Review Output
+## 整合審查輸出
 
-After all agents complete their reviews, consolidate findings into:
+所有代理完成審查後，將發現結果整合到：
 
-1. **Critical Issues** - Must fix before merge
-   - Security vulnerabilities
-   - Broken functionality
-   - Major architectural flaws
+1. **關鍵問題** - 合併前必須修復
+   - 安全漏洞
+   - 損壞的功能
+   - 主要架構缺陷
 
-2. **Important Issues** - Should fix soon
-   - Performance problems
-   - Code quality issues
-   - Missing tests
+2. **重要問題** - 應盡快修復
+   - 性能問題
+   - 程式碼品質問題
+   - 缺少測試
 
-3. **Minor Issues** - Nice to fix
-   - Style inconsistencies
-   - Documentation gaps
-   - Refactoring opportunities
+3. **次要問題** - 最好修復
+   - 風格不一致
+   - 文件空白
+   - 重構機會
 
-4. **Positive Findings** - Good practices to highlight
-   - Well-designed components
-   - Good test coverage
-   - Security best practices
+4. **正面發現** - 值得強調的良好實踐
+   - 設計良好的組件
+   - 良好的測試覆蓋率
+   - 安全最佳實踐
 
-Target for review: $ARGUMENTS
+審查目標：$ARGUMENTS

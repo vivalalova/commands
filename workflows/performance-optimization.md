@@ -1,71 +1,71 @@
-Optimize application performance end-to-end using specialized performance and optimization agents:
+使用專業的性能和優化代理，端到端地優化應用程式性能：
 
-[Extended thinking: This workflow coordinates multiple agents to identify and fix performance bottlenecks across the entire stack. From database queries to frontend rendering, each agent contributes their expertise to create a highly optimized application.]
+[延伸思考：此工作流程協調多個代理，以識別和修復整個堆疊中的性能瓶頸。從資料庫查詢到前端渲染，每個代理都貢獻其專業知識，以創建高度優化的應用程式。]
 
-## Phase 1: Performance Analysis
+## 階段 1：性能分析
 
-### 1. Application Profiling
-- Use Task tool with subagent_type="performance-engineer"
-- Prompt: "Profile application performance for: $ARGUMENTS. Identify CPU, memory, and I/O bottlenecks. Include flame graphs, memory profiles, and resource utilization metrics."
-- Output: Performance profile, bottleneck analysis, optimization priorities
+### 1. 應用程式分析
+- 使用任務工具，子代理類型為「performance-engineer」
+- 提示：「分析應用程式性能，針對：$ARGUMENTS。識別 CPU、記憶體和 I/O 瓶頸。包括火焰圖、記憶體分析和資源利用率指標。」
+- 輸出：性能分析、瓶頸分析、優化優先級
 
-### 2. Database Performance Analysis
-- Use Task tool with subagent_type="database-optimizer"
-- Prompt: "Analyze database performance for: $ARGUMENTS. Review query execution plans, identify slow queries, check indexing, and analyze connection pooling."
-- Output: Query optimization report, index recommendations, schema improvements
+### 2. 資料庫性能分析
+- 使用任務工具，子代理類型為「database-optimizer」
+- 提示：「分析資料庫性能，針對：$ARGUMENTS。審查查詢執行計畫、識別慢查詢、檢查索引並分析連接池。」
+- 輸出：查詢優化報告、索引建議、架構改進
 
-## Phase 2: Backend Optimization
+## 階段 2：後端優化
 
-### 3. Backend Code Optimization
-- Use Task tool with subagent_type="performance-engineer"
-- Prompt: "Optimize backend code for: $ARGUMENTS based on profiling results. Focus on algorithm efficiency, caching strategies, and async operations."
-- Output: Optimized code, caching implementation, performance improvements
+### 3. 後端程式碼優化
+- 使用任務工具，子代理類型為「performance-engineer」
+- 提示：「根據分析結果，優化後端程式碼，針對：$ARGUMENTS。專注於演算法效率、快取策略和非同步操作。」
+- 輸出：優化程式碼、快取實施、性能改進
 
-### 4. API Optimization
-- Use Task tool with subagent_type="backend-architect"
-- Prompt: "Optimize API design and implementation for: $ARGUMENTS. Consider pagination, response compression, field filtering, and batch operations."
-- Output: Optimized API endpoints, GraphQL query optimization, response time improvements
+### 4. API 優化
+- 使用任務工具，子代理類型為「backend-architect」
+- 提示：「優化 API 設計和實施，針對：$ARGUMENTS。考慮分頁、響應壓縮、欄位過濾和批次操作。」
+- 輸出：優化 API 端點、GraphQL 查詢優化、響應時間改進
 
-## Phase 3: Frontend Optimization
+## 階段 3：前端優化
 
-### 5. Frontend Performance
-- Use Task tool with subagent_type="frontend-developer"
-- Prompt: "Optimize frontend performance for: $ARGUMENTS. Focus on bundle size, lazy loading, code splitting, and rendering performance. Implement Core Web Vitals improvements."
-- Output: Optimized bundles, lazy loading implementation, performance metrics
+### 5. 前端性能
+- 使用任務工具，子代理類型為「frontend-developer」
+- 提示：「優化前端性能，針對：$ARGUMENTS。專注於捆綁包大小、延遲載入、程式碼分割和渲染性能。實施核心網頁指標改進。」
+- 輸出：優化捆綁包、延遲載入實施、性能指標
 
-### 6. Mobile App Optimization
-- Use Task tool with subagent_type="mobile-developer"
-- Prompt: "Optimize mobile app performance for: $ARGUMENTS. Focus on startup time, memory usage, battery efficiency, and offline performance."
-- Output: Optimized mobile code, reduced app size, improved battery life
+### 6. 行動應用程式優化
+- 使用任務工具，子代理類型為「mobile-developer」
+- 提示：「優化行動應用程式性能，針對：$ARGUMENTS。專注於啟動時間、記憶體使用、電池效率和離線性能。」
+- 輸出：優化行動程式碼、縮小應用程式大小、改善電池壽命
 
-## Phase 4: Infrastructure Optimization
+## 階段 4：基礎設施優化
 
-### 7. Cloud Infrastructure Optimization
-- Use Task tool with subagent_type="cloud-architect"
-- Prompt: "Optimize cloud infrastructure for: $ARGUMENTS. Review auto-scaling, instance types, CDN usage, and geographic distribution."
-- Output: Infrastructure improvements, cost optimization, scaling strategy
+### 7. 雲端基礎設施優化
+- 使用任務工具，子代理類型為「cloud-architect」
+- 提示：「優化雲端基礎設施，針對：$ARGUMENTS。審查自動擴展、實例類型、CDN 使用和地理分佈。」
+- 輸出：基礎設施改進、成本優化、擴展策略
 
-### 8. Deployment Optimization
-- Use Task tool with subagent_type="deployment-engineer"
-- Prompt: "Optimize deployment and build processes for: $ARGUMENTS. Improve CI/CD performance, implement caching, and optimize container images."
-- Output: Faster builds, optimized containers, improved deployment times
+### 8. 部署優化
+- 使用任務工具，子代理類型為「deployment-engineer」
+- 提示：「優化部署和建置流程，針對：$ARGUMENTS。改善 CI/CD 性能、實施快取和優化容器映像。」
+- 輸出：更快的建置、優化容器、改善部署時間
 
-## Phase 5: Monitoring and Validation
+## 階段 5：監控與驗證
 
-### 9. Performance Monitoring Setup
-- Use Task tool with subagent_type="devops-troubleshooter"
-- Prompt: "Set up comprehensive performance monitoring for: $ARGUMENTS. Include APM, real user monitoring, and custom performance metrics."
-- Output: Monitoring dashboards, alert thresholds, SLO definitions
+### 9. 性能監控設定
+- 使用任務工具，子代理類型為「devops-troubleshooter」
+- 提示：「為：$ARGUMENTS 設定全面的性能監控。包括 APM、真實使用者監控和自定義性能指標。」
+- 輸出：監控儀表板、警報閾值、SLO 定義
 
-### 10. Performance Testing
-- Use Task tool with subagent_type="test-automator"
-- Prompt: "Create performance test suites for: $ARGUMENTS. Include load tests, stress tests, and performance regression tests."
-- Output: Performance test suite, benchmark results, regression prevention
+### 10. 性能測試
+- 使用任務工具，子代理類型為「test-automator」
+- 提示：「為：$ARGUMENTS 建立性能測試套件。包括負載測試、壓力測試和性能回歸測試。」
+- 輸出：性能測試套件、基準測試結果、回歸預防
 
-## Coordination Notes
-- Performance metrics guide optimization priorities
-- Each optimization must be validated with measurements
-- Consider trade-offs between different performance aspects
-- Document all optimizations and their impact
+## 協調說明
+- 性能指標指導優化優先級
+- 每次優化都必須透過測量進行驗證
+- 考慮不同性能方面之間的權衡
+- 記錄所有優化及其影響
 
-Performance optimization target: $ARGUMENTS
+性能優化目標：$ARGUMENTS

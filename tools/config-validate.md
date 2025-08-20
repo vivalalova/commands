@@ -1,20 +1,20 @@
-# Configuration Validation
+# 配置驗證
 
-You are a configuration management expert specializing in validating, testing, and ensuring the correctness of application configurations. Create comprehensive validation schemas, implement configuration testing strategies, and ensure configurations are secure, consistent, and error-free across all environments.
+您是配置管理專家，專精於驗證、測試和確保應用程式配置的正確性。建立全面的驗證模式、實施配置測試策略，並確保所有環境中的配置安全、一致且無錯誤。
 
-## Context
-The user needs to validate configuration files, implement configuration schemas, ensure consistency across environments, and prevent configuration-related errors. Focus on creating robust validation rules, type safety, security checks, and automated validation processes.
+## 背景
+使用者需要驗證配置文件、實施配置模式、確保環境之間的一致性，並防止與配置相關的錯誤。專注於建立強大的驗證規則、類型安全、安全檢查和自動化驗證流程。
 
-## Requirements
+## 要求
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-### 1. Configuration Analysis
+### 1. 配置分析
 
-Analyze existing configuration structure and identify validation needs:
+分析現有配置結構並識別驗證需求：
 
-**Configuration Scanner**
+**配置掃描器**
 ```python
 import os
 import yaml
@@ -27,7 +27,7 @@ from typing import Dict, List, Any, Set
 class ConfigurationAnalyzer:
     def analyze_project(self, project_path: str) -> Dict[str, Any]:
         """
-        Analyze project configuration files and patterns
+        分析專案配置文件和模式
         """
         analysis = {
             'config_files': self._find_config_files(project_path),
@@ -42,10 +42,10 @@ class ConfigurationAnalyzer:
         return analysis
     
     def _find_config_files(self, project_path: str) -> List[Dict]:
-        """Find all configuration files in project"""
+        """在專案中尋找所有配置文件"""
         config_patterns = [
             '**/*.json', '**/*.yaml', '**/*.yml', '**/*.toml',
-            '**/*.ini', '**/*.conf', '**/*.config', '**/*.env*',
+            '**/*.ini', '**/*.conf', '**/*.config', '**/*.env*', 
             '**/*.properties', '**/config.js', '**/config.ts'
         ]
         
@@ -63,10 +63,10 @@ class ConfigurationAnalyzer:
         return config_files
     
     def _check_security_issues(self, project_path: str) -> List[Dict]:
-        """Check for security issues in configurations"""
+        """檢查配置中的安全問題"""
         issues = []
         
-        # Patterns that might indicate secrets
+        # 可能指示秘密的模式
         secret_patterns = [
             r'(api[_-]?key|apikey)',
             r'(secret|password|passwd|pwd)',
@@ -81,28 +81,28 @@ class ConfigurationAnalyzer:
             
             for pattern in secret_patterns:
                 if re.search(pattern, content, re.IGNORECASE):
-                    # Check if it's a placeholder or actual secret
+                    # 檢查是否為佔位符或實際秘密
                     if self._looks_like_real_secret(content, pattern):
                         issues.append({
                             'file': config_file['path'],
-                            'type': 'potential_secret',
+                            'type': '潛在秘密',
                             'pattern': pattern,
-                            'severity': 'high'
+                            'severity': '高'
                         })
         
         return issues
     
     def _check_consistency(self, project_path: str) -> List[Dict]:
-        """Check configuration consistency across environments"""
+        """檢查環境之間的配置一致性"""
         inconsistencies = []
         
-        # Group configs by base name
+        # 按基本名稱分組配置
         config_groups = defaultdict(list)
         for config in self._find_config_files(project_path):
             base_name = self._get_base_config_name(config['path'])
             config_groups[base_name].append(config)
         
-        # Check each group for inconsistencies
+        # 檢查每個組的矛盾之處
         for base_name, configs in config_groups.items():
             if len(configs) > 1:
                 keys_by_env = {}
@@ -111,7 +111,7 @@ class ConfigurationAnalyzer:
                     keys = self._extract_config_keys(config['path'])
                     keys_by_env[env] = keys
                 
-                # Find missing keys
+                # 尋找缺少的鍵
                 all_keys = set()
                 for keys in keys_by_env.values():
                     all_keys.update(keys)
@@ -123,17 +123,17 @@ class ConfigurationAnalyzer:
                             'config_group': base_name,
                             'environment': env,
                             'missing_keys': list(missing),
-                            'severity': 'medium'
+                            'severity': '中'
                         })
         
         return inconsistencies
 ```
 
-### 2. Schema Definition and Validation
+### 2. 模式定義與驗證
 
-Implement configuration schema validation:
+實施配置模式驗證：
 
-**JSON Schema Validator**
+**JSON 模式驗證器**
 ```typescript
 // config-validator.ts
 import Ajv from 'ajv';
@@ -143,7 +143,7 @@ import { JSONSchema7 } from 'json-schema';
 
 interface ValidationResult {
   valid: boolean;
-  errors?: Array<{
+  errors?: Array<{ 
     path: string;
     message: string;
     keyword: string;
@@ -163,16 +163,16 @@ export class ConfigValidator {
       coerceTypes: true
     });
     
-    // Add formats support
+    // 添加格式支援
     ajvFormats(this.ajv);
     ajvKeywords(this.ajv);
     
-    // Add custom formats
+    // 添加自定義格式
     this.addCustomFormats();
   }
   
   private addCustomFormats() {
-    // URL format with protocol validation
+    // 帶有協議驗證的 URL 格式
     this.ajv.addFormat('url-https', {
       type: 'string',
       validate: (data: string) => {
@@ -185,25 +185,25 @@ export class ConfigValidator {
       }
     });
     
-    // Environment variable reference
+    // 環境變數引用
     this.ajv.addFormat('env-var', {
       type: 'string',
       validate: /^\$\{[A-Z_][A-Z0-9_]*\}$/
     });
     
-    // Semantic version
+    // 語義版本
     this.ajv.addFormat('semver', {
       type: 'string',
       validate: /^\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
     });
     
-    // Port number
+    // 埠號
     this.ajv.addFormat('port', {
       type: 'number',
       validate: (data: number) => data >= 1 && data <= 65535
     });
     
-    // Duration format (e.g., "5m", "1h", "30s")
+    // 持續時間格式（例如，「5m」、「1h」、「30s」）
     this.ajv.addFormat('duration', {
       type: 'string',
       validate: /^\d+[smhd]$/
@@ -219,7 +219,7 @@ export class ConfigValidator {
     const validate = this.ajv.getSchema(schemaName);
     
     if (!validate) {
-      throw new Error(`Schema '${schemaName}' not found`);
+      throw new Error(`未找到模式 '${schemaName}'`);
     }
     
     const valid = validate(configData);
@@ -229,7 +229,7 @@ export class ConfigValidator {
         valid: false,
         errors: validate.errors.map(error => ({
           path: error.instancePath || '/',
-          message: error.message || 'Validation error',
+          message: error.message || '驗證錯誤',
           keyword: error.keyword,
           params: error.params
         }))
@@ -240,7 +240,7 @@ export class ConfigValidator {
   }
   
   generateSchema(sampleConfig: any): JSONSchema7 {
-    // Auto-generate schema from sample configuration
+    // 從範例配置自動生成模式
     const schema: JSONSchema7 = {
       type: 'object',
       properties: {},
@@ -250,7 +250,7 @@ export class ConfigValidator {
     for (const [key, value] of Object.entries(sampleConfig)) {
       schema.properties![key] = this.inferSchema(value);
       
-      // Make all top-level properties required by default
+      // 預設情況下，所有頂層屬性都是必需的
       if (schema.required && !key.startsWith('optional_')) {
         schema.required.push(key);
       }
@@ -289,9 +289,9 @@ export class ConfigValidator {
       };
     }
     
-    // Infer format from value patterns
+    // 從值模式推斷格式
     if (typeof value === 'string') {
-      if (value.match(/^https?:\/\//)) {
+      if (value.match(/^https?:\/\/ /)) {
         return { type: 'string', format: 'uri' };
       }
       if (value.match(/^\d{4}-\d{2}-\d{2}$/)) {
@@ -306,7 +306,7 @@ export class ConfigValidator {
   }
 }
 
-// Example schemas
+// 範例模式
 export const schemas = {
   database: {
     type: 'object',
@@ -392,11 +392,11 @@ export const schemas = {
 };
 ```
 
-### 3. Environment-Specific Validation
+### 3. 環境特定驗證
 
-Validate configurations across environments:
+驗證環境之間的配置：
 
-**Environment Validator**
+**環境驗證器**
 ```python
 # environment_validator.py
 from typing import Dict, List, Set, Any
@@ -409,7 +409,7 @@ class EnvironmentValidator:
         self.environment_rules = self._define_environment_rules()
     
     def _define_environment_rules(self) -> Dict[str, Dict]:
-        """Define environment-specific validation rules"""
+        """定義環境特定的驗證規則"""
         return {
             'development': {
                 'allow_debug': True,
@@ -437,87 +437,87 @@ class EnvironmentValidator:
         }
     
     def validate_config(self, config: Dict, environment: str) -> List[Dict]:
-        """Validate configuration for specific environment"""
+        """驗證特定環境的配置"""
         if environment not in self.environment_rules:
-            raise ValueError(f"Unknown environment: {environment}")
+            raise ValueError(f"未知環境: {environment}")
         
         rules = self.environment_rules[environment]
         violations = []
         
-        # Check debug settings
+        # 檢查除錯設定
         if not rules['allow_debug'] and config.get('debug', False):
             violations.append({
-                'rule': 'no_debug_in_production',
-                'message': 'Debug mode is not allowed in production',
-                'severity': 'critical',
+                'rule': '不允許在生產環境中除錯',
+                'message': '生產環境中不允許除錯模式',
+                'severity': '關鍵',
                 'path': 'debug'
             })
         
-        # Check HTTPS requirements
+        # 檢查 HTTPS 要求
         if rules['require_https']:
             urls = self._extract_urls(config)
             for url_path, url in urls:
                 if url.startswith('http://') and 'localhost' not in url:
                     violations.append({
-                        'rule': 'require_https',
-                        'message': f'HTTPS required for {url_path}',
-                        'severity': 'high',
+                        'rule': '需要 HTTPS',
+                        'message': f'{url_path} 需要 HTTPS',
+                        'severity': '高',
                         'path': url_path,
                         'value': url
                     })
         
-        # Check log levels
+        # 檢查日誌級別
         log_level = config.get('logging', {}).get('level')
         if log_level and log_level not in rules['allowed_log_levels']:
             violations.append({
-                'rule': 'invalid_log_level',
-                'message': f"Log level '{log_level}' not allowed in {environment}",
-                'severity': 'medium',
+                'rule': '無效日誌級別',
+                'message': f"日誌級別 '{log_level}' 在 {environment} 中不允許",
+                'severity': '中',
                 'path': 'logging.level',
                 'allowed': rules['allowed_log_levels']
             })
         
-        # Check production-specific requirements
+        # 檢查生產特定要求
         if environment == 'production':
             violations.extend(self._validate_production_requirements(config))
         
         return violations
     
     def _validate_production_requirements(self, config: Dict) -> List[Dict]:
-        """Additional validation for production environment"""
+        """生產環境的額外驗證"""
         violations = []
         
-        # Check encryption settings
+        # 檢查加密設定
         if not config.get('security', {}).get('encryption', {}).get('enabled'):
             violations.append({
-                'rule': 'encryption_required',
-                'message': 'Encryption must be enabled in production',
-                'severity': 'critical',
+                'rule': '需要加密',
+                'message': '生產環境中必須啟用加密',
+                'severity': '關鍵',
                 'path': 'security.encryption.enabled'
             })
         
-        # Check backup configuration
+        # 檢查備份配置
         if not config.get('backup', {}).get('enabled'):
             violations.append({
-                'rule': 'backup_required',
-                'message': 'Backup must be configured for production',
-                'severity': 'high',
+                'rule': '需要備份',
+                'message': '生產環境中必須配置備份',
+                'severity': '高',
                 'path': 'backup.enabled'
             })
         
-        # Check monitoring
+        # 檢查監控
         if not config.get('monitoring', {}).get('enabled'):
             violations.append({
-                'rule': 'monitoring_required',
-                'message': 'Monitoring must be enabled in production',
-                'severity': 'high',
+                'rule': '需要監控',
+                'message': '生產環境中必須啟用監控',
+                'severity': '高',
                 'path': 'monitoring.enabled'
             })
         
         return violations
     
     def _extract_urls(self, obj: Any, path: str = '') -> List[tuple]:
-        """Recursively extract URLs from configuration"""
+        """從配置中遞歸提取 URL"""
         urls = []
         
         if isinstance(obj, dict):
@@ -533,13 +533,13 @@ class EnvironmentValidator:
         
         return urls
 
-# Cross-environment consistency checker
+# 跨環境一致性檢查器
 class ConsistencyChecker:
     def check_consistency(self, configs: Dict[str, Dict]) -> List[Dict]:
-        """Check configuration consistency across environments"""
+        """檢查環境之間的配置一致性"""
         issues = []
         
-        # Get all unique keys across environments
+        # 獲取所有環境中的所有唯一鍵
         all_keys = set()
         env_keys = {}
         
@@ -548,18 +548,18 @@ class ConsistencyChecker:
             env_keys[env] = keys
             all_keys.update(keys)
         
-        # Check for missing keys
+        # 檢查缺少的鍵
         for env, keys in env_keys.items():
             missing_keys = all_keys - keys
             if missing_keys:
                 issues.append({
-                    'type': 'missing_keys',
+                    'type': '缺少鍵',
                     'environment': env,
                     'keys': list(missing_keys),
-                    'severity': 'medium'
+                    'severity': '中'
                 })
         
-        # Check for type inconsistencies
+        # 檢查類型不一致
         for key in all_keys:
             types_by_env = {}
             for env, config in configs.items():
@@ -570,20 +570,20 @@ class ConsistencyChecker:
             unique_types = set(types_by_env.values())
             if len(unique_types) > 1:
                 issues.append({
-                    'type': 'type_mismatch',
+                    'type': '類型不匹配',
                     'key': key,
                     'types': types_by_env,
-                    'severity': 'high'
+                    'severity': '高'
                 })
         
         return issues
 ```
 
-### 4. Configuration Testing Framework
+### 4. 配置測試框架
 
-Implement configuration testing:
+實施配置測試：
 
-**Config Test Suite**
+**配置測試套件**
 ```typescript
 // config-test.ts
 import { describe, it, expect, beforeEach } from '@jest/globals';
@@ -637,7 +637,7 @@ export class ConfigTestSuite {
   }
   
   private async runTestCase(testCase: ConfigTestCase): Promise<TestResult> {
-    // Load and validate config
+    // 載入並驗證配置
     const validationResult = this.validator.validate(
       testCase.config,
       testCase.environment
@@ -648,7 +648,7 @@ export class ConfigTestSuite {
       errors: []
     };
     
-    // Check expected errors
+    // 檢查預期錯誤
     if (testCase.expectedErrors && validationResult.errors) {
       for (const expectedError of testCase.expectedErrors) {
         const found = validationResult.errors.some(
@@ -657,7 +657,7 @@ export class ConfigTestSuite {
         
         if (!found) {
           result.passed = false;
-          result.errors.push(`Expected error not found: ${expectedError}`);
+          result.errors.push(`預期錯誤未找到: ${expectedError}`);
         }
       }
     }
@@ -666,16 +666,16 @@ export class ConfigTestSuite {
   }
 }
 
-// Jest test examples
-describe('Configuration Validation', () => {
+// Jest 測試範例
+describe('配置驗證', () => {
   let validator: ConfigValidator;
   
   beforeEach(() => {
     validator = new ConfigValidator();
   });
   
-  describe('Database Configuration', () => {
-    it('should validate valid database config', () => {
+  describe('資料庫配置', () => {
+    it('應驗證有效的資料庫配置', () => {
       const config = {
         host: 'localhost',
         port: 5432,
@@ -688,10 +688,10 @@ describe('Configuration Validation', () => {
       expect(result.valid).toBe(true);
     });
     
-    it('should reject invalid port number', () => {
+    it('應拒絕無效的埠號', () => {
       const config = {
         host: 'localhost',
-        port: 70000, // Invalid port
+        port: 70000, // 無效埠號
         database: 'myapp',
         user: 'dbuser',
         password: 'securepassword123'
@@ -702,7 +702,7 @@ describe('Configuration Validation', () => {
       expect(result.errors?.[0].path).toBe('/port');
     });
     
-    it('should require SSL in production', () => {
+    it('應在生產環境中要求 SSL', () => {
       const config = {
         host: 'prod-db.example.com',
         port: 5432,
@@ -717,14 +717,14 @@ describe('Configuration Validation', () => {
       
       expect(violations).toContainEqual(
         expect.objectContaining({
-          rule: 'ssl_required_in_production'
+          rule: 'production_ssl_required'
         })
       );
     });
   });
   
-  describe('API Configuration', () => {
-    it('should validate CORS settings', () => {
+  describe('API 配置', () => {
+    it('應驗證 CORS 設定', () => {
       const config = {
         server: {
           port: 3000,
@@ -747,7 +747,7 @@ describe('Configuration Validation', () => {
       expect(result.valid).toBe(true);
     });
     
-    it('should reject short JWT secrets', () => {
+    it('應拒絕短 JWT 秘密', () => {
       const config = {
         server: { port: 3000 },
         auth: {
@@ -766,11 +766,11 @@ describe('Configuration Validation', () => {
 });
 ```
 
-### 5. Runtime Configuration Validation
+### 5. 運行時配置驗證
 
-Implement runtime validation and hot-reloading:
+實施運行時驗證和熱重載：
 
-**Runtime Config Validator**
+**運行時配置驗證器**
 ```typescript
 // runtime-validator.ts
 import { EventEmitter } from 'events';
@@ -789,19 +789,19 @@ export class RuntimeConfigValidator extends EventEmitter {
   }
   
   async initialize(configPath: string): Promise<void> {
-    // Load initial config
+    // 載入初始配置
     this.currentConfig = await this.loadAndValidate(configPath);
     
-    // Setup file watcher for hot-reloading
+    // 設定檔案監控器以進行熱重載
     this.watchConfig(configPath);
   }
   
   private async loadAndValidate(configPath: string): Promise<any> {
     try {
-      // Load config
+      // 載入配置
       const config = await this.loadConfig(configPath);
       
-      // Validate config
+      // 驗證配置
       const validationResult = this.validator.validate(
         config,
         this.detectEnvironment()
@@ -813,15 +813,15 @@ export class RuntimeConfigValidator extends EventEmitter {
           errors: validationResult.errors
         });
         
-        // In development, log errors but continue
+        // 在開發環境中，記錄錯誤但繼續
         if (this.isDevelopment()) {
-          console.error('Configuration validation errors:', validationResult.errors);
+          console.error('配置驗證錯誤:', validationResult.errors);
           return config;
         }
         
-        // In production, throw error
+        // 在生產環境中，拋出錯誤
         throw new ConfigValidationError(
-          'Configuration validation failed',
+          '配置驗證失敗',
           validationResult.errors
         );
       }
@@ -841,12 +841,12 @@ export class RuntimeConfigValidator extends EventEmitter {
     });
     
     watcher.on('change', async () => {
-      console.log(`Configuration file changed: ${configPath}`);
+      console.log(`配置文件已更改: ${configPath}`);
       
       try {
         const newConfig = await this.loadAndValidate(configPath);
         
-        // Check if config actually changed
+        // 檢查配置是否實際更改
         if (JSON.stringify(newConfig) !== JSON.stringify(this.currentConfig)) {
           const oldConfig = this.currentConfig;
           this.currentConfig = newConfig;
@@ -869,12 +869,12 @@ export class RuntimeConfigValidator extends EventEmitter {
     const changed: string[] = [];
     
     const findDiff = (old: any, new_: any, path: string = '') => {
-      // Check all keys in old config
+      // 檢查舊配置中的所有鍵
       for (const key in old) {
         const currentPath = path ? `${path}.${key}` : key;
         
         if (!(key in new_)) {
-          changed.push(`${currentPath} (removed)`);
+          changed.push(`${currentPath} (已移除)`);
         } else if (typeof old[key] === 'object' && typeof new_[key] === 'object') {
           findDiff(old[key], new_[key], currentPath);
         } else if (old[key] !== new_[key]) {
@@ -882,11 +882,11 @@ export class RuntimeConfigValidator extends EventEmitter {
         }
       }
       
-      // Check for new keys
+      // 檢查新鍵
       for (const key in new_) {
         if (!(key in old)) {
           const currentPath = path ? `${path}.${key}` : key;
-          changed.push(`${currentPath} (added)`);
+          changed.push(`${currentPath} (已添加)`);
         }
       }
     };
@@ -896,16 +896,16 @@ export class RuntimeConfigValidator extends EventEmitter {
   }
   
   validateValue(path: string, value: any): ValidationResult {
-    // Use cached schema for performance
+    // 使用快取模式以提高性能
     const cacheKey = `${path}:${JSON.stringify(value)}`;
     if (this.validationCache.has(cacheKey)) {
       return this.validationCache.get(cacheKey)!;
     }
     
-    // Extract schema for specific path
+    // 提取特定路徑的模式
     const schema = this.getSchemaForPath(path);
     if (!schema) {
-      return { valid: true }; // No schema defined for this path
+      return { valid: true }; // 此路徑未定義模式
     }
     
     const result = this.validator.validateValue(value, schema);
@@ -915,7 +915,7 @@ export class RuntimeConfigValidator extends EventEmitter {
   }
   
   async shutdown(): Promise<void> {
-    // Close all watchers
+    // 關閉所有監控器
     for (const watcher of this.watchers.values()) {
       await watcher.close();
     }
@@ -925,7 +925,7 @@ export class RuntimeConfigValidator extends EventEmitter {
   }
 }
 
-// Type-safe configuration access
+// 類型安全配置存取
 export class TypedConfig<T> {
   constructor(
     private config: T,
@@ -935,11 +935,11 @@ export class TypedConfig<T> {
   get<K extends keyof T>(key: K): T[K] {
     const value = this.config[key];
     
-    // Validate on access in development
+    // 在開發環境中存取時驗證
     if (process.env.NODE_ENV === 'development') {
       const result = this.validator.validateValue(String(key), value);
       if (!result.valid) {
-        console.warn(`Invalid config value for ${String(key)}:`, result.errors);
+        console.warn(`鍵 ${String(key)} 的配置值無效:`, result.errors);
       }
     }
     
@@ -954,7 +954,7 @@ export class TypedConfig<T> {
     const value = this.config[key];
     
     if (value === null || value === undefined) {
-      throw new Error(`Required configuration '${String(key)}' is missing`);
+      throw new Error(`必需的配置 '${String(key)}' 缺失`);
     }
     
     return value as NonNullable<T[K]>;
@@ -962,11 +962,11 @@ export class TypedConfig<T> {
 }
 ```
 
-### 6. Configuration Migration
+### 6. 配置遷移
 
-Implement configuration migration and versioning:
+實施配置遷移和版本控制：
 
-**Config Migration System**
+**配置遷移系統**
 ```python
 # config_migration.py
 from typing import Dict, List, Callable, Any
@@ -974,32 +974,32 @@ from abc import ABC, abstractmethod
 import semver
 
 class ConfigMigration(ABC):
-    """Base class for configuration migrations"""
+    """配置遷移的基類"""
     
     @property
     @abstractmethod
     def version(self) -> str:
-        """Target version for this migration"""
+        """此遷移的目標版本"""
         pass
     
     @property
     @abstractmethod
     def description(self) -> str:
-        """Description of what this migration does"""
+        """此遷移的描述"""
         pass
     
     @abstractmethod
     def up(self, config: Dict) -> Dict:
-        """Apply migration to config"""
+        """將遷移應用於配置"""
         pass
     
     @abstractmethod
     def down(self, config: Dict) -> Dict:
-        """Revert migration from config"""
+        """從配置中恢復遷移"""
         pass
     
     def validate(self, config: Dict) -> bool:
-        """Validate config after migration"""
+        """遷移後驗證配置"""
         return True
 
 class ConfigMigrator:
@@ -1007,69 +1007,73 @@ class ConfigMigrator:
         self.migrations: List[ConfigMigration] = []
     
     def register_migration(self, migration: ConfigMigration):
-        """Register a migration"""
+        """註冊遷移"""
         self.migrations.append(migration)
-        # Sort by version
+        # 按版本排序
         self.migrations.sort(key=lambda m: semver.VersionInfo.parse(m.version))
     
     def migrate(self, config: Dict, target_version: str) -> Dict:
-        """Migrate config to target version"""
+        """將配置遷移到目標版本"""
         current_version = config.get('_version', '0.0.0')
         
         if semver.compare(current_version, target_version) == 0:
-            return config  # Already at target version
+            return config  # 已在目標版本
         
         if semver.compare(current_version, target_version) > 0:
-            # Downgrade
+            # 降級
             return self._downgrade(config, current_version, target_version)
         else:
-            # Upgrade
+            # 升級
             return self._upgrade(config, current_version, target_version)
     
     def _upgrade(self, config: Dict, from_version: str, to_version: str) -> Dict:
-        """Upgrade config from one version to another"""
+        """將配置從一個版本升級到另一個版本"""
         result = config.copy()
         
         for migration in self.migrations:
-            if (semver.compare(migration.version, from_version) > 0 and
-                semver.compare(migration.version, to_version) <= 0):
+            if (
+                semver.compare(migration.version, from_version) > 0 and
+                semver.compare(migration.version, to_version) <= 0
+            ):
                 
-                print(f"Applying migration to v{migration.version}: {migration.description}")
+                print(f"正在應用遷移到 v{migration.version}: {migration.description}")
                 result = migration.up(result)
                 
                 if not migration.validate(result):
-                    raise ValueError(f"Migration to v{migration.version} failed validation")
+                    raise ValueError(f"遷移到 v{migration.version} 驗證失敗")
                 
                 result['_version'] = migration.version
         
         return result
     
     def _downgrade(self, config: Dict, from_version: str, to_version: str) -> Dict:
-        """Downgrade config from one version to another"""
+        """將配置從一個版本降級到另一個版本"""
         result = config.copy()
         
-        # Apply migrations in reverse order
+        # 以相反順序應用遷移
         for migration in reversed(self.migrations):
-            if (semver.compare(migration.version, to_version) > 0 and
-                semver.compare(migration.version, from_version) <= 0):
+            if (
+                semver.compare(migration.version, to_version) > 0 and
+                semver.compare(migration.version, from_version) <= 0
+            ):
                 
-                print(f"Reverting migration from v{migration.version}: {migration.description}")
+                print(f"正在恢復從 v{migration.version} 的遷移: {migration.description}")
                 result = migration.down(result)
                 
-                # Update version to previous migration's version
+                # 將版本更新到上一個遷移的版本
                 prev_version = self._get_previous_version(migration.version)
                 result['_version'] = prev_version
         
         return result
     
     def _get_previous_version(self, version: str) -> str:
-        """Get the version before the given version"""
+        """獲取給定版本之前的版本"""
         for i, migration in enumerate(self.migrations):
             if migration.version == version:
                 return self.migrations[i-1].version if i > 0 else '0.0.0'
         return '0.0.0'
 
-# Example migrations
+# 範例遷移
 class MigrationV1_0_0(ConfigMigration):
     @property
     def version(self) -> str:
@@ -1077,10 +1081,10 @@ class MigrationV1_0_0(ConfigMigration):
     
     @property
     def description(self) -> str:
-        return 'Initial configuration structure'
+        return '初始配置結構'
     
     def up(self, config: Dict) -> Dict:
-        # Add default structure
+        # 添加預設結構
         return {
             '_version': '1.0.0',
             'app': config.get('app', {}),
@@ -1089,7 +1093,7 @@ class MigrationV1_0_0(ConfigMigration):
         }
     
     def down(self, config: Dict) -> Dict:
-        # Remove version info
+        # 移除版本資訊
         result = config.copy()
         result.pop('_version', None)
         return result
@@ -1101,17 +1105,17 @@ class MigrationV1_1_0(ConfigMigration):
     
     @property
     def description(self) -> str:
-        return 'Split database config into read/write connections'
+        return '將資料庫配置拆分為讀/寫連接'
     
     def up(self, config: Dict) -> Dict:
         result = config.copy()
         
-        # Transform single database config to read/write split
+        # 將單一資料庫配置轉換為讀/寫拆分
         if 'database' in result and not isinstance(result['database'], dict):
             old_db = result['database']
             result['database'] = {
                 'write': old_db,
-                'read': old_db.copy()  # Same as write initially
+                'read': old_db.copy()  # 最初與寫入相同
             }
         
         return result
@@ -1119,7 +1123,7 @@ class MigrationV1_1_0(ConfigMigration):
     def down(self, config: Dict) -> Dict:
         result = config.copy()
         
-        # Revert to single database config
+        # 恢復為單一資料庫配置
         if 'database' in result and 'write' in result['database']:
             result['database'] = result['database']['write']
         
@@ -1132,12 +1136,12 @@ class MigrationV2_0_0(ConfigMigration):
     
     @property
     def description(self) -> str:
-        return 'Add security configuration section'
+        return '添加安全配置部分'
     
     def up(self, config: Dict) -> Dict:
         result = config.copy()
         
-        # Add security section with defaults
+        # 添加帶有預設值的安全部分
         if 'security' not in result:
             result['security'] = {
                 'encryption': {
@@ -1158,11 +1162,11 @@ class MigrationV2_0_0(ConfigMigration):
         return result
 ```
 
-### 7. Configuration Security
+### 7. 配置安全
 
-Implement secure configuration handling:
+實施安全配置處理：
 
-**Secure Config Manager**
+**安全配置管理器**
 ```typescript
 // secure-config.ts
 import * as crypto from 'crypto';
@@ -1231,13 +1235,13 @@ export class SecureConfigManager {
     
     for (const [key, value] of Object.entries(config)) {
       if (this.isEncryptedValue(value)) {
-        // Decrypt encrypted values
+        // 解密加密值
         processed[key] = this.decrypt(value as EncryptedValue);
       } else if (this.isSecretReference(value)) {
-        // Fetch from secret manager
+        // 從秘密管理器獲取
         processed[key] = await this.fetchSecret(value as string);
       } else if (typeof value === 'object' && value !== null) {
-        // Recursively process nested objects
+        // 遞歸處理巢狀物件
         processed[key] = await this.processConfig(value);
       } else {
         processed[key] = value;
@@ -1261,7 +1265,7 @@ export class SecureConfigManager {
   }
   
   private async fetchSecret(reference: string): Promise<any> {
-    // Check cache first
+    // 先檢查快取
     if (this.secretsCache.has(reference)) {
       return this.secretsCache.get(reference);
     }
@@ -1279,7 +1283,7 @@ export class SecureConfigManager {
       secretValue = await this.fetchAWSSecret(reference);
     }
     
-    // Cache the secret
+    // 快取秘密
     this.secretsCache.set(reference, secretValue);
     
     return secretValue;
@@ -1295,7 +1299,7 @@ export class SecureConfigManager {
     
     const payload = version.payload?.data;
     if (!payload) {
-      throw new Error(`Secret ${secretName} has no payload`);
+      throw new Error(`秘密 ${secretName} 沒有有效負載`);
     }
     
     return JSON.parse(payload.toString());
@@ -1308,14 +1312,14 @@ export class SecureConfigManager {
       for (const [key, value] of Object.entries(obj)) {
         const currentPath = path ? `${path}.${key}` : key;
         
-        // Check for plaintext secrets
+        // 檢查純文字秘密
         if (this.looksLikeSecret(key) && typeof value === 'string') {
           if (!this.isEncryptedValue(value) && !this.isSecretReference(value)) {
-            errors.push(`Potential plaintext secret at ${currentPath}`);
+            errors.push(`潛在的純文字秘密在 ${currentPath}`);
           }
         }
         
-        // Recursively check nested objects
+        // 遞歸檢查巢狀物件
         if (typeof value === 'object' && value !== null && !this.isEncryptedValue(value)) {
           checkSecrets(value, currentPath);
         }
@@ -1347,11 +1351,11 @@ export class SecureConfigManager {
 }
 ```
 
-### 8. Configuration Documentation
+### 8. 配置文件
 
-Generate configuration documentation:
+生成配置文件：
 
-**Config Documentation Generator**
+**配置文檔生成器**
 ```python
 # config_docs_generator.py
 from typing import Dict, List, Any
@@ -1360,72 +1364,72 @@ import yaml
 
 class ConfigDocGenerator:
     def generate_docs(self, schema: Dict, examples: Dict) -> str:
-        """Generate comprehensive configuration documentation"""
-        docs = ["# Configuration Reference\n"]
+        """生成全面的配置文檔"""
+        docs = ["# 配置參考\n"]
         
-        # Add overview
-        docs.append("## Overview\n")
-        docs.append("This document describes all available configuration options.\n")
+        # 添加概述
+        docs.append("## 概述\n")
+        docs.append("本文檔描述了所有可用的配置選項。\n")
         
-        # Add table of contents
-        docs.append("## Table of Contents\n")
+        # 添加目錄
+        docs.append("## 目錄\n")
         toc = self._generate_toc(schema.get('properties', {}))
         docs.extend(toc)
         
-        # Add configuration sections
-        docs.append("\n## Configuration Options\n")
+        # 添加配置部分
+        docs.append("\n## 配置選項\n")
         sections = self._generate_sections(schema.get('properties', {}), examples)
         docs.extend(sections)
         
-        # Add examples
-        docs.append("\n## Complete Examples\n")
+        # 添加範例
+        docs.append("\n## 完整範例\n")
         docs.extend(self._generate_examples(examples))
         
-        # Add validation rules
-        docs.append("\n## Validation Rules\n")
+        # 添加驗證規則
+        docs.append("\n## 驗證規則\n")
         docs.extend(self._generate_validation_rules(schema))
         
         return '\n'.join(docs)
     
     def _generate_sections(self, properties: Dict, examples: Dict, level: int = 3) -> List[str]:
-        """Generate documentation for each configuration section"""
+        """為每個配置部分生成文檔"""
         sections = []
         
         for prop_name, prop_schema in properties.items():
-            # Section header
-            sections.append(f"{'#' * level} {prop_name}\n")
+            # 部分標題
+            sections.append(f"{ '#' * level} {prop_name}\n")
             
-            # Description
+            # 描述
             if 'description' in prop_schema:
                 sections.append(f"{prop_schema['description']}\n")
             
-            # Type information
-            sections.append(f"**Type:** `{prop_schema.get('type', 'any')}`\n")
+            # 類型資訊
+            sections.append(f"**類型:** `{prop_schema.get('type', 'any')}`\n")
             
-            # Required
+            # 必需
             if prop_name in prop_schema.get('required', []):
-                sections.append("**Required:** Yes\n")
+                sections.append("**必需:** 是\n")
             
-            # Default value
+            # 預設值
             if 'default' in prop_schema:
-                sections.append(f"**Default:** `{json.dumps(prop_schema['default'])}`\n")
+                sections.append(f"**預設:** `{json.dumps(prop_schema['default'])}`\n")
             
-            # Validation constraints
+            # 驗證約束
             constraints = self._extract_constraints(prop_schema)
             if constraints:
-                sections.append("**Constraints:**")
+                sections.append("**約束:**")
                 for constraint in constraints:
                     sections.append(f"- {constraint}")
                 sections.append("")
             
-            # Example
+            # 範例
             if prop_name in examples:
-                sections.append("**Example:**")
+                sections.append("**範例:**")
                 sections.append("```yaml")
                 sections.append(yaml.dump({prop_name: examples[prop_name]}, default_flow_style=False))
                 sections.append("```\n")
             
-            # Nested properties
+            # 巢狀屬性
             if prop_schema.get('type') == 'object' and 'properties' in prop_schema:
                 nested = self._generate_sections(
                     prop_schema['properties'],
@@ -1437,41 +1441,41 @@ class ConfigDocGenerator:
         return sections
     
     def _extract_constraints(self, schema: Dict) -> List[str]:
-        """Extract validation constraints from schema"""
+        """從模式中提取驗證約束"""
         constraints = []
         
         if 'enum' in schema:
-            constraints.append(f"Must be one of: {', '.join(map(str, schema['enum']))}")
+            constraints.append(f"必須是以下之一: {', '.join(map(str, schema['enum']))}")
         
         if 'minimum' in schema:
-            constraints.append(f"Minimum value: {schema['minimum']}")
+            constraints.append(f"最小值: {schema['minimum']}")
         
         if 'maximum' in schema:
-            constraints.append(f"Maximum value: {schema['maximum']}")
+            constraints.append(f"最大值: {schema['maximum']}")
         
         if 'minLength' in schema:
-            constraints.append(f"Minimum length: {schema['minLength']}")
+            constraints.append(f"最小長度: {schema['minLength']}")
         
         if 'maxLength' in schema:
-            constraints.append(f"Maximum length: {schema['maxLength']}")
+            constraints.append(f"最大長度: {schema['maxLength']}")
         
         if 'pattern' in schema:
-            constraints.append(f"Must match pattern: `{schema['pattern']}`")
+            constraints.append(f"必須匹配模式: `{schema['pattern']}`")
         
         if 'format' in schema:
-            constraints.append(f"Format: {schema['format']}")
+            constraints.append(f"格式: {schema['format']}")
         
         return constraints
 
-# Generate interactive config builder
+# 生成互動式配置建置器
 class InteractiveConfigBuilder:
     def generate_html_builder(self, schema: Dict) -> str:
-        """Generate interactive HTML configuration builder"""
+        """生成互動式 HTML 配置建置器"""
         html = """
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Configuration Builder</title>
+    <title>配置建置器</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         .config-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
@@ -1484,13 +1488,13 @@ class InteractiveConfigBuilder:
     </style>
 </head>
 <body>
-    <h1>Configuration Builder</h1>
+    <h1>配置建置器</h1>
     <div id="config-form"></div>
-    <button onclick="validateConfig()">Validate</button>
-    <button onclick="exportConfig()">Export</button>
+    <button onclick="validateConfig()">驗證</button>
+    <button onclick="exportConfig()">匯出</button>
     
     <div class="preview">
-        <h2>Preview</h2>
+        <h2>預覽</h2>
         <pre id="config-preview"></pre>
     </div>
     
@@ -1545,16 +1549,16 @@ class InteractiveConfigBuilder:
         }
         
         function buildConfig() {
-            // Build configuration from form values
+            // 從表單值建立配置
             const config = {};
-            // Implementation here
+            // 實施在此
             return config;
         }
         
         function validateConfig() {
-            // Validate against schema
+            // 根據模式驗證
             const config = buildConfig();
-            // Implementation here
+            // 實施在此
         }
         
         function exportConfig() {
@@ -1568,7 +1572,7 @@ class InteractiveConfigBuilder:
             a.click();
         }
         
-        // Initialize
+        // 初始化
         buildForm();
         updatePreview();
     </script>
@@ -1578,16 +1582,16 @@ class InteractiveConfigBuilder:
         return html
 ```
 
-## Output Format
+## 輸出格式
 
-1. **Configuration Analysis**: Current configuration assessment
-2. **Validation Schemas**: JSON Schema definitions for all configs
-3. **Environment Rules**: Environment-specific validation rules
-4. **Test Suite**: Comprehensive configuration tests
-5. **Migration Scripts**: Version migration implementations
-6. **Security Report**: Security issues and recommendations
-7. **Documentation**: Auto-generated configuration reference
-8. **Validation Pipeline**: CI/CD integration for config validation
-9. **Interactive Tools**: Configuration builders and validators
+1. **配置分析**：當前配置評估
+2. **驗證模式**：所有配置的 JSON 模式定義
+3. **環境規則**：環境特定的驗證規則
+4. **測試套件**：全面的配置測試
+5. **遷移腳本**：版本遷移實施
+6. **安全報告**：安全問題和建議
+7. **文件**：自動生成的配置參考
+8. **驗證管道**：用於配置驗證的 CI/CD 整合
+9. **互動工具**：配置建置器和驗證器
 
-Focus on preventing configuration errors, ensuring consistency across environments, and maintaining security best practices.
+專注於防止配置錯誤、確保環境之間的一致性，並維護安全最佳實踐。

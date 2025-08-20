@@ -1,71 +1,71 @@
-Build data-driven features with integrated pipelines and ML capabilities using specialized agents:
+使用專業代理建置具有整合管道和機器學習功能的資料驅動功能：
 
-[Extended thinking: This workflow orchestrates data scientists, data engineers, backend architects, and AI engineers to build features that leverage data pipelines, analytics, and machine learning. Each agent contributes their expertise to create a complete data-driven solution.]
+[延伸思考：此工作流程協調資料科學家、資料工程師、後端架構師和 AI 工程師，以建置利用資料管道、分析和機器學習的功能。每個代理都貢獻其專業知識，以創建一個完整的資料驅動解決方案。]
 
-## Phase 1: Data Analysis and Design
+## 階段 1：資料分析與設計
 
-### 1. Data Requirements Analysis
-- Use Task tool with subagent_type="data-scientist"
-- Prompt: "Analyze data requirements for: $ARGUMENTS. Identify data sources, required transformations, analytics needs, and potential ML opportunities."
-- Output: Data analysis report, feature engineering requirements, ML feasibility
+### 1. 資料需求分析
+- 使用任務工具，子代理類型為「data-scientist」
+- 提示：「分析：$ARGUMENTS 的資料需求。識別資料來源、所需的轉換、分析需求和潛在的機器學習機會。」
+- 輸出：資料分析報告、特徵工程需求、機器學習可行性
 
-### 2. Data Pipeline Architecture
-- Use Task tool with subagent_type="data-engineer"
-- Prompt: "Design data pipeline architecture for: $ARGUMENTS. Include ETL/ELT processes, data storage, streaming requirements, and integration with existing systems based on data scientist's analysis."
-- Output: Pipeline architecture, technology stack, data flow diagrams
+### 2. 資料管道架構
+- 使用任務工具，子代理類型為「data-engineer」
+- 提示：「為：$ARGUMENTS 設計資料管道架構。根據資料科學家的分析，包括 ETL/ELT 流程、資料儲存、串流需求以及與現有系統的整合。」
+- 輸出：管道架構、技術堆疊、資料流圖
 
-## Phase 2: Backend Integration
+## 階段 2：後端整合
 
-### 3. API and Service Design
-- Use Task tool with subagent_type="backend-architect"
-- Prompt: "Design backend services to support data-driven feature: $ARGUMENTS. Include APIs for data ingestion, analytics endpoints, and ML model serving based on pipeline architecture."
-- Output: Service architecture, API contracts, integration patterns
+### 3. API 和服務設計
+- 使用任務工具，子代理類型為「backend-architect」
+- 提示：「設計後端服務以支援資料驅動功能：$ARGUMENTS。根據管道架構，包括用於資料攝取、分析端點和機器學習模型服務的 API。」
+- 輸出：服務架構、API 契約、整合模式
 
-### 4. Database and Storage Design
-- Use Task tool with subagent_type="database-optimizer"
-- Prompt: "Design optimal database schema and storage strategy for: $ARGUMENTS. Consider both transactional and analytical workloads, time-series data, and ML feature stores."
-- Output: Database schemas, indexing strategies, storage recommendations
+### 4. 資料庫和儲存設計
+- 使用任務工具，子代理類型為「database-optimizer」
+- 提示：「為：$ARGUMENTS 設計最佳資料庫模式和儲存策略。考慮事務和分析工作負載、時間序列資料和機器學習特徵儲存。」
+- 輸出：資料庫模式、索引策略、儲存建議
 
-## Phase 3: ML and AI Implementation
+## 階段 3：機器學習和 AI 實施
 
-### 5. ML Pipeline Development
-- Use Task tool with subagent_type="ml-engineer"
-- Prompt: "Implement ML pipeline for: $ARGUMENTS. Include feature engineering, model training, validation, and deployment based on data scientist's requirements."
-- Output: ML pipeline code, model artifacts, deployment strategy
+### 5. 機器學習管道開發
+- 使用任務工具，子代理類型為「ml-engineer」
+- 提示：「為：$ARGUMENTS 實施機器學習管道。根據資料科學家的需求，包括特徵工程、模型訓練、驗證和部署。」
+- 輸出：機器學習管道程式碼、模型工件、部署策略
 
-### 6. AI Integration
-- Use Task tool with subagent_type="ai-engineer"
-- Prompt: "Build AI-powered features for: $ARGUMENTS. Integrate LLMs, implement RAG if needed, and create intelligent automation based on ML engineer's models."
-- Output: AI integration code, prompt engineering, RAG implementation
+### 6. AI 整合
+- 使用任務工具，子代理類型為「ai-engineer」
+- 提示：「為：$ARGUMENTS 建置 AI 驅動功能。整合大型語言模型、如果需要則實施 RAG，並根據機器學習工程師的模型創建智慧自動化。」
+- 輸出：AI 整合程式碼、提示工程、RAG 實施
 
-## Phase 4: Implementation and Optimization
+## 階段 4：實施與優化
 
-### 7. Data Pipeline Implementation
-- Use Task tool with subagent_type="data-engineer"
-- Prompt: "Implement production data pipelines for: $ARGUMENTS. Include real-time streaming, batch processing, and data quality monitoring based on all previous designs."
-- Output: Pipeline implementation, monitoring setup, data quality checks
+### 7. 資料管道實施
+- 使用任務工具，子代理類型為「data-engineer」
+- 提示：「為：$ARGUMENTS 實施生產資料管道。根據所有先前的設計，包括即時串流、批次處理和資料品質監控。」
+- 輸出：管道實施、監控設定、資料品質檢查
 
-### 8. Performance Optimization
-- Use Task tool with subagent_type="performance-engineer"
-- Prompt: "Optimize data processing and model serving performance for: $ARGUMENTS. Focus on query optimization, caching strategies, and model inference speed."
-- Output: Performance improvements, caching layers, optimization report
+### 8. 性能優化
+- 使用任務工具，子代理類型為「performance-engineer」
+- 提示：「為：$ARGUMENTS 優化資料處理和模型服務性能。專注於查詢優化、快取策略和模型推斷速度。」
+- 輸出：性能改進、快取層、優化報告
 
-## Phase 5: Testing and Deployment
+## 階段 5：測試與部署
 
-### 9. Comprehensive Testing
-- Use Task tool with subagent_type="test-automator"
-- Prompt: "Create test suites for data pipelines and ML components: $ARGUMENTS. Include data validation tests, model performance tests, and integration tests."
-- Output: Test suites, data quality tests, ML monitoring tests
+### 9. 全面測試
+- 使用任務工具，子代理類型為「test-automator」
+- 提示：「為資料管道和機器學習組件建立測試套件：$ARGUMENTS。包括資料驗證測試、模型性能測試和整合測試。」
+- 輸出：測試套件、資料品質測試、機器學習監控測試
 
-### 10. Production Deployment
-- Use Task tool with subagent_type="deployment-engineer"
-- Prompt: "Deploy data-driven feature to production: $ARGUMENTS. Include pipeline orchestration, model deployment, monitoring, and rollback strategies."
-- Output: Deployment configurations, monitoring dashboards, operational runbooks
+### 10. 生產部署
+- 使用任務工具，子代理類型為「deployment-engineer」
+- 提示：「將資料驅動功能部署到生產環境：$ARGUMENTS。包括管道編排、模型部署、監控和回滾策略。」
+- 輸出：部署配置、監控儀表板、操作手冊
 
-## Coordination Notes
-- Data flow and requirements cascade from data scientists to engineers
-- ML models must integrate seamlessly with backend services
-- Performance considerations apply to both data processing and model serving
-- Maintain data lineage and versioning throughout the pipeline
+## 協調說明
+- 資料流和需求從資料科學家傳遞給工程師
+- 機器學習模型必須與後端服務無縫整合
+- 性能考量適用於資料處理和模型服務
+- 在整個管道中維護資料沿襲和版本控制
 
-Data-driven feature to build: $ARGUMENTS
+要建置的資料驅動功能：$ARGUMENTS

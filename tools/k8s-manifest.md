@@ -1,20 +1,20 @@
-# Kubernetes Manifest Generation
+# Kubernetes 清單生成
 
-You are a Kubernetes expert specializing in creating production-ready manifests, Helm charts, and cloud-native deployment configurations. Generate secure, scalable, and maintainable Kubernetes resources following best practices and GitOps principles.
+您是 Kubernetes 專家，專精於建立生產就緒的清單、Helm Chart 和雲原生部署配置。遵循最佳實踐和 GitOps 原則，生成安全、可擴展和可維護的 Kubernetes 資源。
 
-## Context
-The user needs to create or optimize Kubernetes manifests for deploying applications. Focus on production readiness, security hardening, resource optimization, observability, and multi-environment configurations.
+## 背景
+使用者需要建立或優化 Kubernetes 清單以部署應用程式。專注於生產就緒、安全強化、資源優化、可觀察性和多環境配置。
 
-## Requirements
+## 要求
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-### 1. Application Analysis
+### 1. 應用程式分析
 
-Analyze the application to determine Kubernetes requirements:
+分析應用程式以確定 Kubernetes 要求：
 
-**Framework-Specific Analysis**
+**框架特定分析**
 ```python
 import yaml
 import json
@@ -85,7 +85,7 @@ class AdvancedK8sAnalyzer:
     
     def analyze_application(self, app_path: str) -> Dict[str, Any]:
         """
-        Advanced application analysis with framework detection
+        使用框架檢測進行進階應用程式分析
         """
         framework = self._detect_framework(app_path)
         analysis = {
@@ -104,7 +104,7 @@ class AdvancedK8sAnalyzer:
         return analysis
     
     def _detect_framework(self, app_path: str) -> str:
-        """Detect application framework for optimized deployments"""
+        """檢測應用程式框架以進行優化部署"""
         app_path = Path(app_path)
         
         for framework, config in self.framework_patterns.items():
@@ -115,14 +115,14 @@ class AdvancedK8sAnalyzer:
         return 'generic'
     
     def generate_framework_optimized_manifests(self, analysis: Dict[str, Any]) -> Dict[str, str]:
-        """Generate manifests optimized for specific frameworks"""
+        """生成針對特定框架優化的清單"""
         framework = analysis['framework']
         if framework in self.framework_patterns:
             return self._generate_specialized_manifests(framework, analysis)
         return self._generate_generic_manifests(analysis)
     
     def _detect_app_type(self, app_path):
-        """Detect application type and stack"""
+        """檢測應用程式類型和堆疊"""
         indicators = {
             'web': ['nginx.conf', 'httpd.conf', 'index.html'],
             'api': ['app.py', 'server.js', 'main.go'],
@@ -139,10 +139,10 @@ class AdvancedK8sAnalyzer:
         return detected_types
     
     def _identify_services(self, app_path):
-        """Identify microservices structure"""
+        """識別微服務結構"""
         services = []
         
-        # Check docker-compose.yml
+        # 檢查 docker-compose.yml
         compose_file = Path(app_path) / 'docker-compose.yml'
         if compose_file.exists():
             with open(compose_file) as f:
@@ -159,11 +159,11 @@ class AdvancedK8sAnalyzer:
         return services
 ```
 
-### 2. Deployment Manifest Generation
+### 2. 部署清單生成
 
-Create production-ready Deployment manifests:
+建立生產就緒的部署清單：
 
-**Deployment Template**
+**部署模板**
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -303,11 +303,11 @@ spec:
             app: ${APP_NAME}
 ```
 
-### 3. Service and Networking
+### 3. 服務和網路
 
-Generate Service and networking resources:
+生成服務和網路資源：
 
-**Service Configuration**
+**服務配置**
 ```yaml
 apiVersion: v1
 kind: Service
@@ -352,7 +352,7 @@ spec:
     targetPort: http
 ```
 
-**Ingress Configuration**
+**Ingress 配置**
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -374,7 +374,7 @@ spec:
   - host: ${DOMAIN}
     http:
       paths:
-      - path: /
+      - path: / 
         pathType: Prefix
         backend:
           service:
@@ -383,15 +383,15 @@ spec:
               name: http
 ```
 
-### 4. Configuration Management
+### 4. 配置管理
 
-Create ConfigMaps and Secrets:
+建立 ConfigMaps 和 Secrets：
 
-**ConfigMap Generator**
+**ConfigMap 生成器**
 ```python
 def generate_configmap(app_name, config_data):
     """
-    Generate ConfigMap manifest
+    生成 ConfigMap 清單
     """
     configmap = {
         'apiVersion': 'v1',
@@ -406,23 +406,23 @@ def generate_configmap(app_name, config_data):
         'data': {}
     }
     
-    # Handle different config formats
+    # 處理不同的配置格式
     for key, value in config_data.items():
         if isinstance(value, dict):
-            # Nested config as YAML
+            # 巢狀配置為 YAML
             configmap['data'][key] = yaml.dump(value)
         elif isinstance(value, list):
-            # List as JSON
+            # 列表為 JSON
             configmap['data'][key] = json.dumps(value)
         else:
-            # Plain string
+            # 純字串
             configmap['data'][key] = str(value)
     
     return yaml.dump(configmap)
 
 def generate_secret(app_name, secret_data):
     """
-    Generate Secret manifest
+    生成 Secret 清單
     """
     import base64
     
@@ -440,7 +440,7 @@ def generate_secret(app_name, secret_data):
         'data': {}
     }
     
-    # Base64 encode all values
+    # Base64 編碼所有值
     for key, value in secret_data.items():
         encoded = base64.b64encode(value.encode()).decode()
         secret['data'][key] = encoded
@@ -448,11 +448,11 @@ def generate_secret(app_name, secret_data):
     return yaml.dump(secret)
 ```
 
-### 5. Persistent Storage
+### 5. 持久儲存
 
-Configure persistent volumes:
+配置持久卷：
 
-**StatefulSet with Storage**
+**帶有儲存的 StatefulSet**
 ```yaml
 apiVersion: apps/v1
 kind: StatefulSet
@@ -499,11 +499,11 @@ spec:
           storage: ${STORAGE_SIZE}
 ```
 
-### 6. Helm Chart Generation
+### 6. Helm Chart 生成
 
-Create production Helm charts:
+建立生產 Helm Chart：
 
-**Chart Structure**
+**Chart 結構**
 ```bash
 #!/bin/bash
 # generate-helm-chart.sh
@@ -511,10 +511,10 @@ Create production Helm charts:
 create_helm_chart() {
     local chart_name="$1"
     
-    mkdir -p "$chart_name"/{templates,charts}
+    mkdir -p "$chart_name"/{{templates,charts}}
     
     # Chart.yaml
-    cat > "$chart_name/Chart.yaml" << EOF
+    cat > "$chart_name"/Chart.yaml << EOF
 apiVersion: v2
 name: $chart_name
 description: A Helm chart for $chart_name
@@ -533,8 +533,8 @@ dependencies: []
 EOF
 
     # values.yaml
-    cat > "$chart_name/values.yaml" << 'EOF'
-# Default values for the application
+    cat > "$chart_name"/values.yaml << 'EOF'
+# 應用程式的預設值
 replicaCount: 2
 
 image:
@@ -579,7 +579,7 @@ ingress:
   hosts:
     - host: chart-example.local
       paths:
-        - path: /
+        - path: / 
           pathType: ImplementationSpecific
   tls: []
 
@@ -608,15 +608,15 @@ nodeSelector: {}
 tolerations: []
 affinity: {}
 
-# Application config
+# 應用程式配置
 config:
   logLevel: info
   debug: false
 
-# Secrets - use external secrets in production
+# 秘密 - 在生產環境中使用外部秘密
 secrets: {}
 
-# Health check paths
+# 健康檢查路徑
 healthcheck:
   liveness:
     path: /health
@@ -629,16 +629,16 @@ healthcheck:
 EOF
 
     # _helpers.tpl
-    cat > "$chart_name/templates/_helpers.tpl" << 'EOF'
+    cat > "$chart_name"/templates/_helpers.tpl << 'EOF'
 {{/*
-Expand the name of the chart.
+展開 Chart 的名稱。
 */}}
 {{- define "app.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
-Create a default fully qualified app name.
+建立預設的完全限定應用程式名稱。
 */}}
 {{- define "app.fullname" -}}
 {{- if .Values.fullnameOverride }}
@@ -654,14 +654,14 @@ Create a default fully qualified app name.
 {{- end }}
 
 {{/*
-Create chart name and version as used by the chart label.
+建立 Chart 名稱和版本，如 Chart 標籤所用。
 */}}
 {{- define "app.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
-Common labels
+通用標籤
 */}}
 {{- define "app.labels" -}}
 helm.sh/chart: {{ include "app.chart" . }}
@@ -673,7 +673,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
-Selector labels
+選擇器標籤
 */}}
 {{- define "app.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "app.name" . }}
@@ -681,7 +681,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
+建立要使用的服務帳戶名稱
 */}}
 {{- define "app.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
@@ -694,11 +694,11 @@ EOF
 }
 ```
 
-### 7. Advanced Multi-Environment Configuration
+### 7. 進階多環境配置
 
-Handle environment-specific configurations with GitOps:
+使用 GitOps 處理環境特定配置：
 
-**FluxCD GitOps Setup**
+**FluxCD GitOps 設定**
 ```yaml
 # infrastructure/flux-system/gotk-sync.yaml
 apiVersion: source.toolkit.fluxcd.io/v1beta2
@@ -732,7 +732,7 @@ spec:
       namespace: production
 
 ---
-# Advanced Kustomization with Helm
+# 帶有 Helm 的進階 Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -820,13 +820,13 @@ resources:
   - backup.yaml
 ```
 
-### 8. Advanced Security Manifests
+### 8. 進階安全清單
 
-Create comprehensive security-focused resources:
+建立全面的安全導向資源：
 
-**Pod Security Standards (PSS)**
+**Pod 安全標準 (PSS)**
 ```yaml
-# Namespace with Pod Security Standards
+# 帶有 Pod 安全標準的命名空間
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -837,7 +837,7 @@ metadata:
     pod-security.kubernetes.io/warn: restricted
     name: ${NAMESPACE}
 ---
-# Advanced Network Policy
+# 進階網路策略
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -866,9 +866,9 @@ spec:
     - protocol: TCP
       port: 8080
     - protocol: TCP
-      port: 9090  # metrics
+      port: 9090  # 指標
   egress:
-  # Database access
+  # 資料庫存取
   - to:
     - namespaceSelector:
         matchLabels:
@@ -878,14 +878,14 @@ spec:
       port: 5432
     - protocol: TCP
       port: 6379  # Redis
-  # External API access
+  # 外部 API 存取
   - to: []
     ports:
     - protocol: TCP
       port: 443
     - protocol: TCP
       port: 80
-  # DNS resolution
+  # DNS 解析
   - to:
     - namespaceSelector:
         matchLabels:
@@ -899,7 +899,7 @@ spec:
     - protocol: TCP
       port: 53
 ---
-# Open Policy Agent Gatekeeper Constraints
+# Open Policy Agent Gatekeeper 限制
 apiVersion: templates.gatekeeper.sh/v1beta1
 kind: ConstraintTemplate
 metadata:
@@ -925,7 +925,7 @@ spec:
           provided := input.review.object.metadata.labels
           missing := required[_]
           not provided[missing]
-          msg := sprintf("Missing required label: %v", [missing])
+          msg := sprintf("缺少必要標籤: %v", [missing])
         }
 ---
 apiVersion: constraints.gatekeeper.sh/v1beta1
@@ -940,7 +940,7 @@ spec:
   parameters:
     labels: ["app", "version", "component"]
 ---
-# Falco Security Rules
+# Falco 安全規則
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -948,31 +948,31 @@ metadata:
   namespace: falco
 data:
   application_rules.yaml: |
-    - rule: Suspicious Network Activity
-      desc: Detect suspicious network connections
+    - rule: 可疑網路活動
+      desc: 偵測可疑網路連線
       condition: >
         (spawned_process and container and
          ((proc.name in (nc, ncat, netcat, netcat.traditional) and
            proc.args contains "-l") or
           (proc.name = socat and proc.args contains "TCP-LISTEN")))
       output: >
-        Suspicious network tool launched in container
-        (user=%user.name command=%proc.cmdline image=%container.image.repository)
+        在容器中啟動可疑網路工具
+        (使用者=%user.name 命令=%proc.cmdline 映像=%container.image.repository)
       priority: WARNING
       tags: [network, mitre_lateral_movement]
     
-    - rule: Unexpected Outbound Connection
-      desc: An unexpected outbound connection was established
+    - rule: 意外的出站連線
+      desc: 建立了意外的出站連線
       condition: >
         outbound and not proc.name in (known_outbound_processes) and
         not fd.sip in (allowed_external_ips)
       output: >
-        Unexpected outbound connection
-        (command=%proc.cmdline connection=%fd.name user=%user.name)
+        意外的出站連線
+        (命令=%proc.cmdline 連線=%fd.name 使用者=%user.name)
       priority: WARNING
       tags: [network, mitre_exfiltration]
 ---
-# Service Mesh Security (Istio)
+# 服務網格安全 (Istio)
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -1011,13 +1011,13 @@ spec:
     mode: STRICT
 ```
 
-### 9. Advanced Observability Setup
+### 9. 進階可觀察性設定
 
-Configure comprehensive monitoring, logging, and tracing:
+配置全面的監控、日誌記錄和追蹤：
 
-**OpenTelemetry Integration**
+**OpenTelemetry 整合**
 ```yaml
-# OpenTelemetry Collector
+# OpenTelemetry 收集器
 apiVersion: opentelemetry.io/v1alpha1
 kind: OpenTelemetryCollector
 metadata:
@@ -1093,7 +1093,7 @@ spec:
           processors: [memory_limiter, k8sattributes, batch]
           exporters: [loki]
 ---
-# Enhanced ServiceMonitor
+# 增強的 ServiceMonitor
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -1125,14 +1125,14 @@ spec:
     - sourceLabels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
       action: replace
       targetLabel: __metrics_path__
-      regex: (.+)
+      regex: (.*)
     - sourceLabels: [__meta_kubernetes_pod_ip]
       action: replace
       targetLabel: __address__
       regex: (.*)
       replacement: $1:9090
 ---
-# Custom Prometheus Rules
+# 自定義 Prometheus 規則
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -1154,8 +1154,8 @@ spec:
         severity: warning
         service: ${APP_NAME}
       annotations:
-        summary: "High error rate detected"
-        description: "Error rate is {{ $value | humanizePercentage }} for {{ $labels.job }}"
+        summary: "檢測到高錯誤率"
+        description: "錯誤率為 {{ $value | humanizePercentage }}，適用於 {{ $labels.job }}"
     
     - alert: HighResponseTime
       expr: |
@@ -1167,8 +1167,8 @@ spec:
         severity: warning
         service: ${APP_NAME}
       annotations:
-        summary: "High response time detected"
-        description: "95th percentile response time is {{ $value }}s for {{ $labels.job }}"
+        summary: "檢測到高響應時間"
+        description: "第 95 個百分位數響應時間為 {{ $value }} 秒，適用於 {{ $labels.job }}"
     
     - alert: PodCrashLooping
       expr: |
@@ -1178,10 +1178,10 @@ spec:
         severity: critical
         service: ${APP_NAME}
       annotations:
-        summary: "Pod is crash looping"
-        description: "Pod {{ $labels.pod }} has restarted {{ $value }} times in the last hour"
+        summary: "Pod 正在崩潰循環"
+        description: "Pod {{ $labels.pod }} 在過去一小時內已重啟 {{ $value }} 次"
 ---
-# Grafana Dashboard ConfigMap
+# Grafana 儀表板 ConfigMap
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -1193,29 +1193,29 @@ data:
   dashboard.json: |
     {
       "dashboard": {
-        "title": "${APP_NAME} Dashboard",
+        "title": "${APP_NAME} 儀表板",
         "panels": [
           {
-            "title": "Request Rate",
+            "title": "請求率",
             "type": "graph",
             "targets": [
               {
-                "expr": "rate(http_requests_total{job=\"${APP_NAME}\"}[5m])",
+                "expr": "rate(http_requests_total{job=\"$\"{APP_NAME}\"}[5m])",
                 "legendFormat": "{{ $labels.method }} {{ $labels.status }}"
               }
             ]
           },
           {
-            "title": "Response Time",
+            "title": "響應時間",
             "type": "graph", 
             "targets": [
               {
-                "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job=\"${APP_NAME}\"}[5m]))",
-                "legendFormat": "95th percentile"
+                "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job=\"$\"{APP_NAME}\"}[5m]))",
+                "legendFormat": "第 95 個百分位數"
               },
               {
-                "expr": "histogram_quantile(0.50, rate(http_request_duration_seconds_bucket{job=\"${APP_NAME}\"}[5m]))",
-                "legendFormat": "50th percentile"
+                "expr": "histogram_quantile(0.50, rate(http_request_duration_seconds_bucket{job=\"$\"{APP_NAME}\"}[5m]))",
+                "legendFormat": "第 50 個百分位數"
               }
             ]
           }
@@ -1224,13 +1224,13 @@ data:
     }
 ```
 
-### 10. Advanced GitOps Integration
+### 10. 進階 GitOps 整合
 
-Prepare manifests for enterprise GitOps:
+為企業 GitOps 準備清單：
 
-**Multi-Cluster ArgoCD Application**
+**多叢集 ArgoCD 應用程式**
 ```yaml
-# Application Set for Multi-Environment Deployment
+# 多環境部署的應用程式集
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -1293,7 +1293,7 @@ spec:
         - /spec/minReplicas
         - /spec/maxReplicas
 ---
-# Progressive Rollout with Argo Rollouts
+# 使用 Argo Rollouts 進行漸進式發布
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -1360,7 +1360,7 @@ spec:
             memory: "512Mi"
             cpu: "500m"
 ---
-# Analysis Template for Rollouts
+# Rollouts 的分析模板
 apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
@@ -1386,7 +1386,7 @@ spec:
             rate(http_requests_total{job="{{args.service-name}}"}[5m])
           )
 ---
-# Multi-Cluster Service Mirror (Linkerd)
+# 多叢集服務鏡像 (Linkerd)
 apiVersion: linkerd.io/v1alpha2
 kind: Link
 metadata:
@@ -1403,11 +1403,11 @@ spec:
       mirror.linkerd.io/exported: "true"
 ```
 
-### 11. Validation and Testing
+### 11. 驗證與測試
 
-Validate generated manifests:
+驗證生成的清單：
 
-**Manifest Validation Script**
+**清單驗證腳本**
 ```python
 #!/usr/bin/env python3
 import yaml
@@ -1426,7 +1426,7 @@ class ManifestValidator:
     
     def validate_manifest(self, manifest_file):
         """
-        Validate Kubernetes manifest
+        驗證 Kubernetes 清單
         """
         with open(manifest_file) as f:
             manifests = list(yaml.safe_load_all(f))
@@ -1440,19 +1440,19 @@ class ManifestValidator:
                 'errors': []
             }
             
-            # Dry run validation
+            # 乾運行驗證
             try:
                 self._dry_run_apply(manifest)
                 result['valid'] = True
             except ApiException as e:
                 result['errors'].append(str(e))
             
-            # Security checks
+            # 安全檢查
             security_issues = self._check_security(manifest)
             if security_issues:
                 result['errors'].extend(security_issues)
             
-            # Best practices checks
+            # 最佳實踐檢查
             bp_issues = self._check_best_practices(manifest)
             if bp_issues:
                 result['errors'].extend(bp_issues)
@@ -1462,36 +1462,36 @@ class ManifestValidator:
         return results
     
     def _check_security(self, manifest):
-        """Check security best practices"""
+        """檢查安全最佳實踐"""
         issues = []
         
         if manifest.get('kind') == 'Deployment':
             spec = manifest.get('spec', {}).get('template', {}).get('spec', {})
             
-            # Check security context
+            # 檢查安全上下文
             if not spec.get('securityContext'):
-                issues.append("Missing pod security context")
+                issues.append("缺少 Pod 安全上下文")
             
-            # Check container security
+            # 檢查容器安全
             for container in spec.get('containers', []):
                 if not container.get('securityContext'):
-                    issues.append(f"Container {container['name']} missing security context")
+                    issues.append(f"容器 {container['name']} 缺少安全上下文")
                 
                 sec_ctx = container.get('securityContext', {})
                 if not sec_ctx.get('runAsNonRoot'):
-                    issues.append(f"Container {container['name']} not configured to run as non-root")
+                    issues.append(f"容器 {container['name']} 未配置為非 root 運行")
                 
                 if not sec_ctx.get('readOnlyRootFilesystem'):
-                    issues.append(f"Container {container['name']} has writable root filesystem")
+                    issues.append(f"容器 {container['name']} 具有可寫的根檔案系統")
         
         return issues
 ```
 
-### 11. Advanced Scaling and Performance
+### 11. 進階擴展和性能
 
-Implement intelligent scaling strategies:
+實施智慧擴展策略：
 
-**KEDA Autoscaling**
+**KEDA 自動擴展**
 ```yaml
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
@@ -1525,7 +1525,7 @@ spec:
       type: Utilization
       value: "70"
 ---
-# Vertical Pod Autoscaler
+# 垂直 Pod 自動擴展器
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
@@ -1551,7 +1551,7 @@ spec:
       controlledResources: ["cpu", "memory"]
       controlledValues: RequestsAndLimits
 ---
-# Pod Disruption Budget
+# Pod 中斷預算
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
@@ -1564,14 +1564,14 @@ spec:
       app: ${APP_NAME}
 ```
 
-### 12. CI/CD Integration
+### 12. CI/CD 整合
 
-Modern deployment pipeline integration:
+現代部署管道整合：
 
-**GitHub Actions Workflow**
+**GitHub Actions 工作流程**
 ```yaml
 # .github/workflows/deploy.yml
-name: Deploy to Kubernetes
+name: 部署到 Kubernetes
 
 on:
   push:
@@ -1593,31 +1593,31 @@ jobs:
       id-token: write
     
     steps:
-    - name: Checkout
+    - name: 結帳
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
     
-    - name: Setup GitVersion
+    - name: 設定 GitVersion
       uses: gittools/actions/gitversion/setup@v0.9.15
       with:
         versionSpec: '5.x'
     
-    - name: Determine Version
+    - name: 確定版本
       uses: gittools/actions/gitversion/execute@v0.9.15
       id: gitversion
     
-    - name: Set up Docker Buildx
+    - name: 設定 Docker Buildx
       uses: docker/setup-buildx-action@v3
     
-    - name: Log in to Container Registry
+    - name: 登入容器註冊表
       uses: docker/login-action@v3
       with:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Build and push Docker image
+    - name: 建置並推送 Docker 映像
       uses: docker/build-push-action@v5
       with:
         context: .
@@ -1632,30 +1632,30 @@ jobs:
           VERSION=${{ steps.gitversion.outputs.semVer }}
           COMMIT_SHA=${{ github.sha }}
     
-    - name: Run Trivy vulnerability scanner
+    - name: 運行 Trivy 漏洞掃描器
       uses: aquasecurity/trivy-action@master
       with:
         image-ref: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.gitversion.outputs.semVer }}'
         format: 'sarif'
         output: 'trivy-results.sarif'
     
-    - name: Upload Trivy scan results
+    - name: 上傳 Trivy 掃描結果
       uses: github/codeql-action/upload-sarif@v2
       with:
         sarif_file: 'trivy-results.sarif'
     
-    - name: Install kubectl and kustomize
+    - name: 安裝 kubectl 和 kustomize
       run: |
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
         chmod +x kubectl && sudo mv kubectl /usr/local/bin/
         curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
         sudo mv kustomize /usr/local/bin/
     
-    - name: Validate Kubernetes manifests
+    - name: 驗證 Kubernetes 清單
       run: |
         kubectl --dry-run=client --validate=true apply -k k8s/overlays/staging
     
-    - name: Deploy to staging
+    - name: 部署到 staging
       if: github.ref == 'refs/heads/main'
       run: |
         cd k8s/overlays/staging
@@ -1663,15 +1663,15 @@ jobs:
         kubectl apply -k .
         kubectl rollout status deployment/${APP_NAME} -n staging --timeout=300s
     
-    - name: Run integration tests
+    - name: 運行整合測試
       if: github.ref == 'refs/heads/main'
       run: |
-        # Wait for deployment to be ready
+        # 等待部署準備就緒
         kubectl wait --for=condition=available --timeout=300s deployment/${APP_NAME} -n staging
-        # Run tests
+        # 運行測試
         npm run test:integration
     
-    - name: Deploy to production
+    - name: 部署到 production
       if: github.ref == 'refs/heads/main' && success()
       run: |
         cd k8s/overlays/production
@@ -1680,44 +1680,44 @@ jobs:
         kubectl rollout status deployment/${APP_NAME} -n production --timeout=600s
 ```
 
-## Output Format
+## 輸出格式
 
-1. **Framework-Optimized Manifests**: Tailored deployment configurations
-2. **Advanced Security Bundle**: PSS, OPA, Falco, service mesh policies
-3. **GitOps Repository Structure**: Multi-environment with FluxCD/ArgoCD
-4. **Observability Stack**: OpenTelemetry, Prometheus, Grafana, Jaeger
-5. **Progressive Delivery Setup**: Argo Rollouts with canary deployment
-6. **Auto-scaling Configuration**: HPA, VPA, KEDA for intelligent scaling
-7. **Multi-Cluster Setup**: Service mesh and cross-cluster communication
-8. **CI/CD Pipeline**: Complete GitHub Actions workflow with security scanning
-9. **Disaster Recovery Plan**: Backup strategies and restoration procedures
-10. **Performance Benchmarks**: Load testing and optimization recommendations
+1. **框架優化清單**：定制的部署配置
+2. **進階安全套件**：PSS、OPA、Falco、服務網格策略
+3. **GitOps 儲存庫結構**：帶有 FluxCD/ArgoCD 的多環境
+4. **可觀察性堆疊**：OpenTelemetry、Prometheus、Grafana、Jaeger
+5. **漸進式交付設定**：帶有金絲雀部署的 Argo Rollouts
+6. **自動擴展配置**：HPA、VPA、KEDA 用於智慧擴展
+7. **多叢集設定**：服務網格和跨叢集通訊
+8. **CI/CD 管道**：帶有安全掃描的完整 GitHub Actions 工作流程
+9. **災難恢復計畫**：備份策略和恢復程序
+10. **性能基準**：負載測試和優化建議
 
-## Cross-Command Integration
+## 跨指令整合
 
-### Complete Cloud-Native Deployment Workflow
+### 完整的雲原生部署工作流程
 
-**Enterprise Kubernetes Pipeline**
+**企業 Kubernetes 管道**
 ```bash
-# 1. Generate cloud-native API scaffolding
+# 1. 生成雲原生 API 腳手架
 /api-scaffold
 framework: "fastapi"
 deployment_target: "kubernetes"
 cloud_native: true
 observability: ["prometheus", "jaeger", "grafana"]
 
-# 2. Optimize containers for Kubernetes
+# 2. 優化容器以用於 Kubernetes
 /docker-optimize
 optimization_level: "kubernetes"
 multi_arch_build: true
 security_hardening: true
 
-# 3. Comprehensive security scanning
+# 3. 全面安全掃描
 /security-scan
 scan_types: ["k8s", "container", "iac", "rbac"]
 compliance: ["cis", "nsa", "pci"]
 
-# 4. Generate production K8s manifests
+# 4. 生成生產 K8s 清單
 /k8s-manifest
 environment: "production"
 security_level: "enterprise"
@@ -1725,18 +1725,18 @@ auto_scaling: true
 service_mesh: true
 ```
 
-**Integrated Kubernetes Configuration**
+**整合 Kubernetes 配置**
 ```python
-# k8s-integration-config.py - Shared across all commands
+# k8s-integration-config.py - 所有指令共享
 class IntegratedKubernetesConfig:
     def __init__(self):
-        self.api_config = self.load_api_config()           # From /api-scaffold
-        self.container_config = self.load_container_config() # From /docker-optimize
-        self.security_config = self.load_security_config() # From /security-scan
-        self.test_config = self.load_test_config()         # From /test-harness
+        self.api_config = self.load_api_config()           # 來自 /api-scaffold
+        self.container_config = self.load_container_config() # 來自 /docker-optimize
+        self.security_config = self.load_security_config() # 來自 /security-scan
+        self.test_config = self.load_test_config()         # 來自 /test-harness
         
     def generate_application_manifests(self):
-        """Generate complete K8s manifests for the application stack"""
+        """生成應用程式堆疊的完整 K8s 清單"""
         manifests = {
             'namespace': self.generate_namespace_manifest(),
             'secrets': self.generate_secrets_manifests(),
@@ -1751,10 +1751,10 @@ class IntegratedKubernetesConfig:
         return manifests
     
     def generate_deployment_manifests(self):
-        """Generate deployment manifests from API and container configs"""
+        """從 API 和容器配置生成部署清單"""
         deployments = []
         
-        # API deployment
+        # API 部署
         if self.api_config.get('framework'):
             api_deployment = {
                 'apiVersion': 'apps/v1',
@@ -1792,10 +1792,10 @@ class IntegratedKubernetesConfig:
         return deployments
     
     def generate_pod_spec(self):
-        """Generate optimized pod specification"""
+        """生成優化的 Pod 規範"""
         containers = []
         
-        # Main application container
+        # 主應用程式容器
         app_container = {
             'name': 'app',
             'image': self.container_config.get('image_name', 'app:latest'),
@@ -1817,7 +1817,7 @@ class IntegratedKubernetesConfig:
         }
         containers.append(app_container)
         
-        # Sidecar containers (monitoring, security, etc.)
+        # Sidecar 容器（監控、安全等）
         if self.should_include_monitoring_sidecar():
             containers.append(self.generate_monitoring_sidecar())
         
@@ -1839,7 +1839,7 @@ class IntegratedKubernetesConfig:
         return pod_spec
     
     def generate_security_context(self):
-        """Generate container security context from security scan results"""
+        """從安全掃描結果生成容器安全上下文"""
         security_level = self.security_config.get('level', 'standard')
         
         base_context = {
@@ -1864,9 +1864,9 @@ class IntegratedKubernetesConfig:
         return base_context
 ```
 
-**Database Integration with Kubernetes**
+**與 Kubernetes 的資料庫整合**
 ```yaml
-# database-k8s-manifests.yaml - From /db-migrate + /k8s-manifest
+# database-k8s-manifests.yaml - 來自 /db-migrate + /k8s-manifest
 apiVersion: v1
 kind: Secret
 metadata:
@@ -1886,19 +1886,19 @@ metadata:
   namespace: production
 data:
   postgresql.conf: |
-    # Performance tuning from /db-migrate analysis
+    # 來自 /db-migrate 分析的性能調整
     shared_buffers = 256MB
     effective_cache_size = 1GB
     work_mem = 4MB
     maintenance_work_mem = 64MB
     
-    # Security settings from /security-scan
+    # 來自 /security-scan 的安全設定
     ssl = on
     log_connections = on
     log_disconnections = on
     log_statement = 'all'
     
-    # Monitoring settings
+    # 監控設定
     shared_preload_libraries = 'pg_stat_statements'
     track_activity_query_size = 2048
 
@@ -1924,7 +1924,7 @@ metadata:
   namespace: production
 spec:
   serviceName: database-headless
-  replicas: 3  # High availability setup
+  replicas: 3  # 高可用性設定
   selector:
     matchLabels:
       app: database
@@ -1991,71 +1991,19 @@ spec:
             - postgres
           initialDelaySeconds: 5
           periodSeconds: 5
-      # Migration init container from /db-migrate
+      # 來自 /db-migrate 的遷移初始化容器
       initContainers:
       - name: migration
         image: migration-runner:latest
         env:
         - name: DATABASE_URL
           value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@localhost:5432/$(POSTGRES_DB)"
-        envFrom:
-        - secretRef:
-            name: database-credentials
-        command:
-        - sh
-        - -c
-        - |
-          echo "Running database migrations..."
-          alembic upgrade head
-          echo "Migrations completed successfully"
-      volumes:
-      - name: database-config
-        configMap:
-          name: database-config
-  volumeClaimTemplates:
-  - metadata:
-      name: database-storage
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      storageClassName: fast-ssd
-      resources:
-        requests:
-          storage: 100Gi
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: database-headless
-  namespace: production
-spec:
-  clusterIP: None
-  selector:
-    app: database
-  ports:
-  - name: postgresql
-    port: 5432
-    targetPort: 5432
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: database
-  namespace: production
-spec:
-  selector:
-    app: database
-  ports:
-  - name: postgresql
-    port: 5432
-    targetPort: 5432
-  type: ClusterIP
 ```
 
-**Frontend + Backend Integration**
+**前端 + 後端整合**
 ```yaml
-# fullstack-k8s-deployment.yaml - Integration across all commands
+# fullstack-k8s-deployment.yaml - 整合所有指令
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -2065,7 +2013,7 @@ metadata:
     security-policy: strict
 
 ---
-# API deployment (from /api-scaffold + optimizations)
+# API 部署（來自 /api-scaffold + 優化）
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -2131,7 +2079,7 @@ spec:
           periodSeconds: 5
 
 ---
-# Frontend deployment (from /frontend-optimize + container optimization)
+# 前端部署（來自 /frontend-optimize + 容器優化）
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -2186,7 +2134,7 @@ spec:
           periodSeconds: 5
 
 ---
-# Services
+# 服務
 apiVersion: v1
 kind: Service
 metadata:
@@ -2219,7 +2167,7 @@ spec:
   type: ClusterIP
 
 ---
-# Ingress with security configurations from /security-scan
+# Ingress 帶有來自 /security-scan 的安全配置
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -2259,9 +2207,9 @@ spec:
               number: 80
 ```
 
-**Security Integration**
+**安全整合**
 ```yaml
-# security-k8s-manifests.yaml - From /security-scan integration
+# security-k8s-manifests.yaml - 來自 /security-scan 整合
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -2299,7 +2247,7 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 
 ---
-# Network policies for security isolation
+# API 的網路策略
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -2331,7 +2279,7 @@ spec:
     ports:
     - protocol: TCP
       port: 5432
-  - to: []  # Allow DNS
+  - to: []  # 允許 DNS
     ports:
     - protocol: UDP
       port: 53
@@ -2367,7 +2315,7 @@ spec:
       port: 8000
 
 ---
-# Pod Security Standards
+# Pod 安全標準
 apiVersion: v1
 kind: LimitRange
 metadata:
@@ -2415,9 +2363,9 @@ spec:
       app: frontend
 ```
 
-**Monitoring and Observability Integration**
+**監控和可觀察性整合**
 ```yaml
-# monitoring-k8s-manifests.yaml - Complete observability stack
+# monitoring-k8s-manifests.yaml - 完整的可觀察性堆疊
 apiVersion: v1
 kind: ServiceMonitor
 metadata:
@@ -2469,7 +2417,7 @@ data:
     }
 
 ---
-# Jaeger tracing configuration
+# Jaeger 追蹤配置
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -2485,7 +2433,7 @@ data:
       localAgentHostPort: jaeger-agent:6831
 
 ---
-# Application logging configuration
+# 應用程式日誌記錄配置
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -2524,9 +2472,9 @@ data:
         Index app-logs
 ```
 
-**Auto-scaling Integration**
+**自動擴展整合**
 ```yaml
-# autoscaling-k8s-manifests.yaml - Intelligent scaling based on multiple metrics
+# autoscaling-k8s-manifests.yaml - 基於多個指標的智慧擴展
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -2598,7 +2546,7 @@ spec:
       controlledResources: ["cpu", "memory"]
 
 ---
-# KEDA for advanced autoscaling based on external metrics
+# KEDA 用於基於外部指標的高級自動擴展
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
@@ -2623,7 +2571,7 @@ spec:
       listLength: '10'
 ```
 
-**CI/CD Integration Pipeline**
+**CI/CD 整合管道**
 ```yaml
 # .github/workflows/k8s-deployment.yml
 name: Kubernetes Deployment Pipeline
@@ -2650,7 +2598,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
     
-    # 1. Setup kubectl and helm
+    # 1. 設定 kubectl 和 helm
     - name: Setup kubectl
       uses: azure/setup-kubectl@v3
       with:
@@ -2661,7 +2609,7 @@ jobs:
       with:
         version: 'v3.12.0'
     
-    # 2. Authenticate with cluster
+    # 2. 與叢集進行身份驗證
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
@@ -2672,73 +2620,73 @@ jobs:
       run: |
         aws eks update-kubeconfig --region us-west-2 --name ${{ env.CLUSTER_NAME }}
     
-    # 3. Validate manifests
+    # 3. 驗證清單
     - name: Validate Kubernetes manifests
       run: |
-        # Validate syntax
+        # 驗證語法
         kubectl --dry-run=client apply -f k8s/
         
-        # Security validation with kubesec
+        # 使用 kubesec 進行安全驗證
         docker run --rm -v $(pwd):/workspace kubesec/kubesec:latest scan /workspace/k8s/*.yaml
         
-        # Policy validation with OPA Gatekeeper
+        # 使用 OPA Gatekeeper 進行策略驗證
         conftest verify --policy opa-policies/ k8s/
     
-    # 4. Deploy to staging
+    # 4. 部署到 staging
     - name: Deploy to staging
       if: github.ref == 'refs/heads/develop'
       run: |
-        # Update image tags
+        # 更新映像標籤
         sed -i "s|registry.company.com/api:.*|registry.company.com/api:${{ github.sha }}|g" k8s/api-deployment.yaml
         sed -i "s|registry.company.com/frontend:.*|registry.company.com/frontend:${{ github.sha }}|g" k8s/frontend-deployment.yaml
         
-        # Apply manifests to staging namespace
+        # 將清單應用到 staging 命名空間
         kubectl apply -f k8s/ --namespace=staging
         
-        # Wait for rollout to complete
+        # 等待滾動更新完成
         kubectl rollout status deployment/api-deployment --namespace=staging --timeout=300s
         kubectl rollout status deployment/frontend-deployment --namespace=staging --timeout=300s
     
-    # 5. Run integration tests
+    # 5. 運行整合測試
     - name: Run integration tests
       if: github.ref == 'refs/heads/develop'
       run: |
-        # Wait for services to be ready
+        # 等待服務準備就緒
         kubectl wait --for=condition=ready pod -l app=api --namespace=staging --timeout=300s
         
-        # Get service URLs
+        # 獲取服務 URL
         API_URL=$(kubectl get service api-service --namespace=staging -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
         
-        # Run tests from /test-harness
+        # 從 /test-harness 運行測試
         pytest tests/integration/ --api-url="http://${API_URL}:8000" -v
     
-    # 6. Deploy to production (on main branch)
+    # 6. 部署到 production（在 main 分支上）
     - name: Deploy to production
       if: github.ref == 'refs/heads/main'
       run: |
-        # Update image tags
+        # 更新映像標籤
         sed -i "s|registry.company.com/api:.*|registry.company.com/api:${{ github.sha }}|g" k8s/api-deployment.yaml
         sed -i "s|registry.company.com/frontend:.*|registry.company.com/frontend:${{ github.sha }}|g" k8s/frontend-deployment.yaml
         
-        # Apply manifests to production namespace with rolling update
+        # 將清單應用到 production 命名空間並進行滾動更新
         kubectl apply -f k8s/ --namespace=production
         
-        # Monitor rollout
+        # 監控滾動更新
         kubectl rollout status deployment/api-deployment --namespace=production --timeout=600s
         kubectl rollout status deployment/frontend-deployment --namespace=production --timeout=600s
         
-        # Verify deployment health
+        # 驗證部署健康狀況
         kubectl get pods --namespace=production -l app=api
         kubectl get pods --namespace=production -l app=frontend
     
-    # 7. Post-deployment verification
+    # 7. 部署後驗證
     - name: Post-deployment verification
       if: github.ref == 'refs/heads/main'
       run: |
-        # Health checks
+        # 健康檢查
         kubectl exec -n production deployment/api-deployment -- curl -f http://localhost:8000/health
         
-        # Performance baseline check
+        # 性能基準檢查
         kubectl run --rm -i --tty load-test --image=loadimpact/k6:latest --restart=Never -- run - <<EOF
         import http from 'k6/http';
         import { check } from 'k6';
@@ -2760,18 +2708,16 @@ jobs:
         }
         EOF
     
-    # 8. Cleanup on failure
+    # 8. 失敗時的清理
     - name: Rollback on failure
       if: failure()
       run: |
-        # Rollback to previous version
+        # 回滾到先前版本
         kubectl rollout undo deployment/api-deployment --namespace=production
         kubectl rollout undo deployment/frontend-deployment --namespace=production
         
-        # Notify team
+        # 通知團隊
         echo "Deployment failed and rolled back" >> $GITHUB_STEP_SUMMARY
 ```
 
-This comprehensive integration ensures that Kubernetes deployments leverage all optimizations from container builds, security hardening, database migrations, and monitoring configurations while providing enterprise-grade reliability and observability.
-
-Focus on creating enterprise-grade, cloud-native deployments with zero-downtime deployment capabilities and comprehensive observability.
+此全面的整合確保 Kubernetes 部署能夠利用從容器建置、安全強化、資料庫遷移和監控配置中獲得的所有優化，同時提供企業級的可靠性和可觀察性。

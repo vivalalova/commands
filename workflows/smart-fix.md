@@ -1,44 +1,44 @@
-Intelligently fix the issue using automatic agent selection with explicit Task tool invocations:
+透過自動代理選擇和明確的任務工具調用，智慧地解決問題：
 
-[Extended thinking: This workflow analyzes the issue and automatically routes to the most appropriate specialist agent(s). Complex issues may require multiple agents working together.]
+[延伸思考：此工作流程分析問題並自動路由到最合適的專業代理。複雜的問題可能需要多個代理協同工作。]
 
-First, analyze the issue to categorize it, then use Task tool with the appropriate agent:
+首先，分析問題以進行分類，然後使用任務工具和適當的代理：
 
-## Analysis Phase
-Examine the issue: "$ARGUMENTS" to determine the problem domain.
+## 分析階段
+檢查問題：「$ARGUMENTS」以確定問題領域。
 
-## Agent Selection and Execution
+## 代理選擇與執行
 
-### For Deployment/Infrastructure Issues
-If the issue involves deployment failures, infrastructure problems, or DevOps concerns:
-- Use Task tool with subagent_type="devops-troubleshooter"
-- Prompt: "Debug and fix this deployment/infrastructure issue: $ARGUMENTS"
+### 針對部署/基礎設施問題
+如果問題涉及部署失敗、基礎設施問題或 DevOps 相關問題：
+- 使用任務工具，子代理類型為「devops-troubleshooter」
+- 提示：「偵錯並修復此部署/基礎設施問題：$ARGUMENTS」
 
-### For Code Errors and Bugs
-If the issue involves application errors, exceptions, or functional bugs:
-- Use Task tool with subagent_type="debugger"
-- Prompt: "Analyze and fix this code error: $ARGUMENTS. Provide root cause analysis and solution."
+### 針對程式碼錯誤和錯誤
+如果問題涉及應用程式錯誤、異常或功能錯誤：
+- 使用任務工具，子代理類型為「debugger」
+- 提示：「分析並修復此程式碼錯誤：$ARGUMENTS。提供根本原因分析和解決方案。」
 
-### For Database Performance
-If the issue involves slow queries, database bottlenecks, or data access patterns:
-- Use Task tool with subagent_type="database-optimizer"
-- Prompt: "Optimize database performance for: $ARGUMENTS. Include query analysis, indexing strategies, and schema improvements."
+### 針對資料庫性能
+如果問題涉及慢查詢、資料庫瓶頸或資料存取模式：
+- 使用任務工具，子代理類型為「database-optimizer」
+- 提示：「優化資料庫性能，針對：$ARGUMENTS。包括查詢分析、索引策略和架構改進。」
 
-### For Application Performance
-If the issue involves slow response times, high resource usage, or performance degradation:
-- Use Task tool with subagent_type="performance-engineer"
-- Prompt: "Profile and optimize application performance issue: $ARGUMENTS. Identify bottlenecks and provide optimization strategies."
+### 針對應用程式性能
+如果問題涉及慢響應時間、高資源使用率或性能下降：
+- 使用任務工具，子代理類型為「performance-engineer」
+- 提示：「分析並優化應用程式性能問題：$ARGUMENTS。識別瓶頸並提供優化策略。」
 
-### For Legacy Code Issues
-If the issue involves outdated code, deprecated patterns, or technical debt:
-- Use Task tool with subagent_type="legacy-modernizer"
-- Prompt: "Modernize and fix legacy code issue: $ARGUMENTS. Provide migration path and updated implementation."
+### 針對舊版程式碼問題
+如果問題涉及過時的程式碼、已棄用的模式或技術債務：
+- 使用任務工具，子代理類型為「legacy-modernizer」
+- 提示：「現代化並修復舊版程式碼問題：$ARGUMENTS。提供遷移路徑和更新的實施。」
 
-## Multi-Domain Coordination
-For complex issues spanning multiple domains:
-1. Use primary agent based on main symptom
-2. Use secondary agents for related aspects
-3. Coordinate fixes across all affected areas
-4. Verify integration between different fixes
+## 多領域協調
+對於跨多個領域的複雜問題：
+1. 根據主要症狀使用主要代理
+2. 針對相關方面使用次要代理
+3. 協調所有受影響區域的修復
+4. 驗證不同修復之間的整合
 
-Issue: $ARGUMENTS
+問題：$ARGUMENTS

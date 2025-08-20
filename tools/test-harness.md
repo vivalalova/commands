@@ -1,23 +1,23 @@
-# Comprehensive Test Harness Generator
+# 全面測試框架產生器
 
-You are a testing expert specializing in creating comprehensive, maintainable, and efficient test suites for modern applications. Design testing frameworks that cover unit, integration, end-to-end, performance, and security testing with industry best practices.
+您是測試專家，專精於為現代應用程式建立全面、可維護且高效的測試套件。設計涵蓋單元測試、整合測試、端到端測試、效能測試和安全測試的測試框架，並遵循業界最佳實踐。
 
-## Context
-The user needs a complete testing strategy and implementation for their application. Focus on creating a robust testing pyramid with appropriate tools, patterns, and automation that ensures code quality and reliability.
+## 背景
+使用者需要為其應用程式制定完整的測試策略和實作。專注於建立穩固的測試金字塔，配備適當的工具、模式和自動化，確保程式碼品質和可靠性。
 
-## Requirements
+## 要求
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-### 1. Testing Framework Selection
+### 1. 測試框架選擇
 
-Choose appropriate testing frameworks based on technology stack:
+根據技術堆疊選擇適當的測試框架：
 
-**Framework Selection Matrix**
+**框架選擇矩陣**
 ```python
 def select_testing_framework(tech_stack, project_type):
-    """Select optimal testing frameworks based on technology"""
+    """根據技術選擇最佳測試框架"""
     
     frameworks = {
         'python': {
@@ -65,11 +65,11 @@ def select_testing_framework(tech_stack, project_type):
     return frameworks.get(tech_stack, frameworks['python'])
 ```
 
-### 2. Python Testing Implementation
+### 2. Python 測試實作
 
-Complete Python testing framework with pytest:
+使用 pytest 的完整 Python 測試框架：
 
-**Project Structure**
+**專案結構**
 ```
 project/
 ├── src/
@@ -112,7 +112,7 @@ project/
 └── .github/workflows/test.yml
 ```
 
-**Test Configuration**
+**測試配置**
 ```ini
 # pytest.ini
 [tool:pytest]
@@ -151,7 +151,7 @@ filterwarnings =
     ignore::DeprecationWarning
 ```
 
-**Advanced Test Configuration**
+**進階測試配置**
 ```python
 # conftest.py
 import pytest
@@ -325,7 +325,7 @@ def vcr_config():
     }
 ```
 
-**Unit Testing Implementation**
+**單元測試實作**
 ```python
 # tests/unit/test_user_service.py
 import pytest
@@ -494,7 +494,7 @@ class TestUserService:
             )
 ```
 
-**Integration Testing Implementation**
+**整合測試實作**
 ```python
 # tests/integration/test_api_endpoints.py
 import pytest
@@ -617,7 +617,7 @@ class TestUserAPIEndpoints:
         assert len(users_list) >= user_count
 ```
 
-**End-to-End Testing Implementation**
+**端到端測試實作**
 ```python
 # tests/e2e/test_user_flows.py
 import pytest
@@ -699,7 +699,7 @@ class TestUserFlows:
         assert "reset link sent" in success_message.lower()
 ```
 
-**Performance Testing Implementation**
+**效能測試實作**
 ```python
 # tests/performance/test_load.py
 import pytest
@@ -853,7 +853,7 @@ class TestAPIPerformance:
         assert final_memory - initial_memory < 10  # Memory leak < 10MB
 ```
 
-**Security Testing Implementation**
+**安全測試實作**
 ```python
 # tests/security/test_auth.py
 import pytest
@@ -1012,7 +1012,7 @@ class TestAuthenticationSecurity:
                 assert "sensitive_value" not in call
 ```
 
-**Contract Testing Implementation**
+**合約測試實作**
 ```python
 # tests/contract/test_api_contract.py
 import pytest
@@ -1095,7 +1095,7 @@ class TestUserServiceContract:
 
 Complete JavaScript testing framework with Jest and Playwright:
 
-**Jest Configuration**
+**Jest 配置**
 ```javascript
 // jest.config.js
 module.exports = {
@@ -1155,7 +1155,7 @@ jest.mock('nodemailer', () => ({
 }));
 ```
 
-**Unit Testing with Jest**
+**使用 Jest 進行單元測試**
 ```typescript
 // tests/unit/userService.test.ts
 import { UserService } from '../../src/services/userService';
@@ -1305,7 +1305,7 @@ describe('UserService', () => {
 });
 ```
 
-**Property-Based Testing with fast-check**
+**使用 fast-check 進行基於屬性的測試**
 ```typescript
 // tests/unit/userValidation.property.test.ts
 import fc from 'fast-check';
@@ -1370,7 +1370,7 @@ describe('User Validation - Property Tests', () => {
 
 ### 4. CI/CD Integration
 
-**GitHub Actions Workflow**
+**GitHub Actions 工作流程**
 ```yaml
 # .github/workflows/test.yml
 name: Test Suite
@@ -1580,7 +1580,7 @@ jobs:
 
 ### 5. Test Data Management
 
-**Test Data Factories**
+**測試資料工廠**
 ```python
 # tests/fixtures/data_factories.py
 import factory
@@ -1646,37 +1646,37 @@ class TestDataGenerator:
         }
 ```
 
-## Cross-Command Integration
+## 跨指令整合
 
-### Complete Development Workflow Integration
+### 完整開發工作流程整合
 
-**API Development + Testing Pipeline**
+**API 開發 + 測試管道**
 ```bash
-# 1. Generate API scaffolding
+# 1. 產生 API 鷹架
 /api-scaffold
 project_type: "microservice"
 framework: "fastapi"
 features: ["auth", "database", "monitoring"]
 
-# 2. Generate comprehensive test suite
+# 2. 產生全面的測試套件
 /test-harness
 test_types: ["unit", "integration", "e2e", "performance", "security"]
 framework: "pytest"
 coverage_threshold: 90
 
-# 3. Run security scans on tests
+# 3. 對測試執行安全掃描
 /security-scan
 include_test_code: true
 scan_types: ["static", "dependency", "secrets"]
 
-# 4. Optimize Docker for testing
+# 4. 優化 Docker 用於測試
 /docker-optimize
 environment: "test"
 include_test_data: true
 optimization_level: "speed"
 ```
 
-**Test-Driven Development Workflow**
+**測試驅動開發工作流程**
 ```python
 # Generated test configuration that integrates with all tools
 class IntegratedTestConfig:
@@ -1711,7 +1711,7 @@ class IntegratedTestConfig:
         }
 ```
 
-**Database + Testing Integration**
+**資料庫 + 測試整合**
 ```python
 # conftest.py - Database test configuration
 import pytest
@@ -1742,7 +1742,7 @@ def test_database(db_migration_config):
     teardown_test_database()
 ```
 
-**Frontend + Backend Integration Testing**
+**前端 + 後端整合測試**
 ```javascript
 // Integration test configuration
 // tests/integration/fullstack.test.js
@@ -1778,7 +1778,7 @@ describe('Full Stack Integration', () => {
 });
 ```
 
-**Kubernetes + Testing Integration**
+**Kubernetes + 測試整合**
 ```yaml
 # Generated K8s test configuration
 # k8s-test-environment.yaml (integrates with /k8s-manifest output)
@@ -1813,7 +1813,7 @@ spec:
         command: ["pytest", "tests/", "-v", "--k8s-integration"]
 ```
 
-**CI/CD Integration Example**
+**CI/CD 整合範例**
 ```yaml
 # .github/workflows/integrated-testing.yml
 name: Integrated Testing Pipeline
@@ -1866,7 +1866,7 @@ jobs:
           --env="BASELINE_FILE=performance-baseline.json"
 ```
 
-**Configuration Sharing Between Commands**
+**指令間的配置共享**
 ```json
 // shared-config.json - Used across all commands
 {
@@ -1899,7 +1899,7 @@ jobs:
 }
 ```
 
-**Shared Test Utilities**
+**共享測試工具**
 ```python
 # tests/utils/integration_helpers.py
 class CrossCommandTestHelper:
@@ -1949,23 +1949,23 @@ class CrossCommandTestHelper:
         }
 ```
 
-**End-to-End Workflow Example**
+**端到端工作流程範例**
 ```python
 # Complete workflow test
 @pytest.mark.integration
 @pytest.mark.slow
 def test_complete_development_workflow():
-    """Test the complete output from all slash commands working together"""
+    """測試所有斜線指令協同工作的完整輸出"""
     
-    # 1. API + Database Integration
-    api_client = get_api_client()  # From /api-scaffold
-    db_client = get_db_client()    # From /db-migrate
+    # 1. API + 資料庫整合
+    api_client = get_api_client()  # 來自 /api-scaffold
+    db_client = get_db_client()    # 來自 /db-migrate
     
-    # Create user via API
+    # 通過 API 建立使用者
     user_response = api_client.post('/users/', json=test_user_data)
     assert user_response.status_code == 201
     
-    # Verify in database
+    # 在資料庫中驗證
     user_id = user_response.json()['id']
     db_user = db_client.get_user(user_id)
     assert db_user is not None
@@ -1994,22 +1994,22 @@ def test_complete_development_workflow():
     assert k8s_status['ready_replicas'] > 0
 ```
 
-This integration approach ensures all generated code works together seamlessly and provides comprehensive validation across the entire application stack.
+這種整合方法確保所有產生的程式碼無縫協作，並在整個應用程式堆疊中提供全面的驗證。
 
-## Validation Checklist
+## 驗證檢查清單
 
-- [ ] Testing framework selected based on technology stack
-- [ ] Unit tests cover core business logic
-- [ ] Integration tests validate component interactions
-- [ ] End-to-end tests verify user workflows
-- [ ] Performance tests establish baselines
-- [ ] Security tests validate security controls
-- [ ] Property-based tests explore edge cases
-- [ ] Contract tests ensure API compatibility
-- [ ] Mutation tests validate test quality
-- [ ] CI/CD pipeline includes all test types
-- [ ] Test coverage meets minimum thresholds
-- [ ] Test data management strategy implemented
-- [ ] Test environment properly configured
+- [ ] 根據技術堆疊選擇測試框架
+- [ ] 單元測試涵蓋核心業務邏輯
+- [ ] 整合測試驗證元件互動
+- [ ] 端到端測試驗證使用者工作流程
+- [ ] 效能測試建立基準
+- [ ] 安全測試驗證安全控制
+- [ ] 基於屬性的測試探索邊緣案例
+- [ ] 合約測試確保 API 相容性
+- [ ] 突變測試驗證測試品質
+- [ ] CI/CD 管道包含所有測試類型
+- [ ] 測試覆蓋率達到最低門檻
+- [ ] 實施測試資料管理策略
+- [ ] 正確配置測試環境
 
-Focus on creating a comprehensive testing strategy that ensures code quality, performance, and security while maintaining fast feedback loops and reliable test execution.
+專注於建立全面的測試策略，確保程式碼品質、效能和安全性，同時保持快速回饋循環和可靠的測試執行。

@@ -1,63 +1,63 @@
-# AI/ML Code Review
+# AI/ML 程式碼審查
 
-Perform a specialized AI/ML code review for: $ARGUMENTS
+為：$ARGUMENTS 執行專門的 AI/ML 程式碼審查
 
-Conduct comprehensive review focusing on:
+執行全面的審查，重點關注：
 
-1. **Model Code Quality**:
-   - Reproducibility checks
-   - Random seed management
-   - Data leakage detection
-   - Train/test split validation
-   - Feature engineering clarity
+1. **模型程式碼品質**：
+   - 可重現性檢查
+   - 隨機種子管理
+   - 資料洩漏檢測
+   - 訓練/測試分割驗證
+   - 特徵工程清晰度
 
-2. **AI Best Practices**:
-   - Prompt injection prevention
-   - Token limit handling
-   - Cost optimization
-   - Fallback strategies
-   - Timeout management
+2. **AI 最佳實踐**：
+   - 提示注入防禦
+   - 令牌限制處理
+   - 成本優化
+   - 回退策略
+   - 超時管理
 
-3. **Data Handling**:
-   - Privacy compliance (PII handling)
-   - Data versioning
-   - Preprocessing consistency
-   - Batch processing efficiency
-   - Memory optimization
+3. **資料處理**：
+   - 隱私合規性 (PII 處理)
+   - 資料版本控制
+   - 預處理一致性
+   - 批次處理效率
+   - 記憶體優化
 
-4. **Model Management**:
-   - Version control for models
-   - A/B testing setup
-   - Rollback capabilities
-   - Performance benchmarks
-   - Drift detection
+4. **模型管理**：
+   - 模型版本控制
+   - A/B 測試設定
+   - 回滾功能
+   - 性能基準
+   - 漂移檢測
 
-5. **LLM-Specific Checks**:
-   - Context window management
-   - Prompt template security
-   - Response validation
-   - Streaming implementation
-   - Rate limit handling
+5. **LLM 特定檢查**：
+   - 上下文視窗管理
+   - 提示模板安全性
+   - 響應驗證
+   - 串流實施
+   - 速率限制處理
 
-6. **Vector Database Review**:
-   - Embedding consistency
-   - Index optimization
-   - Query performance
-   - Metadata management
-   - Backup strategies
+6. **向量資料庫審查**：
+   - 嵌入一致性
+   - 索引優化
+   - 查詢性能
+   - 元資料管理
+   - 備份策略
 
-7. **Production Readiness**:
-   - GPU/CPU optimization
-   - Batching strategies
-   - Caching implementation
-   - Monitoring hooks
-   - Error recovery
+7. **生產就緒**：
+   - GPU/CPU 優化
+   - 批次處理策略
+   - 快取實施
+   - 監控掛鉤
+   - 錯誤恢復
 
-8. **Testing Coverage**:
-   - Unit tests for preprocessing
-   - Integration tests for pipelines
-   - Model performance tests
-   - Edge case handling
-   - Mocked LLM responses
+8. **測試覆蓋率**：
+   - 預處理的單元測試
+   - 管道的整合測試
+   - 模型性能測試
+   - 邊緣情況處理
+   - 模擬 LLM 響應
 
-Provide specific recommendations with severity levels (Critical/High/Medium/Low). Include code examples for improvements and links to relevant best practices.
+提供具體建議，並附上嚴重性級別（關鍵/高/中/低）。包括改進的程式碼範例和相關最佳實踐的連結。

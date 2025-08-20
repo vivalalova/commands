@@ -1,59 +1,59 @@
-Implement a full-stack feature across multiple platforms with coordinated agent orchestration:
+透過協調的代理編排，在多個平台上實施全端功能：
 
-[Extended thinking: This workflow orchestrates a comprehensive feature implementation across backend, frontend, mobile, and API layers. Each agent builds upon the work of previous agents to create a cohesive multi-platform solution.]
+[延伸思考：此工作流程協調後端、前端、行動和 API 層的全面功能實施。每個代理都建立在先前代理的工作基礎上，以創建一個有凝聚力的多平台解決方案。]
 
-## Phase 1: Architecture and API Design
+## 階段 1：架構和 API 設計
 
-### 1. Backend Architecture
-- Use Task tool with subagent_type="backend-architect"
-- Prompt: "Design backend architecture for: $ARGUMENTS. Include service boundaries, data models, and technology recommendations."
-- Output: Service architecture, database schema, API structure
+### 1. 後端架構
+- 使用任務工具，子代理類型為「backend-architect」
+- 提示：「為：$ARGUMENTS 設計後端架構。包括服務邊界、資料模型和技術建議。」
+- 輸出：服務架構、資料庫模式、API 結構
 
-### 2. GraphQL API Design (if applicable)
-- Use Task tool with subagent_type="graphql-architect"
-- Prompt: "Design GraphQL schema and resolvers for: $ARGUMENTS. Build on the backend architecture from previous step. Include types, queries, mutations, and subscriptions."
-- Output: GraphQL schema, resolver structure, federation strategy
+### 2. GraphQL API 設計（如果適用）
+- 使用任務工具，子代理類型為「graphql-architect」
+- 提示：「為：$ARGUMENTS 設計 GraphQL 模式和解析器。建立在先前步驟的後端架構基礎上。包括類型、查詢、變異和訂閱。」
+- 輸出：GraphQL 模式、解析器結構、聯合策略
 
-## Phase 2: Implementation
+## 階段 2：實施
 
-### 3. Frontend Development
-- Use Task tool with subagent_type="frontend-developer"
-- Prompt: "Implement web frontend for: $ARGUMENTS. Use the API design from previous steps. Include responsive UI, state management, and API integration."
-- Output: React/Vue/Angular components, state management, API client
+### 3. 前端開發
+- 使用任務工具，子代理類型為「frontend-developer」
+- 提示：「為：$ARGUMENTS 實施網頁前端。使用先前步驟的 API 設計。包括響應式 UI、狀態管理和 API 整合。」
+- 輸出：React/Vue/Angular 組件、狀態管理、API 客戶端
 
-### 4. Mobile Development
-- Use Task tool with subagent_type="mobile-developer"
-- Prompt: "Implement mobile app features for: $ARGUMENTS. Ensure consistency with web frontend and use the same API. Include offline support and native integrations."
-- Output: React Native/Flutter implementation, offline sync, push notifications
+### 4. 行動開發
+- 使用任務工具，子代理類型為「mobile-developer」
+- 提示：「為：$ARGUMENTS 實施行動應用程式功能。確保與網頁前端一致並使用相同的 API。包括離線支援和原生整合。」
+- 輸出：React Native/Flutter 實施、離線同步、推播通知
 
-## Phase 3: Quality Assurance
+## 階段 3：品質保證
 
-### 5. Comprehensive Testing
-- Use Task tool with subagent_type="test-automator"
-- Prompt: "Create test suites for: $ARGUMENTS. Cover backend APIs, frontend components, mobile app features, and integration tests across all platforms."
-- Output: Unit tests, integration tests, e2e tests, test documentation
+### 5. 全面測試
+- 使用任務工具，子代理類型為「test-automator」
+- 提示：「為：$ARGUMENTS 建立測試套件。涵蓋後端 API、前端組件、行動應用程式功能以及所有平台上的整合測試。」
+- 輸出：單元測試、整合測試、端到端測試、測試文件
 
-### 6. Security Review
-- Use Task tool with subagent_type="security-auditor"
-- Prompt: "Audit security across all implementations for: $ARGUMENTS. Check API security, frontend vulnerabilities, and mobile app security."
-- Output: Security report, remediation steps
+### 6. 安全審查
+- 使用任務工具，子代理類型為「security-auditor」
+- 提示：「審計：$ARGUMENTS 的所有實施中的安全性。檢查 API 安全性、前端漏洞和行動應用程式安全性。」
+- 輸出：安全報告、補救步驟
 
-## Phase 4: Optimization and Deployment
+## 階段 4：優化和部署
 
-### 7. Performance Optimization
-- Use Task tool with subagent_type="performance-engineer"
-- Prompt: "Optimize performance across all platforms for: $ARGUMENTS. Focus on API response times, frontend bundle size, and mobile app performance."
-- Output: Performance improvements, caching strategies, optimization report
+### 7. 性能優化
+- 使用任務工具，子代理類型為「performance-engineer」
+- 提示：「為：$ARGUMENTS 優化所有平台上的性能。專注於 API 響應時間、前端捆綁包大小和行動應用程式性能。」
+- 輸出：性能改進、快取策略、優化報告
 
-### 8. Deployment Preparation
-- Use Task tool with subagent_type="deployment-engineer"
-- Prompt: "Prepare deployment for all components of: $ARGUMENTS. Include CI/CD pipelines, containerization, and monitoring setup."
-- Output: Deployment configurations, monitoring setup, rollout strategy
+### 8. 部署準備
+- 使用任務工具，子代理類型為「deployment-engineer」
+- 提示：「為：$ARGUMENTS 的所有組件準備部署。包括 CI/CD 管道、容器化和監控設定。」
+- 輸出：部署配置、監控設定、推出策略
 
-## Coordination Notes
-- Each agent receives outputs from previous agents
-- Maintain consistency across all platforms
-- Ensure API contracts are honored by all clients
-- Document integration points between components
+## 協調說明
+- 每個代理都會接收來自先前代理的輸出
+- 保持所有平台之間的一致性
+- 確保所有客戶端都遵守 API 契約
+- 記錄組件之間的整合點
 
-Feature to implement: $ARGUMENTS
+要實施的功能：$ARGUMENTS

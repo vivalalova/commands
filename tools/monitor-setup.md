@@ -1,20 +1,20 @@
-# Monitoring and Observability Setup
+# 監控與可觀察性設定
 
-You are a monitoring and observability expert specializing in implementing comprehensive monitoring solutions. Set up metrics collection, distributed tracing, log aggregation, and create insightful dashboards that provide full visibility into system health and performance.
+您是監控與可觀察性專家，專精於實施全面的監控解決方案。設定指標收集、分散式追蹤、日誌聚合，並建立提供系統健康狀況和性能全面可見性的洞察儀表板。
 
-## Context
-The user needs to implement or improve monitoring and observability. Focus on the three pillars of observability (metrics, logs, traces), setting up monitoring infrastructure, creating actionable dashboards, and establishing effective alerting strategies.
+## 背景
+使用者需要實施或改進監控和可觀察性。專注於可觀察性的三大支柱（指標、日誌、追蹤）、設定監控基礎設施、建立可操作的儀表板，以及建立有效的警報策略。
 
-## Requirements
+## 要求
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-### 1. Monitoring Requirements Analysis
+### 1. 監控需求分析
 
-Analyze monitoring needs and current state:
+分析監控需求和當前狀態：
 
-**Monitoring Assessment**
+**監控評估**
 ```python
 import yaml
 from pathlib import Path
@@ -23,7 +23,7 @@ from collections import defaultdict
 class MonitoringAssessment:
     def analyze_infrastructure(self, project_path):
         """
-        Analyze infrastructure and determine monitoring needs
+        分析基礎設施並確定監控需求
         """
         assessment = {
             'infrastructure': self._detect_infrastructure(project_path),
@@ -38,7 +38,7 @@ class MonitoringAssessment:
         return assessment
     
     def _detect_infrastructure(self, project_path):
-        """Detect infrastructure components"""
+        """檢測基礎設施組件"""
         infrastructure = {
             'cloud_provider': None,
             'orchestration': None,
@@ -48,7 +48,7 @@ class MonitoringAssessment:
             'load_balancers': []
         }
         
-        # Check for cloud providers
+        # 檢查雲端供應商
         if (Path(project_path) / '.aws').exists():
             infrastructure['cloud_provider'] = 'AWS'
         elif (Path(project_path) / 'azure-pipelines.yml').exists():
@@ -56,7 +56,7 @@ class MonitoringAssessment:
         elif (Path(project_path) / '.gcloud').exists():
             infrastructure['cloud_provider'] = 'GCP'
         
-        # Check for orchestration
+        # 檢查編排
         if (Path(project_path) / 'docker-compose.yml').exists():
             infrastructure['orchestration'] = 'docker-compose'
         elif (Path(project_path) / 'k8s').exists():
@@ -65,7 +65,7 @@ class MonitoringAssessment:
         return infrastructure
     
     def _determine_metrics(self, project_path):
-        """Determine required metrics based on services"""
+        """根據服務確定所需指標"""
         metrics = {
             'golden_signals': {
                 'latency': ['response_time_p50', 'response_time_p95', 'response_time_p99'],
@@ -77,7 +77,7 @@ class MonitoringAssessment:
             'custom_metrics': []
         }
         
-        # Add service-specific metrics
+        # 添加服務特定指標
         services = self._identify_services(project_path)
         
         if 'web' in services:
@@ -104,11 +104,11 @@ class MonitoringAssessment:
         return metrics
 ```
 
-### 2. Prometheus Setup
+### 2. Prometheus 設定
 
-Implement Prometheus-based monitoring:
+實施基於 Prometheus 的監控：
 
-**Prometheus Configuration**
+**Prometheus 配置**
 ```yaml
 # prometheus.yml
 global:
@@ -118,26 +118,26 @@ global:
     cluster: 'production'
     region: 'us-east-1'
 
-# Alertmanager configuration
+# Alertmanager 配置
 alerting:
   alertmanagers:
     - static_configs:
         - targets:
             - alertmanager:9093
 
-# Rule files
+# 規則檔案
 rule_files:
   - "alerts/*.yml"
   - "recording_rules/*.yml"
 
-# Scrape configurations
+# 抓取配置
 scrape_configs:
-  # Prometheus self-monitoring
+  # Prometheus 自我監控
   - job_name: 'prometheus'
     static_configs:
       - targets: ['localhost:9090']
 
-  # Node exporter for system metrics
+  # 節點匯出器用於系統指標
   - job_name: 'node'
     static_configs:
       - targets: 
@@ -148,7 +148,7 @@ scrape_configs:
         target_label: instance
         replacement: '${1}'
 
-  # Application metrics
+  # 應用程式指標
   - job_name: 'application'
     kubernetes_sd_configs:
       - role: pod
@@ -174,19 +174,19 @@ scrape_configs:
         action: replace
         target_label: kubernetes_pod_name
 
-  # Database monitoring
+  # 資料庫監控
   - job_name: 'postgres'
     static_configs:
       - targets: ['postgres-exporter:9187']
     params:
       query: ['pg_stat_database', 'pg_stat_replication']
 
-  # Redis monitoring
+  # Redis 監控
   - job_name: 'redis'
     static_configs:
       - targets: ['redis-exporter:9121']
 
-  # Custom service discovery
+  # 自定義服務發現
   - job_name: 'custom-services'
     consul_sd_configs:
       - server: 'consul:8500'
@@ -199,7 +199,7 @@ scrape_configs:
         action: keep
 ```
 
-**Custom Metrics Implementation**
+**自定義指標實施**
 ```typescript
 // metrics.ts
 import { Counter, Histogram, Gauge, Registry } from 'prom-client';
@@ -207,17 +207,17 @@ import { Counter, Histogram, Gauge, Registry } from 'prom-client';
 export class MetricsCollector {
     private registry: Registry;
     
-    // HTTP metrics
+    // HTTP 指標
     private httpRequestDuration: Histogram<string>;
     private httpRequestTotal: Counter<string>;
     private httpRequestsInFlight: Gauge<string>;
     
-    // Business metrics
+    // 業務指標
     private userRegistrations: Counter<string>;
     private activeUsers: Gauge<string>;
     private revenue: Counter<string>;
     
-    // System metrics
+    // 系統指標
     private queueDepth: Gauge<string>;
     private cacheHitRatio: Gauge<string>;
     
@@ -227,46 +227,46 @@ export class MetricsCollector {
     }
     
     private initializeMetrics() {
-        // HTTP metrics
+        // HTTP 指標
         this.httpRequestDuration = new Histogram({
             name: 'http_request_duration_seconds',
-            help: 'Duration of HTTP requests in seconds',
+            help: 'HTTP 請求持續時間（秒）',
             labelNames: ['method', 'route', 'status_code'],
             buckets: [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 2, 5]
         });
         
         this.httpRequestTotal = new Counter({
             name: 'http_requests_total',
-            help: 'Total number of HTTP requests',
+            help: 'HTTP 請求總數',
             labelNames: ['method', 'route', 'status_code']
         });
         
         this.httpRequestsInFlight = new Gauge({
             name: 'http_requests_in_flight',
-            help: 'Number of HTTP requests currently being processed',
+            help: '正在處理的 HTTP 請求數',
             labelNames: ['method', 'route']
         });
         
-        // Business metrics
+        // 業務指標
         this.userRegistrations = new Counter({
             name: 'user_registrations_total',
-            help: 'Total number of user registrations',
+            help: '使用者註冊總數',
             labelNames: ['source', 'plan']
         });
         
         this.activeUsers = new Gauge({
             name: 'active_users',
-            help: 'Number of active users',
+            help: '活躍使用者數',
             labelNames: ['timeframe']
         });
         
         this.revenue = new Counter({
             name: 'revenue_total_cents',
-            help: 'Total revenue in cents',
+            help: '總收入（美分）',
             labelNames: ['product', 'currency']
         });
         
-        // Register all metrics
+        // 註冊所有指標
         this.registry.registerMetric(this.httpRequestDuration);
         this.registry.registerMetric(this.httpRequestTotal);
         this.registry.registerMetric(this.httpRequestsInFlight);
@@ -275,13 +275,13 @@ export class MetricsCollector {
         this.registry.registerMetric(this.revenue);
     }
     
-    // Middleware for Express
+    // Express 中介軟體
     httpMetricsMiddleware() {
         return (req: Request, res: Response, next: NextFunction) => {
             const start = Date.now();
             const route = req.route?.path || req.path;
             
-            // Increment in-flight gauge
+            // 增加進行中計數器
             this.httpRequestsInFlight.inc({ method: req.method, route });
             
             res.on('finish', () => {
@@ -292,7 +292,7 @@ export class MetricsCollector {
                     status_code: res.statusCode.toString()
                 };
                 
-                // Record metrics
+                // 記錄指標
                 this.httpRequestDuration.observe(labels, duration);
                 this.httpRequestTotal.inc(labels);
                 this.httpRequestsInFlight.dec({ method: req.method, route });
@@ -302,7 +302,7 @@ export class MetricsCollector {
         };
     }
     
-    // Business metric helpers
+    // 業務指標輔助函數
     recordUserRegistration(source: string, plan: string) {
         this.userRegistrations.inc({ source, plan });
     }
@@ -315,37 +315,37 @@ export class MetricsCollector {
         this.revenue.inc({ product, currency }, amountCents);
     }
     
-    // Export metrics endpoint
+    // 匯出指標端點
     async getMetrics(): Promise<string> {
         return this.registry.metrics();
     }
 }
 
-// Recording rules for Prometheus
+// Prometheus 記錄規則
 export const recordingRules = `
 groups:
   - name: aggregations
     interval: 30s
     rules:
-      # Request rate
+      # 請求率
       - record: http_request_rate_5m
         expr: rate(http_requests_total[5m])
       
-      # Error rate
+      # 錯誤率
       - record: http_error_rate_5m
         expr: |
           sum(rate(http_requests_total{status_code=~"5.."}[5m]))
           /
           sum(rate(http_requests_total[5m]))
       
-      # P95 latency
+      # P95 延遲
       - record: http_request_duration_p95_5m
         expr: |
           histogram_quantile(0.95,
             sum(rate(http_request_duration_seconds_bucket[5m])) by (le, route)
           )
       
-      # Business metrics
+      # 業務指標
       - record: user_registration_rate_1h
         expr: rate(user_registrations_total[1h])
       
@@ -354,20 +354,20 @@ groups:
 `;
 ```
 
-### 3. Grafana Dashboard Setup
+### 3. Grafana 儀表板設定
 
-Create comprehensive dashboards:
+建立全面的儀表板：
 
-**Dashboard Configuration**
+**儀表板配置**
 ```json
 {
   "dashboard": {
-    "title": "Application Overview",
+    "title": "應用程式概覽",
     "tags": ["production", "overview"],
     "timezone": "browser",
     "panels": [
       {
-        "title": "Request Rate",
+        "title": "請求率",
         "type": "graph",
         "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
         "targets": [
@@ -378,13 +378,13 @@ Create comprehensive dashboards:
         ]
       },
       {
-        "title": "Error Rate",
+        "title": "錯誤率",
         "type": "graph",
         "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
         "targets": [
           {
             "expr": "sum(rate(http_requests_total{status_code=~\"5..\"}[5m])) / sum(rate(http_requests_total[5m]))",
-            "legendFormat": "Error Rate"
+            "legendFormat": "錯誤率"
           }
         ],
         "alert": {
@@ -396,11 +396,11 @@ Create comprehensive dashboards:
               "type": "query"
             }
           ],
-          "name": "High Error Rate"
+          "name": "高錯誤率"
         }
       },
       {
-        "title": "Response Time",
+        "title": "響應時間",
         "type": "graph",
         "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
         "targets": [
@@ -415,7 +415,7 @@ Create comprehensive dashboards:
         ]
       },
       {
-        "title": "Active Users",
+        "title": "活躍使用者",
         "type": "stat",
         "gridPos": { "x": 12, "y": 8, "w": 6, "h": 4 },
         "targets": [
@@ -429,23 +429,23 @@ Create comprehensive dashboards:
 }
 ```
 
-**Dashboard as Code**
+**程式碼中的儀表板**
 ```typescript
 // dashboards/service-dashboard.ts
 import { Dashboard, Panel, Target } from '@grafana/toolkit';
 
 export const createServiceDashboard = (serviceName: string): Dashboard => {
     return new Dashboard({
-        title: `${serviceName} Service Dashboard`,
+        title: `${serviceName} 服務儀表板`,
         uid: `${serviceName}-overview`,
         tags: ['service', serviceName],
         time: { from: 'now-6h', to: 'now' },
         refresh: '30s',
         
         panels: [
-            // Row 1: Golden Signals
+            // 第 1 行：黃金信號
             new Panel.Graph({
-                title: 'Request Rate',
+                title: '請求率',
                 gridPos: { x: 0, y: 0, w: 6, h: 8 },
                 targets: [
                     new Target({
@@ -456,19 +456,19 @@ export const createServiceDashboard = (serviceName: string): Dashboard => {
             }),
             
             new Panel.Graph({
-                title: 'Error Rate',
+                title: '錯誤率',
                 gridPos: { x: 6, y: 0, w: 6, h: 8 },
                 targets: [
                     new Target({
                         expr: `sum(rate(http_requests_total{service="${serviceName}",status_code=~"5.."}[5m])) / sum(rate(http_requests_total{service="${serviceName}"}[5m]))`,
-                        legendFormat: 'Error %'
+                        legendFormat: '錯誤 %'
                     })
                 ],
                 yaxes: [{ format: 'percentunit' }]
             }),
             
             new Panel.Graph({
-                title: 'Latency Percentiles',
+                title: '延遲百分位數',
                 gridPos: { x: 12, y: 0, w: 12, h: 8 },
                 targets: [
                     new Target({
@@ -487,9 +487,9 @@ export const createServiceDashboard = (serviceName: string): Dashboard => {
                 yaxes: [{ format: 's' }]
             }),
             
-            // Row 2: Resource Usage
+            // 第 2 行：資源使用
             new Panel.Graph({
-                title: 'CPU Usage',
+                title: 'CPU 使用率',
                 gridPos: { x: 0, y: 8, w: 8, h: 8 },
                 targets: [
                     new Target({
@@ -501,7 +501,7 @@ export const createServiceDashboard = (serviceName: string): Dashboard => {
             }),
             
             new Panel.Graph({
-                title: 'Memory Usage',
+                title: '記憶體使用率',
                 gridPos: { x: 8, y: 8, w: 8, h: 8 },
                 targets: [
                     new Target({
@@ -513,7 +513,7 @@ export const createServiceDashboard = (serviceName: string): Dashboard => {
             }),
             
             new Panel.Graph({
-                title: 'Network I/O',
+                title: '網路 I/O',
                 gridPos: { x: 16, y: 8, w: 8, h: 8 },
                 targets: [
                     new Target({
@@ -532,11 +532,11 @@ export const createServiceDashboard = (serviceName: string): Dashboard => {
 };
 ```
 
-### 4. Distributed Tracing Setup
+### 4. 分散式追蹤設定
 
-Implement OpenTelemetry-based tracing:
+實施基於 OpenTelemetry 的追蹤：
 
-**OpenTelemetry Configuration**
+**OpenTelemetry 配置**
 ```typescript
 // tracing.ts
 import { NodeSDK } from '@opentelemetry/sdk-node';
@@ -559,7 +559,7 @@ export class TracingSetup {
             port: 9464,
             endpoint: '/metrics',
         }, () => {
-            console.log('Prometheus metrics server started on port 9464');
+            console.log('Prometheus 指標伺服器已在 9464 埠啟動');
         });
         
         this.sdk = new NodeSDK({
@@ -591,18 +591,18 @@ export class TracingSetup {
     
     start() {
         this.sdk.start()
-            .then(() => console.log('Tracing initialized'))
-            .catch((error) => console.error('Error initializing tracing', error));
+            .then(() => console.log('追蹤已初始化'))
+            .catch((error) => console.error('初始化追蹤時出錯', error));
     }
     
     shutdown() {
         return this.sdk.shutdown()
-            .then(() => console.log('Tracing terminated'))
-            .catch((error) => console.error('Error terminating tracing', error));
+            .then(() => console.log('追蹤已終止'))
+            .catch((error) => console.error('終止追蹤時出錯', error));
     }
 }
 
-// Custom span creation
+// 自定義 Span 建立
 import { trace, context, SpanStatusCode, SpanKind } from '@opentelemetry/api';
 
 export class CustomTracer {
@@ -636,7 +636,7 @@ export class CustomTracer {
         });
     }
     
-    // Database query tracing
+    // 資料庫查詢追蹤
     async traceQuery<T>(
         queryName: string,
         query: () => Promise<T>,
@@ -653,7 +653,7 @@ export class CustomTracer {
         );
     }
     
-    // HTTP request tracing
+    // HTTP 請求追蹤
     async traceHttpRequest<T>(
         method: string,
         url: string,
@@ -672,11 +672,11 @@ export class CustomTracer {
 }
 ```
 
-### 5. Log Aggregation Setup
+### 5. 日誌聚合設定
 
-Implement centralized logging:
+實施集中式日誌記錄：
 
-**Fluentd Configuration**
+**Fluentd 配置**
 ```yaml
 # fluent.conf
 <source>
@@ -690,7 +690,7 @@ Implement centralized logging:
   </parse>
 </source>
 
-# Add Kubernetes metadata
+# 添加 Kubernetes 元資料
 <filter kubernetes.**>
   @type kubernetes_metadata
   @id filter_kube_metadata
@@ -698,7 +698,7 @@ Implement centralized logging:
   verify_ssl "#{ENV['KUBERNETES_VERIFY_SSL'] || true}"
 </filter>
 
-# Parse application logs
+# 解析應用程式日誌
 <filter kubernetes.**>
   @type parser
   key_name log
@@ -712,12 +712,12 @@ Implement centralized logging:
     <pattern>
       format regexp
       expression /^(?<severity>\w+)\s+\[(?<timestamp>[^\]]+)\]\s+(?<message>.*)$/
-      time_format %Y-%m-%d %H:%M:%S
+      time_format %Y-%m-%dT%H:%M:%S
     </pattern>
   </parse>
 </filter>
 
-# Add fields
+# 添加欄位
 <filter kubernetes.**>
   @type record_transformer
   enable_ruby true
@@ -728,7 +728,7 @@ Implement centralized logging:
   </record>
 </filter>
 
-# Output to Elasticsearch
+# 輸出到 Elasticsearch
 <match kubernetes.**>
   @type elasticsearch
   @id out_es
@@ -759,7 +759,7 @@ Implement centralized logging:
 </match>
 ```
 
-**Structured Logging Library**
+**結構化日誌庫**
 ```python
 # structured_logging.py
 import json
@@ -788,7 +788,7 @@ class StructuredLogger:
             **context
         }
         
-        # Add trace context if available
+        # 如果可用，添加追蹤上下文
         trace_context = self._get_trace_context()
         if trace_context:
             log_entry['trace'] = trace_context
@@ -796,7 +796,7 @@ class StructuredLogger:
         return json.dumps(log_entry)
     
     def _get_trace_context(self) -> Optional[Dict[str, str]]:
-        """Extract trace context from OpenTelemetry"""
+        """從 OpenTelemetry 提取追蹤上下文"""
         from opentelemetry import trace
         
         span = trace.get_current_span()
@@ -832,16 +832,16 @@ class StructuredLogger:
         self.logger.debug(log_msg)
     
     def audit(self, action: str, user_id: str, details: Dict[str, Any]):
-        """Special method for audit logging"""
+        """用於審計日誌的特殊方法"""
         self.info(
-            f"Audit: {action}",
+            f"審計: {action}",
             audit=True,
             user_id=user_id,
             action=action,
             details=details
         )
 
-# Log correlation middleware
+# 日誌關聯中介軟體
 from flask import Flask, request, g
 import uuid
 
@@ -852,7 +852,7 @@ def setup_request_logging(app: Flask, logger: StructuredLogger):
         g.request_start = datetime.utcnow()
         
         logger.info(
-            "Request started",
+            "請求已啟動",
             request_id=g.request_id,
             method=request.method,
             path=request.path,
@@ -865,7 +865,7 @@ def setup_request_logging(app: Flask, logger: StructuredLogger):
         duration = (datetime.utcnow() - g.request_start).total_seconds()
         
         logger.info(
-            "Request completed",
+            "請求已完成",
             request_id=g.request_id,
             method=request.method,
             path=request.path,
@@ -877,18 +877,18 @@ def setup_request_logging(app: Flask, logger: StructuredLogger):
         return response
 ```
 
-### 6. Alert Configuration
+### 6. 警報配置
 
-Set up intelligent alerting:
+設定智慧警報：
 
-**Alert Rules**
+**警報規則**
 ```yaml
 # alerts/application.yml
 groups:
   - name: application
     interval: 30s
     rules:
-      # High error rate
+      # 高錯誤率
       - alert: HighErrorRate
         expr: |
           sum(rate(http_requests_total{status_code=~"5.."}[5m])) by (service)
@@ -900,11 +900,11 @@ groups:
           severity: critical
           team: backend
         annotations:
-          summary: "High error rate on {{ $labels.service }}"
-          description: "Error rate is {{ $value | humanizePercentage }} for {{ $labels.service }}"
+          summary: "{{ $labels.service }} 上的高錯誤率"
+          description: "{{ $labels.service }} 的錯誤率為 {{ $value | humanizePercentage }}"
           runbook_url: "https://wiki.company.com/runbooks/high-error-rate"
       
-      # Slow response time
+      # 慢響應時間
       - alert: SlowResponseTime
         expr: |
           histogram_quantile(0.95,
@@ -915,10 +915,10 @@ groups:
           severity: warning
           team: backend
         annotations:
-          summary: "Slow response time on {{ $labels.service }}"
-          description: "95th percentile response time is {{ $value }}s"
+          summary: "{{ $labels.service }} 上的慢響應時間"
+          description: "第 95 個百分位數響應時間為 {{ $value }} 秒"
       
-      # Pod restart
+      # Pod 重啟
       - alert: PodRestarting
         expr: |
           increase(kube_pod_container_status_restarts_total[1h]) > 5
@@ -926,13 +926,13 @@ groups:
           severity: warning
           team: platform
         annotations:
-          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is restarting"
-          description: "Pod has restarted {{ $value }} times in the last hour"
+          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} 正在重啟"
+          description: "Pod 在過去一小時內已重啟 {{ $value }} 次"
 
   - name: infrastructure
     interval: 30s
     rules:
-      # High CPU usage
+      # 高 CPU 使用率
       - alert: HighCPUUsage
         expr: |
           avg(rate(container_cpu_usage_seconds_total[5m])) by (pod, namespace)
@@ -942,10 +942,10 @@ groups:
           severity: warning
           team: platform
         annotations:
-          summary: "High CPU usage on {{ $labels.pod }}"
-          description: "CPU usage is {{ $value | humanizePercentage }}"
+          summary: "{{ $labels.pod }} 上的高 CPU 使用率"
+          description: "CPU 使用率為 {{ $value | humanizePercentage }}"
       
-      # Memory pressure
+      # 記憶體壓力
       - alert: HighMemoryUsage
         expr: |
           container_memory_working_set_bytes
@@ -956,10 +956,10 @@ groups:
           severity: critical
           team: platform
         annotations:
-          summary: "High memory usage on {{ $labels.pod }}"
-          description: "Memory usage is {{ $value | humanizePercentage }} of limit"
+          summary: "{{ $labels.pod }} 上的高記憶體使用率"
+          description: "記憶體使用率為限制的 {{ $value | humanizePercentage }}"
       
-      # Disk space
+      # 磁碟空間
       - alert: DiskSpaceLow
         expr: |
           node_filesystem_avail_bytes{mountpoint="/"}
@@ -970,11 +970,11 @@ groups:
           severity: critical
           team: platform
         annotations:
-          summary: "Low disk space on {{ $labels.instance }}"
-          description: "Only {{ $value | humanizePercentage }} disk space remaining"
+          summary: "{{ $labels.instance }} 上的磁碟空間不足"
+          description: "僅剩餘 {{ $value | humanizePercentage }} 磁碟空間"
 ```
 
-**Alertmanager Configuration**
+**Alertmanager 配置**
 ```yaml
 # alertmanager.yml
 global:
@@ -990,18 +990,18 @@ route:
   receiver: 'default'
   
   routes:
-    # Critical alerts go to PagerDuty
+    # 關鍵警報發送到 PagerDuty
     - match:
         severity: critical
       receiver: pagerduty
       continue: true
     
-    # All alerts go to Slack
+    # 所有警報發送到 Slack
     - match_re:
         severity: critical|warning
       receiver: slack
     
-    # Database alerts to DBA team
+    # 資料庫警報發送到 DBA 團隊
     - match:
         service: database
       receiver: dba-team
@@ -1017,10 +1017,10 @@ receivers:
         send_resolved: true
         actions:
           - type: button
-            text: 'Runbook'
+            text: '運行手冊'
             url: '{{ .Annotations.runbook_url }}'
           - type: button
-            text: 'Dashboard'
+            text: '儀表板'
             url: 'https://grafana.company.com/d/{{ .Labels.service }}'
   
   - name: 'pagerduty'
@@ -1033,7 +1033,7 @@ receivers:
           alerts: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
 
 inhibit_rules:
-  # Inhibit warning alerts if critical alert is firing
+  # 如果關鍵警報正在觸發，則抑制警告警報
   - source_match:
       severity: 'critical'
     target_match:
@@ -1041,11 +1041,11 @@ inhibit_rules:
     equal: ['alertname', 'service']
 ```
 
-### 7. SLO Implementation
+### 7. SLO 實施
 
-Define and monitor Service Level Objectives:
+定義和監控服務水平目標：
 
-**SLO Configuration**
+**SLO 配置**
 ```typescript
 // slo-manager.ts
 interface SLO {
@@ -1056,8 +1056,8 @@ interface SLO {
         threshold: number;
         comparison: 'lt' | 'gt' | 'eq';
     };
-    target: number; // e.g., 99.9
-    window: string; // e.g., '30d'
+    target: number; // 例如，99.9
+    window: string; // 例如，'30d'
     burnRates: BurnRate[];
 }
 
@@ -1070,8 +1070,8 @@ interface BurnRate {
 export class SLOManager {
     private slos: SLO[] = [
         {
-            name: 'API Availability',
-            description: 'Percentage of successful requests',
+            name: 'API 可用性',
+            description: '成功請求的百分比',
             sli: {
                 metric: 'http_requests_total{status_code!~"5.."}',
                 threshold: 0,
@@ -1087,8 +1087,8 @@ export class SLOManager {
             ]
         },
         {
-            name: 'API Latency',
-            description: '95th percentile response time under 500ms',
+            name: 'API 延遲',
+            description: '95 個百分位數響應時間在 500 毫秒以下',
             sli: {
                 metric: 'http_request_duration_seconds',
                 threshold: 0.5,
@@ -1132,9 +1132,10 @@ ${slo.burnRates.map(burnRate => `
     severity: ${burnRate.severity}
     slo: ${slo.name}
   annotations:
-    summary: "${slo.name} SLO burn rate too high"
-    description: "Burning through error budget ${burnRate.threshold}x faster than sustainable"
-`).join('\n')}
+    summary: "${slo.name} SLO 燃燒率過高"
+    description: "燃燒錯誤預算的速度比可持續的速度快 ${burnRate.threshold} 倍"
+`).join('
+')}
         `;
     }
     
@@ -1144,11 +1145,11 @@ ${slo.burnRates.map(burnRate => `
 }
 ```
 
-### 8. Monitoring Infrastructure as Code
+### 8. 程式碼中的監控基礎設施
 
-Deploy monitoring stack with Terraform:
+使用 Terraform 部署監控堆疊：
 
-**Terraform Configuration**
+**Terraform 配置**
 ```hcl
 # monitoring.tf
 module "prometheus" {
@@ -1237,15 +1238,15 @@ module "alertmanager" {
 }
 ```
 
-## Output Format
+## 輸出格式
 
-1. **Infrastructure Assessment**: Current monitoring capabilities analysis
-2. **Monitoring Architecture**: Complete monitoring stack design
-3. **Implementation Plan**: Step-by-step deployment guide
-4. **Metric Definitions**: Comprehensive metrics catalog
-5. **Dashboard Templates**: Ready-to-use Grafana dashboards
-6. **Alert Runbooks**: Detailed alert response procedures
-7. **SLO Definitions**: Service level objectives and error budgets
-8. **Integration Guide**: Service instrumentation instructions
+1. **基礎設施評估**：當前監控能力分析
+2. **監控架構**：完整的監控堆疊設計
+3. **實施計畫**：逐步部署指南
+4. **指標定義**：全面的指標目錄
+5. **儀表板模板**：即用型 Grafana 儀表板
+6. **警報運行手冊**：詳細的警報響應程序
+7. **SLO 定義**：服務水平目標和錯誤預算
+8. **整合指南**：服務儀器化說明
 
-Focus on creating a monitoring system that provides actionable insights, reduces MTTR, and enables proactive issue detection.
+專注於創建一個提供可操作見解、減少 MTTR 並實現主動問題檢測的監控系統。

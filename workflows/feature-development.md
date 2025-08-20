@@ -1,29 +1,29 @@
-Implement a new feature using specialized agents with explicit Task tool invocations:
+使用專業代理實施新功能，並明確調用任務工具：
 
-[Extended thinking: This workflow orchestrates multiple specialized agents to implement a complete feature from design to deployment. Each agent receives context from previous agents to ensure coherent implementation.]
+[延伸思考：此工作流程協調多個專業代理，以從設計到部署實施完整的功能。每個代理都從先前的代理接收上下文，以確保一致的實施。]
 
-Use the Task tool to delegate to specialized agents in sequence:
+使用任務工具依序委派給專業代理：
 
-1. **Backend Architecture Design**
-   - Use Task tool with subagent_type="backend-architect" 
-   - Prompt: "Design RESTful API and data model for: $ARGUMENTS. Include endpoint definitions, database schema, and service boundaries."
-   - Save the API design and schema for next agents
+1. **後端架構設計**
+   - 使用任務工具，子代理類型為「backend-architect」
+   - 提示：「為：$ARGUMENTS 設計 RESTful API 和資料模型。包括端點定義、資料庫模式和服務邊界。」
+   - 儲存 API 設計和模式以供下一個代理使用
 
-2. **Frontend Implementation**
-   - Use Task tool with subagent_type="frontend-developer"
-   - Prompt: "Create UI components for: $ARGUMENTS. Use the API design from backend-architect: [include API endpoints and data models from step 1]"
-   - Ensure UI matches the backend API contract
+2. **前端實施**
+   - 使用任務工具，子代理類型為「frontend-developer」
+   - 提示：「為：$ARGUMENTS 建立 UI 組件。使用後端架構師的 API 設計：[包括步驟 1 中的 API 端點和資料模型]」
+   - 確保 UI 符合後端 API 契約
 
-3. **Test Coverage**
-   - Use Task tool with subagent_type="test-automator"
-   - Prompt: "Write comprehensive tests for: $ARGUMENTS. Cover both backend API endpoints: [from step 1] and frontend components: [from step 2]"
-   - Include unit, integration, and e2e tests
+3. **測試覆蓋率**
+   - 使用任務工具，子代理類型為「test-automator」
+   - 提示：「為：$ARGUMENTS 編寫全面的測試。涵蓋後端 API 端點：[來自步驟 1] 和前端組件：[來自步驟 2]」
+   - 包括單元測試、整合測試和端到端測試
 
-4. **Production Deployment**
-   - Use Task tool with subagent_type="deployment-engineer"
-   - Prompt: "Prepare production deployment for: $ARGUMENTS. Include CI/CD pipeline, containerization, and monitoring for the implemented feature."
-   - Ensure all components from previous steps are deployment-ready
+4. **生產部署**
+   - 使用任務工具，子代理類型為「deployment-engineer」
+   - 提示：「為：$ARGUMENTS 準備生產部署。包括 CI/CD 管道、容器化和已實施功能的監控。」
+   - 確保先前步驟中的所有組件都已準備好部署
 
-Aggregate results from all agents and present a unified implementation plan.
+匯總所有代理的結果並提出統一的實施計畫。
 
-Feature description: $ARGUMENTS
+功能描述：$ARGUMENTS

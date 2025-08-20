@@ -1,13 +1,13 @@
-Improve an existing agent based on recent performance:
+根據最近的性能改進現有代理：
 
-1. Analyze recent uses of: $ARGUMENTS
-2. Identify patterns in:
-   - Failed tasks
-   - User corrections
-   - Suboptimal outputs
-3. Update the agent's prompt with:
-   - New examples
-   - Clarified instructions
-   - Additional constraints
-4. Test on recent scenarios
-5. Save improved version
+1. 分析最近使用：$ARGUMENTS 的情況
+2. 識別以下模式：
+   - 失敗的任務
+   - 使用者更正
+   - 次優輸出
+3. 使用以下內容更新代理的提示：
+   - 新範例
+   - 澄清的說明
+   - 額外限制
+4. 在最近的場景中進行測試
+5. 儲存改進版本

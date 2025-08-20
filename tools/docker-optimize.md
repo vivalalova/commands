@@ -1,20 +1,20 @@
-# Docker Optimization
+# Docker 優化
 
-You are a Docker optimization expert specializing in creating efficient, secure, and minimal container images. Optimize Dockerfiles for size, build speed, security, and runtime performance while following container best practices.
+您是 Docker 優化專家，專精於建立高效、安全和最小的容器映像。優化 Dockerfile 的大小、建置速度、安全性和運行時性能，同時遵循容器最佳實踐。
 
-## Context
-The user needs to optimize Docker images and containers for production use. Focus on reducing image size, improving build times, implementing security best practices, and ensuring efficient runtime performance.
+## 背景
+使用者需要優化 Docker 映像和容器以用於生產環境。專注於減少映像大小、縮短建置時間、實施安全最佳實踐，並確保高效的運行時性能。
 
-## Requirements
+## 要求
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-### 1. Container Optimization Strategy Selection
+### 1. 容器優化策略選擇
 
-Choose the right optimization approach based on your application type and requirements:
+根據您的應用程式類型和要求選擇正確的優化方法：
 
-**Optimization Strategy Matrix**
+**優化策略矩陣**
 ```python
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
@@ -40,31 +40,31 @@ class SmartDockerOptimizer:
         self.optimization_strategies = {
             'web_application': {
                 'priorities': ['security', 'size', 'startup_time', 'build_speed'],
-                'recommended_base': 'alpine or distroless',
+                'recommended_base': 'alpine 或 distroless',
                 'patterns': ['multi_stage', 'layer_caching', 'dependency_optimization']
             },
             'microservice': {
                 'priorities': ['size', 'startup_time', 'security', 'resource_usage'],
-                'recommended_base': 'scratch or distroless',
+                'recommended_base': 'scratch 或 distroless',
                 'patterns': ['minimal_dependencies', 'static_compilation', 'health_checks']
             },
             'data_processing': {
                 'priorities': ['performance', 'resource_usage', 'build_speed', 'size'],
-                'recommended_base': 'slim or specific runtime',
+                'recommended_base': 'slim 或特定運行時',
                 'patterns': ['parallel_processing', 'volume_optimization', 'memory_tuning']
             },
             'machine_learning': {
                 'priorities': ['gpu_support', 'model_size', 'inference_speed', 'dependency_mgmt'],
-                'recommended_base': 'nvidia/cuda or tensorflow/tensorflow',
+                'recommended_base': 'nvidia/cuda 或 tensorflow/tensorflow',
                 'patterns': ['model_optimization', 'cuda_optimization', 'multi_stage_ml']
             }
         }
     
     def detect_application_type(self, project_path: str) -> str:
-        """Automatically detect application type from project structure"""
+        """從專案結構自動檢測應用程式類型"""
         path = Path(project_path)
         
-        # Check for ML indicators
+        # 檢查 ML 指標
         ml_indicators = ['requirements.txt', 'environment.yml', 'model.pkl', 'model.h5']
         ml_keywords = ['tensorflow', 'pytorch', 'scikit-learn', 'keras', 'numpy', 'pandas']
         
@@ -75,21 +75,21 @@ class SmartDockerOptimizer:
                     if any(keyword in content for keyword in ml_keywords):
                         return 'machine_learning'
         
-        # Check for microservice indicators
+        # 檢查微服務指標
         if any(f.name in ['go.mod', 'main.go', 'cmd'] for f in path.iterdir()):
             return 'microservice'
         
-        # Check for data processing
+        # 檢查資料處理
         data_indicators = ['airflow', 'kafka', 'spark', 'hadoop']
         if any((path / f).exists() for f in ['docker-compose.yml', 'k8s']):
             return 'data_processing'
         
-        # Default to web application
+        # 預設為 Web 應用程式
         return 'web_application'
     
     def analyze_dockerfile_comprehensively(self, dockerfile_path: str, project_path: str) -> Dict[str, Any]:
         """
-        Comprehensive Dockerfile analysis with modern optimization recommendations
+        全面 Dockerfile 分析與現代優化建議
         """
         app_type = self.detect_application_type(project_path)
         
@@ -107,7 +107,7 @@ class SmartDockerOptimizer:
             'recommendations': []
         }
         
-        # Comprehensive analysis
+        # 全面分析
         self._analyze_base_image_strategy(content, analysis)
         self._analyze_layer_efficiency(content, analysis)
         self._analyze_security_posture(content, analysis)
@@ -118,17 +118,17 @@ class SmartDockerOptimizer:
         return analysis
     
     def _analyze_base_image_strategy(self, content: str, analysis: Dict):
-        """Analyze base image selection and optimization opportunities"""
+        """分析基礎映像選擇和優化機會"""
         base_image_patterns = {
             'outdated_versions': {
                 'pattern': r'FROM\s+([^:]+):(?!latest)([0-9]+\.[0-9]+)(?:\s|$)',
                 'severity': 'medium',
-                'recommendation': 'Consider updating to latest stable version'
+                'recommendation': '考慮更新到最新的穩定版本'
             },
             'latest_tag': {
                 'pattern': r'FROM\s+([^:]+):latest',
                 'severity': 'high',
-                'recommendation': 'Pin to specific version for reproducible builds'
+                'recommendation': '固定到特定版本以實現可重現的建置'
             },
             'large_base_images': {
                 'patterns': [
@@ -138,17 +138,17 @@ class SmartDockerOptimizer:
                     r'FROM\s+node(?!.*alpine)'
                 ],
                 'severity': 'medium',
-                'recommendation': 'Consider using smaller alternatives (alpine, slim, distroless)'
+                'recommendation': '考慮使用較小的替代方案（alpine、slim、distroless）'
             },
             'missing_multi_stage': {
                 'pattern': r'FROM\s+(?!.*AS\s+)',
                 'count_threshold': 1,
                 'severity': 'low',
-                'recommendation': 'Consider multi-stage builds for smaller final images'
+                'recommendation': '考慮多階段建置以獲得更小的最終映像'
             }
         }
         
-        # Check for base image optimization opportunities
+        # 檢查基礎映像優化機會
         for issue_type, config in base_image_patterns.items():
             if 'patterns' in config:
                 for pattern in config['patterns']:
@@ -170,22 +170,22 @@ class SmartDockerOptimizer:
                     })
     
     def _analyze_layer_efficiency(self, content: str, analysis: Dict):
-        """Analyze Docker layer efficiency and caching opportunities"""
+        """分析 Docker 層效率和快取機會"""
         lines = content.split('\n')
         run_commands = [line for line in lines if line.strip().startswith('RUN')]
         
-        # Multiple RUN commands analysis
+        # 多個 RUN 命令分析
         if len(run_commands) > 3:
             analysis['build_optimizations'].append({
-                'type': 'excessive_layers',
+                'type': '過多層',
                 'severity': 'medium',
                 'current_count': len(run_commands),
                 'recommended_count': '1-3',
-                'description': f'Found {len(run_commands)} RUN commands. Consider combining related operations.',
-                'implementation': 'Combine RUN commands with && to reduce layers'
+                'description': f'發現 {len(run_commands)} 個 RUN 命令。考慮合併相關操作。',
+                'implementation': '使用 && 合併 RUN 命令以減少層'
             })
         
-        # Package manager cleanup analysis
+        # 套件管理器清理分析
         package_managers = {
             'apt': {'install': r'apt-get\s+install', 'cleanup': r'rm\s+-rf\s+/var/lib/apt/lists'},
             'yum': {'install': r'yum\s+install', 'cleanup': r'yum\s+clean\s+all'},
@@ -195,62 +195,62 @@ class SmartDockerOptimizer:
         for pm_name, patterns in package_managers.items():
             if re.search(patterns['install'], content) and not re.search(patterns['cleanup'], content):
                 analysis['size_optimizations'].append({
-                    'type': f'{pm_name}_cleanup_missing',
+                    'type': f'{pm_name}_缺少清理',
                     'severity': 'medium',
-                    'description': f'Missing {pm_name} cache cleanup',
+                    'description': f'缺少 {pm_name} 快取清理',
                     'potential_savings': '50-200MB',
-                    'implementation': f'Add cleanup command in same RUN layer'
+                    'implementation': '在同一 RUN 層中添加清理命令'
                 })
         
-        # Copy optimization analysis
+        # 複製優化分析
         copy_commands = [line for line in lines if line.strip().startswith(('COPY', 'ADD'))]
         if any('.' in cmd for cmd in copy_commands):
             analysis['build_optimizations'].append({
-                'type': 'inefficient_copy',
+                'type': '低效複製',
                 'severity': 'low',
-                'description': 'Consider using .dockerignore and specific COPY commands',
-                'implementation': 'Copy only necessary files to improve build cache efficiency'
+                'description': '考慮使用 .dockerignore 和特定的 COPY 命令',
+                'implementation': '僅複製必要的檔案以提高建置快取效率'
             })
     
     def _generate_strategic_recommendations(self, analysis: Dict, app_type: str):
-        """Generate strategic optimization recommendations based on application type"""
+        """根據應用程式類型生成戰略優化建議"""
         strategy = self.optimization_strategies[app_type]
         
-        # Priority-based recommendations
+        # 基於優先級的建議
         for priority in strategy['priorities']:
             if priority == 'security':
                 analysis['recommendations'].append(OptimizationRecommendation(
-                    category='Security',
-                    priority='High',
-                    impact='Critical',
-                    effort='Medium',
-                    description='Implement security scanning and hardening',
+                    category='安全',
+                    priority='高',
+                    impact='關鍵',
+                    effort='中',
+                    description='實施安全掃描和強化',
                     implementation=self._get_security_implementation(app_type),
-                    validation='Run Trivy and Hadolint scans'
+                    validation='運行 Trivy 和 Hadolint 掃描'
                 ))
             elif priority == 'size':
                 analysis['recommendations'].append(OptimizationRecommendation(
-                    category='Size Optimization',
-                    priority='High',
-                    impact='High',
-                    effort='Low',
-                    description=f'Use {strategy["recommended_base"]} base image',
+                    category='大小優化',
+                    priority='高',
+                    impact='高',
+                    effort='低',
+                    description=f'使用 {strategy["recommended_base"]} 基礎映像',
                     implementation=self._get_size_implementation(app_type),
-                    validation='Compare image sizes before/after'
+                    validation='比較映像大小前後'
                 ))
             elif priority == 'startup_time':
                 analysis['recommendations'].append(OptimizationRecommendation(
-                    category='Startup Performance',
-                    priority='Medium',
-                    impact='High',
-                    effort='Medium',
-                    description='Optimize application startup time',
+                    category='啟動性能',
+                    priority='中',
+                    impact='高',
+                    effort='中',
+                    description='優化應用程式啟動時間',
                     implementation=self._get_startup_implementation(app_type),
-                    validation='Measure container startup time'
+                    validation='測量容器啟動時間'
                 ))
     
     def _estimate_size_savings(self, optimization_type: str) -> str:
-        """Estimate potential size savings for optimization"""
+        """估計優化的潛在大小節省"""
         savings_map = {
             'large_base_images': '200-800MB',
             'apt_cleanup_missing': '50-200MB',
@@ -262,17 +262,17 @@ class SmartDockerOptimizer:
         return savings_map.get(optimization_type, '10-50MB')
     
     def _get_security_implementation(self, app_type: str) -> str:
-        """Get security implementation based on app type"""
+        """根據應用程式類型獲取安全實施"""
         implementations = {
-            'web_application': 'Non-root user, security scanning, minimal packages',
-            'microservice': 'Distroless base, static compilation, capability dropping',
-            'data_processing': 'Secure data handling, encrypted volumes, network policies',
-            'machine_learning': 'Model encryption, secure model serving, GPU security'
+            'web_application': '非 root 使用者，安全掃描，最小套件',
+            'microservice': 'Distroless 基礎，靜態編譯，能力丟棄',
+            'data_processing': '安全資料處理，加密卷，網路策略',
+            'machine_learning': '模型加密，安全模型服務，GPU 安全'
         }
-        return implementations.get(app_type, 'Standard security hardening')
+        return implementations.get(app_type, '標準安全強化')
 ```
 
-**Advanced Multi-Framework Dockerfile Generator**
+**進階多框架 Dockerfile 生成器**
 ```python
 class FrameworkOptimizedDockerfileGenerator:
     def __init__(self):
@@ -287,46 +287,48 @@ class FrameworkOptimizedDockerfileGenerator:
         }
     
     def generate_optimized_dockerfile(self, framework: str, config: Dict[str, Any]) -> str:
-        """Generate highly optimized Dockerfile for specific framework"""
+        """為特定框架生成高度優化的 Dockerfile"""
         if framework not in self.templates:
-            raise ValueError(f"Unsupported framework: {framework}")
+            raise ValueError(f"不支援的框架: {framework}")
         
         return self.templates[framework](config)
     
     def _generate_node_express_optimized(self, config: Dict) -> str:
-        """Generate optimized Node.js Express Dockerfile"""
+        """
+        生成優化的 Node.js Express Dockerfile
+        """
         node_version = config.get('node_version', '20')
         use_bun = config.get('use_bun', False)
         
         if use_bun:
             return f"""
-# Optimized Node.js with Bun - Ultra-fast builds and runtime
+# 使用 Bun 優化的 Node.js - 超快速建置和運行時
 FROM oven/bun:{config.get('bun_version', 'latest')} AS base
 
-# Install dependencies (bun is much faster than npm)
+# 安裝依賴項 (Bun 比 npm 快得多)
 WORKDIR /app
 COPY package.json bun.lockb* ./
 RUN bun install --frozen-lockfile --production
 
-# Build stage
+# 建置階段
 FROM base AS build
 COPY . .
 RUN bun run build
 
-# Production stage
+# 生產階段
 FROM gcr.io/distroless/nodejs{node_version}-debian11
 WORKDIR /app
 
-# Copy built application
+# 複製已建置的應用程式
 COPY --from=build --chown=nonroot:nonroot /app/dist ./dist
 COPY --from=build --chown=nonroot:nonroot /app/node_modules ./node_modules
 COPY --from=build --chown=nonroot:nonroot /app/package.json ./
 
-# Security: Run as non-root
+# 安全：以非 root 運行
 USER nonroot
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \\
+# 健康檢查
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD ["node", "-e", "require('http').get('http://localhost:3000/health', (res) => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
 
 EXPOSE 3000
@@ -334,22 +336,22 @@ CMD ["node", "dist/index.js"]
 """
         
         return f"""
-# Optimized Node.js Express - Production-ready multi-stage build
+# 優化的 Node.js Express - 生產就緒的多階段建置
 FROM node:{node_version}-alpine AS deps
 
-# Install dumb-init for proper signal handling
+# 安裝 dumb-init 以正確處理信號
 RUN apk add --no-cache dumb-init
 
-# Create app directory with proper permissions
+# 建立應用程式目錄並設定適當權限
 RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
 WORKDIR /app
 USER nodejs
 
-# Copy package files and install dependencies
+# 複製套件檔案並安裝依賴項
 COPY --chown=nodejs:nodejs package*.json ./
 RUN npm ci --only=production --no-audit --no-fund && npm cache clean --force
 
-# Build stage
+# 建置階段
 FROM node:{node_version}-alpine AS build
 WORKDIR /app
 COPY package*.json ./
@@ -357,284 +359,291 @@ RUN npm ci --no-audit --no-fund
 COPY . .
 RUN npm run build && npm run test
 
-# Production stage
+# 生產階段
 FROM node:{node_version}-alpine AS production
 
-# Install dumb-init
+# 安裝 dumb-init
 RUN apk add --no-cache dumb-init
 
-# Create user and app directory
+# 建立使用者和應用程式目錄
 RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
 WORKDIR /app
 USER nodejs
 
-# Copy built application
+# 複製已建置的應用程式
 COPY --from=build --chown=nodejs:nodejs /app/dist ./dist
 COPY --from=deps --chown=nodejs:nodejs /app/node_modules ./node_modules
 COPY --from=build --chown=nodejs:nodejs /app/package.json ./
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \\
+# 健康檢查
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD node healthcheck.js || exit 1
 
-# Expose port
+# 暴露埠
 EXPOSE 3000
 
-# Use dumb-init for proper signal handling
+# 使用 dumb-init 以正確處理信號
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["node", "dist/index.js"]
 """
     
     def _generate_python_fastapi_optimized(self, config: Dict) -> str:
-        """Generate optimized Python FastAPI Dockerfile"""
+        """
+        生成優化的 Python FastAPI Dockerfile
+        """
         python_version = config.get('python_version', '3.11')
         use_uv = config.get('use_uv', True)
         
         if use_uv:
             return f"""
-# Ultra-fast Python with uv package manager
+# 使用 uv 套件管理器實現超快速 Python
 FROM python:{python_version}-slim AS base
 
-# Install uv - the fastest Python package manager
+# 安裝 uv - 最快的 Python 套件管理器
 RUN pip install uv
 
-# Build dependencies
+# 建置依賴項
 FROM base AS build
 WORKDIR /app
 
-# Copy requirements and install dependencies with uv
+# 複製 requirements 並使用 uv 安裝依賴項
 COPY requirements.txt ./
-RUN uv venv /opt/venv && \\
-    . /opt/venv/bin/activate && \\
+RUN uv venv /opt/venv && \
+    . /opt/venv/bin/activate && \
     uv pip install --no-cache-dir -r requirements.txt
 
-# Production stage
+# 生產階段
 FROM python:{python_version}-slim AS production
 
-# Install security updates
-RUN apt-get update && apt-get upgrade -y && \\
-    apt-get install -y --no-install-recommends dumb-init && \\
+# 安裝安全更新
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends dumb-init && \
     rm -rf /var/lib/apt/lists/*
 
-# Create non-root user
+# 建立非 root 使用者
 RUN useradd -m -u 1001 appuser
 WORKDIR /app
 
-# Copy virtual environment
+# 複製虛擬環境
 COPY --from=build /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Copy application
-COPY --chown=appuser:appuser . .
+# 複製應用程式
+COPY --chown=appuser:appuser . ./
 
-# Security: Run as non-root
+# 安全：以非 root 運行
 USER appuser
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \\
+# 健康檢查
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import requests; requests.get('http://localhost:8000/health', timeout=5)"
 
 EXPOSE 8000
 
-# Use dumb-init and Gunicorn for production
+# 使用 dumb-init 和 Gunicorn 進行生產
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "app.main:app"]
 """
         
-        # Standard optimized Python Dockerfile
+        # 標準優化 Python Dockerfile
         return f"""
-# Optimized Python FastAPI - Production-ready
+# 優化的 Python FastAPI - 生產就緒
 FROM python:{python_version}-slim AS build
 
-# Install build dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \\
-    build-essential \\
+# 安裝建置依賴項
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Create virtual environment
+# 建立虛擬環境
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip && \\
+# 安裝 Python 依賴項
+COPY requirements.txt ./
+RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Production stage
+# 生產階段
 FROM python:{python_version}-slim AS production
 
-# Install runtime dependencies and security updates
-RUN apt-get update && apt-get install -y --no-install-recommends \\
-    dumb-init \\
-    && apt-get upgrade -y \\
+# 安裝運行時依賴項和安全更新
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dumb-init \
+    && apt-get upgrade -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Create non-root user
+# 建立非 root 使用者
 RUN useradd -m -u 1001 appuser
 WORKDIR /app
 
-# Copy virtual environment
+# 複製虛擬環境
 COPY --from=build /opt/venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH" \\
-    PYTHONUNBUFFERED=1 \\
-    PYTHONDONTWRITEBYTECODE=1 \\
+ENV PATH="/opt/venv/bin:$PATH" \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
     PYTHONOPTIMIZE=2
 
-# Copy application
-COPY --chown=appuser:appuser . .
+# 複製應用程式
+COPY --chown=appuser:appuser . ./
 
-# Security: Run as non-root
+# 安全：以非 root 運行
 USER appuser
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \\
+# 健康檢查
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)"
 
 EXPOSE 8000
 
-# Production server with proper signal handling
+# 帶有正確信號處理的生產伺服器
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "app.main:app"]
 """
     
     def _generate_golang_optimized(self, config: Dict) -> str:
-        """Generate optimized Go Dockerfile with minimal final image"""
+        """
+        生成優化的 Go Dockerfile，具有最小的最終映像
+        """
         go_version = config.get('go_version', '1.21')
         
         return f"""
-# Optimized Go build - Ultra-minimal final image
+# 優化的 Go 建置 - 超最小最終映像
 FROM golang:{go_version}-alpine AS build
 
-# Install git for go modules
+# 安裝 git 以用於 Go 模組
 RUN apk add --no-cache git ca-certificates tzdata
 
-# Create build directory
+# 建立建置目錄
 WORKDIR /build
 
-# Copy go mod files and download dependencies
+# 複製 go mod 檔案並下載依賴項
 COPY go.mod go.sum ./
 RUN go mod download && go mod verify
 
-# Copy source code
+# 複製原始碼
 COPY . .
 
-# Build static binary with optimizations
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \\
-    -ldflags='-w -s -extldflags "-static"' \\
-    -a -installsuffix cgo \\
+# 使用優化建置靜態二進位檔
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+    -ldflags='-w -s -extldflags "-static"' \
+    -a -installsuffix cgo \
     -o app .
 
-# Final stage - minimal scratch image
+# 使用 UPX 壓縮二進位檔（可選，大小減少 50-70%）
+RUN upx --best --lzma app
+
+# 最終階段 - 最小 scratch 映像
 FROM scratch
 
-# Copy necessary files from build stage
+# 複製必要的檔案
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=build /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=build /build/app /app
 
-# Health check (using the app itself)
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \\
+# 健康檢查 (使用應用程式本身)
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD ["/app", "--health-check"]
 
 EXPOSE 8080
 
-# Run the binary
+# 運行二進位檔
 ENTRYPOINT ["/app"]
 """
     
     def _check_base_image(self, content, analysis):
-        """Enhanced base image optimization analysis"""
+        """增強的基礎映像優化分析"""
         from_match = re.search(r'^FROM\s+(.+?)(?:\s+AS\s+\w+)?$', content, re.MULTILINE)
         if from_match:
             base_image = from_match.group(1)
             
-            # Check for latest tag
+            # 檢查最新標籤
             if ':latest' in base_image or not ':' in base_image:
                 analysis['security_risks'].append({
-                    'issue': 'Using latest or no tag',
+                    'issue': '使用 latest 或無標籤',
                     'severity': 'HIGH',
-                    'fix': 'Pin to specific version',
+                    'fix': '固定到特定版本',
                     'example': f'FROM {base_image.split(":")[0]}:1.2.3',
-                    'impact': 'Unpredictable builds, security vulnerabilities'
+                    'impact': '不可預測的建置，安全漏洞'
                 })
             
-            # Enhanced base image recommendations
+            # 增強的基礎映像建議
             optimization_recommendations = {
                 'ubuntu': {
                     'alternatives': ['ubuntu:22.04-slim', 'debian:bullseye-slim', 'alpine:3.18'],
                     'savings': '400-600MB',
-                    'notes': 'Consider distroless for production'
+                    'notes': '生產環境考慮 distroless'
                 },
                 'debian': {
                     'alternatives': ['debian:bullseye-slim', 'alpine:3.18', 'gcr.io/distroless/base'],
                     'savings': '300-500MB',
-                    'notes': 'Distroless provides better security'
+                    'notes': 'Distroless 提供更好的安全性'
                 },
                 'centos': {
                     'alternatives': ['alpine:3.18', 'gcr.io/distroless/base', 'ubuntu:22.04-slim'],
                     'savings': '200-400MB',
-                    'notes': 'CentOS is deprecated, migrate to alternatives'
+                    'notes': 'CentOS 已棄用，遷移到替代方案'
                 },
                 'node': {
                     'alternatives': ['node:20-alpine', 'node:20-slim', 'gcr.io/distroless/nodejs20'],
                     'savings': '300-700MB',
-                    'notes': 'Alpine is smallest, distroless is most secure'
+                    'notes': 'Alpine 最小，distroless 最安全'
                 },
                 'python': {
                     'alternatives': ['python:3.11-slim', 'python:3.11-alpine', 'gcr.io/distroless/python3'],
                     'savings': '400-800MB',
-                    'notes': 'Slim balances size and compatibility'
+                    'notes': 'Slim 平衡大小和相容性'
                 }
             }
             
             for base_name, config in optimization_recommendations.items():
                 if base_name in base_image and 'slim' not in base_image and 'alpine' not in base_image:
                     analysis['size_impact'].append({
-                        'issue': f'Large base image: {base_image}',
+                        'issue': f'大型基礎映像: {base_image}',
                         'impact': config['savings'],
                         'alternatives': config['alternatives'],
-                        'recommendation': f"Switch to {config['alternatives'][0]} for optimal size/compatibility balance",
+                        'recommendation': f"切換到 {config['alternatives'][0]} 以獲得最佳大小/相容性平衡",
                         'notes': config['notes']
                     })
             
-            # Check for deprecated or insecure base images
+            # 檢查已棄用或不安全的基礎映像
             deprecated_images = {
-                'centos:7': 'EOL reached, migrate to Rocky Linux or Alpine',
-                'ubuntu:18.04': 'LTS ended, upgrade to ubuntu:22.04',
-                'node:14': 'Node 14 is EOL, upgrade to node:18 or node:20',
-                'python:3.8': 'Python 3.8 will reach EOL soon, upgrade to 3.11+'
+                'centos:7': '已達 EOL，遷移到 Rocky Linux 或 Alpine',
+                'ubuntu:18.04': 'LTS 已結束，升級到 ubuntu:22.04',
+                'node:14': 'Node 14 已 EOL，升級到 node:18 或 node:20',
+                'python:3.8': 'Python 3.8 即將達到 EOL，升級到 3.11+'
             }
             
             for deprecated, message in deprecated_images.items():
                 if deprecated in base_image:
                     analysis['security_risks'].append({
-                        'issue': f'Deprecated base image: {deprecated}',
+                        'issue': f'已棄用的基礎映像: {deprecated}',
                         'severity': 'MEDIUM',
                         'fix': message,
-                        'impact': 'Security vulnerabilities, no security updates'
+                        'impact': '安全漏洞，無安全更新'
                     })
     
-    def _check_layer_optimization(self, content, analysis):
-        """Enhanced layer optimization analysis with modern best practices"""
+    def _check_layer_optimization(self, content: str, analysis: Dict):
+        """使用現代最佳實踐增強層優化分析"""
         lines = content.split('\n')
         
-        # Check for multiple RUN commands
+        # 檢查多個 RUN 命令
         run_commands = [line for line in lines if line.strip().startswith('RUN')]
         if len(run_commands) > 5:
             analysis['build_performance'].append({
-                'issue': f'Excessive RUN commands ({len(run_commands)})',
-                'impact': f'Creates {len(run_commands)} unnecessary layers',
-                'fix': 'Combine related RUN commands with && \\',
-                'optimization': f'Could reduce to 2-3 layers, saving ~{len(run_commands) * 10}MB'
+                'issue': f'過多的 RUN 命令 ({len(run_commands)})',
+                'impact': f'建立 {len(run_commands)} 個不必要的層',
+                'fix': '使用 && 合併相關的 RUN 命令',
+                'optimization': f'可以減少到 2-3 層，節省約 {len(run_commands) * 10}MB'
             })
         
-        # Enhanced package manager cleanup checks
+        # 增強的套件管理器清理檢查
         package_managers = {
             'apt': {
                 'install_pattern': r'RUN.*apt-get.*install',
                 'cleanup_pattern': r'rm\s+-rf\s+/var/lib/apt/lists',
                 'update_pattern': r'apt-get\s+update',
-                'combined_check': r'RUN.*apt-get\s+update.*&&.*apt-get\s+install.*&&.*rm\s+-rf\s+/var/lib/apt/lists',
+                'combined_check': r'RUN.*apt-get\s+update.*&&.*apt-get\s+install.*&&.*rm\s+-rf\s+/var/lib/apt/lists/*',
                 'recommended_pattern': 'RUN apt-get update && apt-get install -y --no-install-recommends <packages> && rm -rf /var/lib/apt/lists/*'
             },
             'yum': {
@@ -667,100 +676,100 @@ ENTRYPOINT ["/app"]
                 }.get(pm_name, '10-50MB')
                 
                 analysis['size_impact'].append({
-                    'issue': f'{pm_name} package manager without cleanup',
+                    'issue': f'{pm_name} 套件管理器缺少清理',
                     'impact': potential_savings,
-                    'fix': f'Add cleanup in same RUN command',
+                    'fix': '在同一 RUN 命令中添加清理',
                     'example': patterns['recommended_pattern'],
                     'severity': 'MEDIUM'
                 })
         
-        # Check for inefficient COPY operations
+        # 檢查低效的 COPY 操作
         copy_commands = [line for line in lines if line.strip().startswith(('COPY', 'ADD'))]
         for cmd in copy_commands:
             if 'COPY . .' in cmd or 'COPY ./ ./' in cmd:
                 analysis['build_performance'].append({
-                    'issue': 'Inefficient COPY command copying entire context',
-                    'impact': 'Poor build cache efficiency, slower builds',
-                    'fix': 'Use specific COPY commands and .dockerignore',
+                    'issue': '低效的 COPY 命令複製整個上下文',
+                    'impact': '建置快取效率低，建置速度慢',
+                    'fix': '使用特定的 COPY 命令和 .dockerignore',
                     'example': 'COPY package*.json ./ && COPY src/ ./src/',
-                    'note': 'Copy dependency files first for better caching'
+                    'note': '先複製依賴項檔案以獲得更好的快取'
                 })
         
-        # Check for BuildKit optimizations
+        # 檢查 BuildKit 優化
         if '--mount=type=cache' not in content:
             analysis['build_performance'].append({
-                'issue': 'Missing BuildKit cache mounts',
-                'impact': 'Slower builds, no dependency caching',
-                'fix': 'Use BuildKit cache mounts for package managers',
+                'issue': '缺少 BuildKit 快取掛載',
+                'impact': '建置速度慢，無依賴項快取',
+                'fix': '使用 BuildKit 快取掛載用於套件管理器',
                 'example': 'RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt',
-                'note': 'Requires DOCKER_BUILDKIT=1'
+                'note': '需要 DOCKER_BUILDKIT=1'
             })
         
-        # Check for multi-stage build opportunities
+        # 檢查多階段建置機會
         from_statements = re.findall(r'FROM\s+([^\s]+)', content)
         if len(from_statements) == 1 and any(keyword in content.lower() for keyword in ['build', 'compile', 'npm install', 'pip install']):
             analysis['size_impact'].append({
-                'issue': 'Single-stage build with development dependencies',
-                'impact': '100-500MB from build tools and dev dependencies',
-                'fix': 'Implement multi-stage build',
-                'example': 'Separate build and runtime stages',
+                'issue': '單階段建置與開發依賴項',
+                'impact': '100-500MB 來自建置工具和開發依賴項',
+                'fix': '實施多階段建置',
+                'example': '分離建置和運行時階段',
                 'potential_savings': '200-800MB'
             })
 ```
 
-### 2. Advanced Multi-Stage Build Strategies
+### 2. 進階多階段建置策略
 
-Implement sophisticated multi-stage builds with modern optimization techniques:
+實施複雜的多階段建置，並採用現代優化技術：
 
-**Ultra-Optimized Multi-Stage Patterns**
+**超優化多階段模式**
 ```dockerfile
-# Pattern 1: Node.js with Bun - Next-generation JavaScript runtime
-# 5x faster installs, 4x faster runtime, 90% smaller images
+# 模式 1：帶有 Bun 的 Node.js - 下一代 JavaScript 運行時
+# 安裝速度快 5 倍，運行時快 4 倍，映像小 90%
 FROM oven/bun:1.0-alpine AS base
 
-# Stage 1: Dependency Resolution with Bun
+# 階段 1：使用 Bun 進行依賴項解析
 FROM base AS deps
 WORKDIR /app
 
-# Bun lockfile for deterministic builds
+# Bun 鎖定檔案用於確定性建置
 COPY package.json bun.lockb* ./
 
-# Ultra-fast dependency installation
+# 超快速依賴項安裝
 RUN bun install --frozen-lockfile --production
 
-# Stage 2: Build with development dependencies
+# 階段 2：使用開發依賴項建置
 FROM base AS build
 WORKDIR /app
 
-# Copy package files
+# 複製套件檔案
 COPY package.json bun.lockb* ./
 
-# Install all dependencies (including dev)
+# 安裝所有依賴項（包括開發）
 RUN bun install --frozen-lockfile
 
-# Copy source and build
+# 複製原始碼並建置
 COPY . .
 RUN bun run build && bun test
 
-# Stage 3: Security scanning (optional but recommended)
+# 階段 3：安全掃描（可選但建議）
 FROM build AS security-scan
 RUN apk add --no-cache curl
-# Download and run Trivy for vulnerability scanning
+# 下載並運行 Trivy 進行漏洞掃描
 RUN curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin && \
     trivy fs --exit-code 1 --no-progress --severity HIGH,CRITICAL /app
 
-# Stage 4: Ultra-minimal production with distroless
+# 階段 4：使用 distroless 實現超最小生產
 FROM gcr.io/distroless/nodejs20-debian11 AS production
 
-# Copy only what's needed for production
+# 僅複製生產所需的內容
 COPY --from=deps --chown=nonroot:nonroot /app/node_modules ./node_modules
 COPY --from=build --chown=nonroot:nonroot /app/dist ./dist
 COPY --from=build --chown=nonroot:nonroot /app/package.json ./
 
-# Distroless already runs as non-root
+# Distroless 已以非 root 運行
 USER nonroot
 
-# Health check using Node.js built-in capabilities
+# 健康檢查
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD ["node", "-e", "require('http').get('http://localhost:3000/health',(r)=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
 
@@ -768,64 +777,64 @@ EXPOSE 3000
 CMD ["node", "dist/index.js"]
 ```
 
-**Advanced Python Multi-Stage with UV Package Manager**
+**使用 UV 套件管理器實現進階 Python 多階段**
 ```dockerfile
-# Pattern 2: Python with UV - 10-100x faster than pip
+# 模式 2：帶有 UV 的 Python - 比 pip 快 10-100 倍
 FROM python:3.11-slim AS base
 
-# Install UV - next generation Python package manager
+# 安裝 UV - 下一代 Python 套件管理器
 RUN pip install uv
 
-# Stage 1: Dependency resolution with UV
+# 階段 1：使用 UV 進行依賴項解析
 FROM base AS deps
 WORKDIR /app
 
-# Copy requirements
+# 複製 requirements
 COPY requirements.txt requirements-dev.txt ./
 
-# Create virtual environment and install production dependencies with UV
+# 建立虛擬環境並使用 UV 安裝生產依賴項
 RUN uv venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
-RUN uv pip install --no-cache -r requirements.txt
+RUN uv pip install --no-cache-dir -r requirements.txt
 
-# Stage 2: Build and test
+# 階段 2：建置和測試
 FROM base AS build
 WORKDIR /app
 
-# Install all dependencies including dev
+# 安裝所有依賴項，包括開發
 RUN uv venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 COPY requirements*.txt ./
-RUN uv pip install --no-cache -r requirements.txt -r requirements-dev.txt
+RUN uv pip install --no-cache-dir -r requirements.txt -r requirements-dev.txt
 
-# Copy source and run tests
+# 複製原始碼並運行測試
 COPY . .
 RUN python -m pytest tests/ --cov=src --cov-report=term-missing
 RUN python -m black --check src/
 RUN python -m isort --check-only src/
 RUN python -m mypy src/
 
-# Stage 3: Security and compliance scanning
+# 階段 3：安全和合規性掃描
 FROM build AS security
 RUN uv pip install safety bandit
 RUN safety check
 RUN bandit -r src/ -f json -o bandit-report.json
 
-# Stage 4: Optimized production with distroless
+# 階段 4：使用 distroless 優化生產
 FROM gcr.io/distroless/python3-debian11 AS production
 
-# Copy virtual environment and application
+# 複製虛擬環境和應用程式
 COPY --from=deps /opt/venv /opt/venv
 COPY --from=build /app/src ./src
 COPY --from=build /app/requirements.txt ./
 
-# Set environment for production
+# 設定生產環境
 ENV PATH="/opt/venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONOPTIMIZE=2
 
-# Health check
+# 健康檢查
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
     CMD ["python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
 
@@ -833,117 +842,101 @@ EXPOSE 8000
 CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "src.main:app"]
 ```
 
-**Go Static Binary with Scratch Base**
+**帶有 Scratch 基礎的 Go 靜態二進位檔**
 ```dockerfile
-# Pattern 3: Go with ultra-minimal scratch base
+# 模式 3：帶有超最小 scratch 基礎的 Go
 FROM golang:1.21-alpine AS base
 
-# Install build dependencies
-RUN apk add --no-cache git ca-certificates tzdata upx
+# 安裝 git 以用於 Go 模組
+RUN apk add --no-cache git ca-certificates tzdata
 
-# Stage 1: Dependency download
-FROM base AS deps
-WORKDIR /src
+# 建立建置目錄
+WORKDIR /build
 
-# Copy go mod files
+# 複製 go mod 檔案並下載依賴項
 COPY go.mod go.sum ./
+RUN go mod download && go mod verify
 
-# Download dependencies with module cache
-RUN --mount=type=cache,target=/go/pkg/mod \
-    go mod download
-
-# Stage 2: Build with optimizations
-FROM base AS build
-WORKDIR /src
-
-# Copy dependencies from cache
-COPY --from=deps /go/pkg /go/pkg
+# 複製原始碼
 COPY . .
 
-# Build static binary with extreme optimizations
-RUN --mount=type=cache,target=/go/pkg/mod \
-    --mount=type=cache,target=/root/.cache/go-build \
-    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+# 使用優化建置靜態二進位檔
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
     -ldflags='-w -s -extldflags "-static"' \
     -a -installsuffix cgo \
-    -trimpath \
-    -o app ./cmd/server
+    -o app .
 
-# Compress binary with UPX (optional, 50-70% size reduction)
+# 使用 UPX 壓縮二進位檔（可選，大小減少 50-70%）
 RUN upx --best --lzma app
 
-# Stage 3: Testing
-FROM build AS test
-RUN go test -v ./...
-RUN go vet ./...
-RUN golangci-lint run
+# 最終階段 - 最小 scratch 映像
+FROM scratch
 
-# Stage 4: Minimal scratch image (2-5MB final image)
-FROM scratch AS production
-
-# Copy essential files
+# 複製必要的檔案
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=build /usr/share/zoneinfo /usr/share/zoneinfo
-COPY --from=build /src/app /app
+COPY --from=build /build/app /app
 
-# Health check using app's built-in health endpoint
+# 健康檢查 (使用應用程式本身內建的健康端點)
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD ["/app", "-health-check"]
+    CMD ["/app", "--health-check"]
 
 EXPOSE 8080
+
+# 運行二進位檔
 ENTRYPOINT ["/app"]
 ```
 
-**Rust with Cross-Compilation and Security**
+**帶有交叉編譯和安全的 Rust**
 ```dockerfile
-# Pattern 4: Rust with musl for static linking
+# 模式 4：帶有 musl 的 Rust 用於靜態連結
 FROM rust:1.70-alpine AS base
 
-# Install musl development tools
+# 安裝 musl 開發工具
 RUN apk add --no-cache musl-dev openssl-dev
 
-# Stage 1: Dependency caching
+# 階段 1：依賴項快取
 FROM base AS deps
 WORKDIR /app
 
-# Copy Cargo files
+# 複製 Cargo 檔案
 COPY Cargo.toml Cargo.lock ./
 
-# Create dummy main and build dependencies
+# 建立虛擬 main 並建置依賴項
 RUN mkdir src && echo 'fn main() {}' > src/main.rs
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/app/target \
     cargo build --release --target x86_64-unknown-linux-musl
 
-# Stage 2: Build application
+# 階段 2：建置應用程式
 FROM base AS build
 WORKDIR /app
 
-# Copy dependencies from cache
+# 複製快取中的依賴項
 COPY --from=deps /usr/local/cargo /usr/local/cargo
 COPY . .
 
-# Build optimized static binary
+# 建置優化靜態二進位檔
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/app/target \
     cargo build --release --target x86_64-unknown-linux-musl && \
     cp target/x86_64-unknown-linux-musl/release/app /app/app
 
-# Strip binary for smaller size
+# 剝離二進位檔以減小大小
 RUN strip /app/app
 
-# Stage 3: Security scanning
+# 階段 3：安全掃描
 FROM build AS security
 RUN cargo audit
 RUN cargo clippy -- -D warnings
 
-# Stage 4: Minimal scratch image
+# 階段 4：最小 scratch 映像
 FROM scratch AS production
 
-# Copy static binary
+# 複製靜態二進位檔
 COPY --from=build /app/app /app
 
-# Health check
+# 健康檢查
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD ["/app", "--health"]
 
@@ -951,38 +944,38 @@ EXPOSE 8000
 ENTRYPOINT ["/app"]
 ```
 
-**Java Spring Boot with GraalVM Native Image**
+**帶有 GraalVM Native Image 的 Java Spring Boot**
 ```dockerfile
-# Pattern 5: Java with GraalVM Native Image (sub-second startup)
+# 模式 5：帶有 GraalVM Native Image 的 Java（亞秒級啟動）
 FROM ghcr.io/graalvm/graalvm-ce:java17 AS base
 
-# Install native-image component
+# 安裝 native-image 組件
 RUN gu install native-image
 
-# Stage 1: Dependencies
+# 階段 1：依賴項
 FROM base AS deps
 WORKDIR /app
 
-# Copy Maven/Gradle files
+# 複製 Maven/Gradle 檔案
 COPY pom.xml ./
 COPY .mvn .mvn
 COPY mvnw ./
 
-# Download dependencies
+# 下載依賴項
 RUN ./mvnw dependency:go-offline
 
-# Stage 2: Build application
+# 階段 2：建置應用程式
 FROM base AS build
 WORKDIR /app
 
-# Copy dependencies and source
+# 複製依賴項和原始碼
 COPY --from=deps /root/.m2 /root/.m2
 COPY . .
 
-# Build JAR
+# 建置 JAR
 RUN ./mvnw clean package -DskipTests
 
-# Build native image
+# 建置原生映像
 RUN native-image \
     -jar target/*.jar \
     --no-fallback \
@@ -993,17 +986,17 @@ RUN native-image \
     -H:IncludeResourceBundles=sun.util.resources.TimeZoneNames \
     app
 
-# Stage 3: Testing
+# 階段 3：測試
 FROM build AS test
 RUN ./mvnw test
 
-# Stage 4: Ultra-minimal final image (20-50MB vs 200-300MB)
+# 階段 4：超最小最終映像（20-50MB vs 200-300MB）
 FROM scratch AS production
 
-# Copy native binary
+# 複製原生二進位檔
 COPY --from=build /app/app /app
 
-# Health check
+# 健康檢查
 HEALTHCHECK --interval=30s --timeout=3s --start-period=2s --retries=3 \
     CMD ["/app", "--health"]
 
@@ -1011,154 +1004,155 @@ EXPOSE 8080
 ENTRYPOINT ["/app"]
 ```
 
-**Python Multi-Stage Example**
+**Python 多階段範例**
 ```dockerfile
-# Stage 1: Build dependencies
+# 階段 1：建置依賴項
 FROM python:3.11-slim AS builder
 
-# Install build dependencies
+# 安裝建置依賴項
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     libc6-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Create virtual environment
+# 建立虛擬環境
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Install Python dependencies
-COPY requirements.txt .
+# 安裝 Python 依賴項
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Stage 2: Runtime
+# 階段 2：運行時
 FROM python:3.11-slim AS runtime
 
-# Copy virtual environment from builder
+# 從建置器複製虛擬環境
 COPY --from=builder /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Create non-root user
+# 建立非 root 使用者
 RUN useradd -m -u 1001 appuser
 
 WORKDIR /app
 
-# Copy application
-COPY --chown=appuser:appuser . .
+# 複製應用程式
+COPY --chown=appuser:appuser . ./
 
 USER appuser
 
-# Gunicorn for production
+# Gunicorn 用於生產
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "app:application"]
 ```
 
-### 3. Image Size Optimization
+### 3. 映像大小優化
 
-Minimize Docker image size:
+最小化 Docker 映像大小：
 
-**Size Reduction Techniques**
+**大小縮減技術**
 ```dockerfile
-# Alpine-based optimization
+# 基於 Alpine 的優化
 FROM alpine:3.18
 
-# Install only necessary packages
+# 僅安裝必要的套件
 RUN apk add --no-cache \
     python3 \
     py3-pip \
     && pip3 install --no-cache-dir --upgrade pip
 
-# Use --no-cache-dir for pip
-COPY requirements.txt .
+# 對於 pip 使用 --no-cache-dir
+COPY requirements.txt ./
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-# Remove unnecessary files
+# 移除不必要的檔案
 RUN find /usr/local -type d -name __pycache__ -exec rm -rf {} + \
     && find /usr/local -type f -name '*.pyc' -delete
 
-# Golang example with scratch image
+# 帶有 scratch 映像的 Golang 範例
 FROM golang:1.21-alpine AS builder
 WORKDIR /build
 COPY . .
-# Build static binary
+# 建置靜態二進位檔
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-s -w' -o app .
 
-# Final stage: scratch
+# 最終階段：scratch
 FROM scratch
-# Copy only the binary
+# 僅複製二進位檔
 COPY --from=builder /build/app /app
-# Copy SSL certificates for HTTPS
+# 複製 SSL 憑證以用於 HTTPS
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 ENTRYPOINT ["/app"]
 ```
 
-**Layer Optimization Script**
+**層優化腳本**
 ```python
 def optimize_dockerfile_layers(dockerfile_content):
     """
-    Optimize Dockerfile layers
+    優化 Dockerfile 層
     """
     optimizations = []
     
-    # Combine RUN commands
+    # 合併 RUN 命令
     run_commands = re.findall(r'^RUN\s+(.+?)(?=^(?:RUN|FROM|COPY|ADD|ENV|EXPOSE|CMD|ENTRYPOINT|WORKDIR)|\Z)', 
                              dockerfile_content, re.MULTILINE | re.DOTALL)
     
     if len(run_commands) > 1:
-        combined = ' && \\\n    '.join(cmd.strip() for cmd in run_commands)
+        combined = ' && \
+    '.join(cmd.strip() for cmd in run_commands)
         optimizations.append({
             'original': '\n'.join(f'RUN {cmd}' for cmd in run_commands),
             'optimized': f'RUN {combined}',
-            'benefit': f'Reduces {len(run_commands)} layers to 1'
+            'benefit': f'將 {len(run_commands)} 層減少到 1 層'
         })
     
-    # Optimize package installation
+    # 優化套件安裝
     apt_install = re.search(r'RUN\s+apt-get\s+update.*?apt-get\s+install\s+(.+?)(?=^(?:RUN|FROM)|\Z)', 
                            dockerfile_content, re.MULTILINE | re.DOTALL)
     
     if apt_install:
         packages = apt_install.group(1)
-        optimized = f"""RUN apt-get update && apt-get install -y --no-install-recommends \\
-    {packages.strip()} \\
+        optimized = f"""RUN apt-get update && apt-get install -y --no-install-recommends \
+    {packages.strip()} \
     && rm -rf /var/lib/apt/lists/*"""
         
         optimizations.append({
             'original': apt_install.group(0),
             'optimized': optimized,
-            'benefit': 'Reduces image size by cleaning apt cache'
+            'benefit': '透過清理 apt 快取減少映像大小'
         })
     
     return optimizations
 ```
 
-### 4. Build Performance Optimization
+### 4. 建置性能優化
 
-Speed up Docker builds:
+加速 Docker 建置：
 
-**.dockerignore Optimization**
+**.dockerignore 優化**
 ```
 # .dockerignore
-# Version control
+# 版本控制
 .git
 .gitignore
 
-# Development
+# 開發
 .vscode
 .idea
 *.swp
 *.swo
 
-# Dependencies
+# 依賴項
 node_modules
 vendor
 venv
 __pycache__
 
-# Build artifacts
+# 建置工件
 dist
 build
 *.egg-info
 target
 
-# Tests
+# 測試
 test
 tests
 *.test.js
@@ -1166,20 +1160,20 @@ tests
 coverage
 .pytest_cache
 
-# Documentation
+# 文件
 docs
 *.md
 LICENSE
 
-# Environment
+# 環境
 .env
 .env.*
 
-# Logs
+# 日誌
 *.log
 logs
 
-# OS files
+# 作業系統檔案
 .DS_Store
 Thumbs.db
 
@@ -1195,87 +1189,87 @@ docker-compose*
 .dockerignore
 ```
 
-**Build Cache Optimization**
+**建置快取優化**
 ```dockerfile
-# Optimize build cache
+# 優化建置快取
 FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files first (changes less frequently)
+# 先複製套件檔案（更改頻率較低）
 COPY package*.json ./
 
-# Install dependencies (cached if package files haven't changed)
+# 安裝依賴項（如果套件檔案未更改，則快取）
 RUN npm ci --only=production
 
-# Copy source code (changes frequently)
+# 複製原始碼（更改頻率較高）
 COPY . .
 
-# Build application
+# 建置應用程式
 RUN npm run build
 
-# Use BuildKit cache mounts
+# 使用 BuildKit 快取掛載
 FROM node:18-alpine AS builder
 WORKDIR /app
 
-# Mount cache for package manager
+# 掛載套件管理器快取
 RUN --mount=type=cache,target=/root/.npm \
     npm ci --only=production
 
-# Mount cache for build artifacts
+# 掛載建置工件快取
 RUN --mount=type=cache,target=/app/.cache \
     npm run build
 ```
 
-### 5. Security Hardening
+### 5. 安全強化
 
-Implement security best practices:
+實施安全最佳實踐：
 
-**Security-Hardened Dockerfile**
+**安全強化 Dockerfile**
 ```dockerfile
-# Use specific version and minimal base image
+# 使用特定版本和最小基礎映像
 FROM alpine:3.18.4
 
-# Install security updates
+# 安裝安全更新
 RUN apk update && apk upgrade && apk add --no-cache \
     ca-certificates \
     && rm -rf /var/cache/apk/*
 
-# Create non-root user
+# 建立非 root 使用者
 RUN addgroup -g 1001 -S appgroup && \
     adduser -S appuser -u 1001 -G appgroup
 
-# Set secure permissions
+# 設定安全權限
 RUN mkdir /app && chown -R appuser:appgroup /app
 WORKDIR /app
 
-# Copy with correct ownership
+# 以正確的所有權複製
 COPY --chown=appuser:appgroup . .
 
-# Drop all capabilities
+# 丟棄所有能力
 USER appuser
 
-# Read-only root filesystem
-# Add volumes for writable directories
+# 只讀根檔案系統
+# 為可寫目錄添加卷
 VOLUME ["/tmp", "/app/logs"]
 
-# Security labels
+# 安全標籤
 LABEL security.scan="trivy" \
       security.updates="auto"
 
-# Health check with timeout
+# 帶有超時的健康檢查
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
     CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
 
-# Run as PID 1 to handle signals properly
+# 以 PID 1 運行以正確處理信號
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["./app"]
 ```
 
-**Security Scanning Integration**
+**安全掃描整合**
 ```yaml
 # .github/workflows/docker-security.yml
-name: Docker Security Scan
+name: Docker 安全掃描
 
 on:
   push:
@@ -1289,7 +1283,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Run Trivy vulnerability scanner
+      - name: 運行 Trivy 漏洞掃描器
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: '${{ github.repository }}:${{ github.sha }}'
@@ -1297,34 +1291,34 @@ jobs:
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
           
-      - name: Upload Trivy scan results
+      - name: 上傳 Trivy 掃描結果
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
           
-      - name: Run Hadolint
+      - name: 運行 Hadolint
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: Dockerfile
           format: sarif
           output-file: hadolint-results.sarif
           
-      - name: Upload Hadolint scan results
+      - name: 上傳 Hadolint 掃描結果
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: hadolint-results.sarif
 ```
 
-### 6. Runtime Optimization
+### 6. 運行時優化
 
-Optimize container runtime performance:
+優化容器運行時性能：
 
-**Runtime Configuration**
+**運行時配置**
 ```dockerfile
-# JVM optimization example
+# JVM 優化範例
 FROM eclipse-temurin:17-jre-alpine
 
-# JVM memory settings based on container limits
+# 根據容器限制設定 JVM 記憶體
 ENV JAVA_OPTS="-XX:MaxRAMPercentage=75.0 \
     -XX:InitialRAMPercentage=50.0 \
     -XX:+UseContainerSupport \
@@ -1332,26 +1326,26 @@ ENV JAVA_OPTS="-XX:MaxRAMPercentage=75.0 \
     -XX:+UseStringDeduplication \
     -Djava.security.egd=file:/dev/./urandom"
 
-# Node.js optimization
+# Node.js 優化
 FROM node:18-alpine
 ENV NODE_ENV=production \
     NODE_OPTIONS="--max-old-space-size=1024 --optimize-for-size"
 
-# Python optimization
+# Python 優化
 FROM python:3.11-slim
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONOPTIMIZE=2
 
-# Nginx optimization
+# Nginx 優化
 FROM nginx:alpine
 COPY nginx-optimized.conf /etc/nginx/nginx.conf
-# Enable gzip, caching, and connection pooling
+# 啟用 gzip、快取和連接池
 ```
 
-### 7. Docker Compose Optimization
+### 7. Docker Compose 優化
 
-Optimize multi-container applications:
+優化多容器應用程式：
 
 ```yaml
 # docker-compose.yml
@@ -1409,27 +1403,28 @@ services:
         condition: service_healthy
 ```
 
-### 8. Build Automation
+### 8. 建置自動化
 
-Automate optimized builds:
+自動化優化建置：
 
+**建置自動化腳本**
 ```bash
 #!/bin/bash
 # build-optimize.sh
 
 set -euo pipefail
 
-# Variables
+# 變數
 IMAGE_NAME="${1:-myapp}"
 VERSION="${2:-latest}"
 PLATFORMS="${3:-linux/amd64,linux/arm64}"
 
-echo "🏗️  Building optimized Docker image..."
+echo "🏗️ 正在建置優化 Docker 映像..."
 
-# Enable BuildKit
+# 啟用 BuildKit
 export DOCKER_BUILDKIT=1
 
-# Build with cache
+# 帶快取建置
 docker buildx build \
   --platform "${PLATFORMS}" \
   --cache-from "type=registry,ref=${IMAGE_NAME}:buildcache" \
@@ -1440,23 +1435,23 @@ docker buildx build \
   --push \
   .
 
-# Analyze image size
-echo "📊 Image analysis:"
+# 分析映像大小
+echo "📊 映像分析："
 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
   wagoodman/dive:latest "${IMAGE_NAME}:${VERSION}"
 
-# Security scan
-echo "🔒 Security scan:"
+# 安全掃描
+echo "🔒 安全掃描："
 trivy image "${IMAGE_NAME}:${VERSION}"
 
-# Size report
-echo "📏 Size comparison:"
-docker images "${IMAGE_NAME}" --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}"
+# 大小報告
+echo "📏 大小比較："
+docker images "${IMAGE_NAME}" --format "table {{.Repository}}	{{.Tag}}	{{.Size}}"
 ```
 
-### 9. Monitoring and Metrics
+### 9. 監控和指標
 
-Track container performance:
+追蹤容器性能：
 
 ```python
 # container-metrics.py
@@ -1469,7 +1464,7 @@ class ContainerMonitor:
         self.client = docker.from_env()
         
     def collect_metrics(self, container_name):
-        """Collect container performance metrics"""
+        """收集容器性能指標"""
         container = self.client.containers.get(container_name)
         stats = container.stats(stream=False)
         
@@ -1485,7 +1480,7 @@ class ContainerMonitor:
         return metrics
     
     def _calculate_cpu_percent(self, stats):
-        """Calculate CPU usage percentage"""
+        """計算 CPU 使用率百分比"""
         cpu_delta = stats['cpu_stats']['cpu_usage']['total_usage'] - \
                    stats['precpu_stats']['cpu_usage']['total_usage']
         system_delta = stats['cpu_stats']['system_cpu_usage'] - \
@@ -1498,7 +1493,7 @@ class ContainerMonitor:
         return 0.0
     
     def _calculate_memory_usage(self, stats):
-        """Calculate memory usage"""
+        """計算記憶體使用量"""
         usage = stats['memory_stats']['usage']
         limit = stats['memory_stats']['limit']
         
@@ -1509,112 +1504,112 @@ class ContainerMonitor:
         }
 ```
 
-### 10. Best Practices Checklist
+### 10. 最佳實踐檢查清單
 
 ```python
 def generate_dockerfile_checklist():
-    """Generate Dockerfile best practices checklist"""
+    """生成 Dockerfile 最佳實踐檢查清單"""
     checklist = """
-## Dockerfile Best Practices Checklist
+## Dockerfile 最佳實踐檢查清單
 
-### Base Image
-- [ ] Use specific version tags (not :latest)
-- [ ] Use minimal base images (alpine, slim, distroless)
-- [ ] Keep base images updated
-- [ ] Use official images when possible
+### 基礎映像
+- [ ] 使用特定版本標籤（而非 :latest）
+- [ ] 使用最小基礎映像（alpine、slim、distroless）
+- [ ] 保持基礎映像更新
+- [ ] 盡可能使用官方映像
 
-### Layers & Caching
-- [ ] Order commands from least to most frequently changing
-- [ ] Combine RUN commands where appropriate
-- [ ] Clean up in the same layer (apt cache, pip cache)
-- [ ] Use .dockerignore to exclude unnecessary files
+### 層和快取
+- [ ] 命令順序從最不頻繁更改到最頻繁更改
+- [ ] 適當時合併 RUN 命令
+- [ ] 在同一層中清理（apt 快取、pip 快取）
+- [ ] 使用 .dockerignore 排除不必要的檔案
 
-### Security
-- [ ] Run as non-root user
-- [ ] Don't store secrets in images
-- [ ] Scan images for vulnerabilities
-- [ ] Use COPY instead of ADD
-- [ ] Set read-only root filesystem where possible
+### 安全
+- [ ] 以非 root 使用者運行
+- [ ] 不在映像中儲存秘密
+- [ ] 掃描映像以查找漏洞
+- [ ] 使用 COPY 而非 ADD
+- [ ] 盡可能設定只讀根檔案系統
 
-### Size Optimization
-- [ ] Use multi-stage builds
-- [ ] Remove unnecessary dependencies
-- [ ] Clear package manager caches
-- [ ] Remove temporary files and build artifacts
-- [ ] Use --no-install-recommends for apt
+### 大小優化
+- [ ] 使用多階段建置
+- [ ] 移除不必要的依賴項
+- [ ] 清除套件管理器快取
+- [ ] 移除臨時檔案和建置工件
+- [ ] 對於 apt 使用 --no-install-recommends
 
-### Performance
-- [ ] Set appropriate resource limits
-- [ ] Use health checks
-- [ ] Optimize for startup time
-- [ ] Configure logging appropriately
-- [ ] Use BuildKit for faster builds
+### 性能
+- [ ] 設定適當的資源限制
+- [ ] 使用健康檢查
+- [ ] 優化啟動時間
+- [ ] 適當配置日誌記錄
+- [ ] 使用 BuildKit 加速建置
 
-### Maintainability
-- [ ] Include LABEL metadata
-- [ ] Document exposed ports with EXPOSE
-- [ ] Use ARG for build-time variables
-- [ ] Include meaningful comments
-- [ ] Version your Dockerfiles
+### 可維護性
+- [ ] 包含 LABEL 元資料
+- [ ] 使用 EXPOSE 記錄暴露的埠
+- [ ] 使用 ARG 進行建置時變數
+- [ ] 包含有意義的註釋
+- [ ] 版本化您的 Dockerfile
 """
     return checklist
 ```
 
-## Output Format
+## 輸出格式
 
-1. **Analysis Report**: Current Dockerfile issues and optimization opportunities
-2. **Optimized Dockerfile**: Rewritten Dockerfile with all optimizations
-3. **Size Comparison**: Before/after image size analysis
-4. **Build Performance**: Build time improvements and caching strategy
-5. **Security Report**: Security scan results and hardening recommendations
-6. **Runtime Config**: Optimized runtime settings for the application
-7. **Monitoring Setup**: Container metrics and performance tracking
-8. **Migration Guide**: Step-by-step guide to implement optimizations
+1. **分析報告**：當前 Dockerfile 問題和優化機會
+2. **優化 Dockerfile**：重寫的 Dockerfile，包含所有優化
+3. **大小比較**：映像大小前後分析
+4. **建置性能**：建置時間改進和快取策略
+5. **安全報告**：安全掃描結果和強化建議
+6. **運行時配置**：應用程式的優化運行時設定
+7. **監控設定**：容器指標和性能追蹤
+8. **遷移指南**：實施優化的逐步指南
 
-## Cross-Command Integration
+## 跨指令整合
 
-### Complete Container-First Development Workflow
+### 完整的容器優先開發工作流程
 
-**Containerized Development Pipeline**
+**容器化開發管道**
 ```bash
-# 1. Generate containerized API scaffolding
+# 1. 生成容器化 API 腳手架
 /api-scaffold
 framework: "fastapi"
 deployment_target: "kubernetes"
 containerization: true
 monitoring: true
 
-# 2. Optimize containers for production
+# 2. 優化容器以用於生產
 /docker-optimize
 optimization_level: "production"
 security_hardening: true
 multi_stage_build: true
 
-# 3. Security scan container images
+# 3. 安全掃描容器映像
 /security-scan
 scan_types: ["container", "dockerfile", "runtime"]
 image_name: "app:optimized"
 generate_sbom: true
 
-# 4. Generate K8s manifests for optimized containers
+# 4. 為優化容器生成 K8s 清單
 /k8s-manifest
 container_security: "strict"
 resource_optimization: true
 horizontal_scaling: true
 ```
 
-**Integrated Container Configuration**
+**整合容器配置**
 ```python
-# container-config.py - Shared across all commands
+# container-config.py - 所有指令共享
 class IntegratedContainerConfig:
     def __init__(self):
-        self.api_config = self.load_api_config()           # From /api-scaffold
-        self.security_config = self.load_security_config() # From /security-scan
-        self.k8s_config = self.load_k8s_config()          # From /k8s-manifest
-        self.test_config = self.load_test_config()         # From /test-harness
+        self.api_config = self.load_api_config()           # 來自 /api-scaffold
+        self.security_config = self.load_security_config() # 來自 /security-scan
+        self.k8s_config = self.load_k8s_config()          # 來自 /k8s-manifest
+        self.test_config = self.load_test_config()         # 來自 /test-harness
         
     def generate_optimized_dockerfile(self):
-        """Generate Dockerfile optimized for the specific application"""
+        """生成針對特定應用程式優化的 Dockerfile"""
         framework = self.api_config.get('framework', 'python')
         security_level = self.security_config.get('level', 'standard')
         deployment_target = self.k8s_config.get('platform', 'kubernetes')
@@ -1627,7 +1622,7 @@ class IntegratedContainerConfig:
             return self.generate_django_dockerfile(security_level, deployment_target)
             
     def generate_fastapi_dockerfile(self, security_level, deployment_target):
-        """Generate optimized FastAPI Dockerfile"""
+        """生成優化的 FastAPI Dockerfile"""
         dockerfile_content = {
             'base_image': self.select_base_image('python', security_level),
             'build_stages': self.configure_build_stages(),
@@ -1639,7 +1634,7 @@ class IntegratedContainerConfig:
         return dockerfile_content
     
     def select_base_image(self, language, security_level):
-        """Select optimal base image based on security and size requirements"""
+        """根據安全和大小要求選擇最佳基礎映像"""
         base_images = {
             'python': {
                 'minimal': 'python:3.11-alpine',
@@ -1657,7 +1652,7 @@ class IntegratedContainerConfig:
             return base_images[language]['standard']
     
     def configure_build_stages(self):
-        """Configure multi-stage build optimization"""
+        """配置多階段建置優化"""
         return {
             'dependencies_stage': {
                 'name': 'dependencies',
@@ -1686,122 +1681,122 @@ class IntegratedContainerConfig:
         }
 ```
 
-**API Container Integration**
+**API 容器整合**
 ```dockerfile
-# Dockerfile.api - Generated from /api-scaffold + /docker-optimize
-# Multi-stage build optimized for FastAPI applications
+# Dockerfile.api - 從 /api-scaffold + /docker-optimize 生成
+# 為 FastAPI 應用程式優化的多階段建置
 FROM python:3.11-slim-bookworm AS base
 
-# Set environment variables for optimization
+# 設定環境變數以進行優化
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# Stage 1: Dependencies
+# 階段 1：依賴項
 FROM base AS dependencies
 WORKDIR /app
 
-# Install system dependencies for building Python packages
+# 安裝用於建置 Python 套件的系統依賴項
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy and install Python dependencies
-COPY requirements.txt .
+# 複製並安裝 Python 依賴項
+COPY requirements.txt ./
 RUN pip install --user --no-warn-script-location -r requirements.txt
 
-# Stage 2: Security scanning
+# 階段 2：安全掃描
 FROM dependencies AS security-scan
 RUN pip install --user pip-audit safety bandit
 
-# Copy source code for security scanning
+# 複製原始碼以進行安全掃描
 COPY . .
 
-# Run security scans during build
+# 在建置期間運行安全掃描
 RUN python -m bandit -r . -f json -o /tmp/bandit-report.json || true
 RUN python -m safety check --json --output /tmp/safety-report.json || true
 RUN python -m pip_audit --format=json --output=/tmp/pip-audit-report.json || true
 
-# Stage 3: Testing (optional, can be skipped in production builds)
+# 階段 3：測試（可選，可在生產建置中跳過）
 FROM security-scan AS testing
 RUN pip install --user pytest pytest-cov
 
-# Run tests during build (from /test-harness integration)
+# 在建置期間運行測試（來自 /test-harness 整合）
 RUN python -m pytest tests/ --cov=src --cov-report=json --cov-report=term
 
-# Stage 4: Production runtime
+# 階段 4：生產運行時
 FROM base AS runtime
 
-# Create non-root user for security
+# 建立非 root 使用者以提高安全性
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
-# Set up application directory
+# 設定應用程式目錄
 WORKDIR /app
 RUN chown appuser:appuser /app
 
-# Copy Python packages from dependencies stage
+# 複製 Python 套件從依賴項階段
 COPY --from=dependencies --chown=appuser:appuser /root/.local /home/appuser/.local
 
-# Copy security reports from security stage
+# 複製安全報告從安全掃描階段
 COPY --from=security-scan /tmp/*-report.json /app/security-reports/
 
-# Copy application code
+# 複製應用程式程式碼
 COPY --chown=appuser:appuser . .
 
-# Update PATH to include user packages
+# 更新 PATH 以包含使用者套件
 ENV PATH=/home/appuser/.local/bin:$PATH
 
-# Switch to non-root user
+# 切換到非 root 使用者
 USER appuser
 
-# Configure health check (integrates with K8s health checks)
+# 配置健康檢查（與 K8s 健康檢查整合）
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import requests; requests.get('http://localhost:8000/health', timeout=5)"
 
-# Expose port (configured from API scaffold)
+# 暴露埠（從 API 腳手架配置）
 EXPOSE 8000
 
-# Set optimal startup command
+# 設定最佳啟動命令
 CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
 ```
 
-**Database Container Integration**
+**資料庫容器整合**
 ```dockerfile
-# Dockerfile.db - Generated for database migrations from /db-migrate
+# Dockerfile.db - 為來自 /db-migrate 的資料庫遷移生成
 FROM postgres:15-alpine AS base
 
-# Install migration tools
+# 安裝遷移工具
 RUN apk add --no-cache python3 py3-pip
 RUN pip3 install alembic psycopg2-binary
 
-# Create migration user
+# 建立遷移使用者
 RUN addgroup -g 1001 migration && adduser -D -u 1001 -G migration migration
 
-# Stage 1: Migration preparation
+# 階段 1：遷移準備
 FROM base AS migration-prep
 WORKDIR /migrations
 
-# Copy migration scripts from /db-migrate output
+# 從 /db-migrate 輸出複製遷移腳本
 COPY --chown=migration:migration migrations/ ./
 COPY --chown=migration:migration alembic.ini ./
 
-# Validate migration scripts
+# 驗證遷移腳本
 USER migration
-RUN alembic check || echo "Migration validation completed"
+RUN alembic check || echo "遷移驗證完成"
 
-# Stage 2: Production database
+# 階段 2：生產資料庫
 FROM postgres:15-alpine AS production
 
-# Copy validated migrations
+# 複製已驗證的遷移
 COPY --from=migration-prep --chown=postgres:postgres /migrations /docker-entrypoint-initdb.d/
 
-# Configure PostgreSQL for production
+# 配置 PostgreSQL 以用於生產
 RUN echo "shared_preload_libraries = 'pg_stat_statements'" >> /usr/local/share/postgresql/postgresql.conf.sample
 RUN echo "track_activity_query_size = 2048" >> /usr/local/share/postgresql/postgresql.conf.sample
 RUN echo "log_min_duration_statement = 1000" >> /usr/local/share/postgresql/postgresql.conf.sample
 
-# Security configurations from /security-scan
+# 來自 /security-scan 的安全配置
 RUN echo "ssl = on" >> /usr/local/share/postgresql/postgresql.conf.sample
 RUN echo "log_connections = on" >> /usr/local/share/postgresql/postgresql.conf.sample
 RUN echo "log_disconnections = on" >> /usr/local/share/postgresql/postgresql.conf.sample
@@ -1809,91 +1804,91 @@ RUN echo "log_disconnections = on" >> /usr/local/share/postgresql/postgresql.con
 EXPOSE 5432
 ```
 
-**Frontend Container Integration**
+**前端容器整合**
 ```dockerfile
-# Dockerfile.frontend - Generated from /frontend-optimize + /docker-optimize
-# Multi-stage build for React/Vue applications
+# Dockerfile.frontend - 從 /frontend-optimize + /docker-optimize 生成
+# 為 React/Vue 應用程式優化的多階段建置
 FROM node:18-alpine AS base
 
-# Set environment variables
+# 設定環境變數
 ENV NODE_ENV=production \
     NPM_CONFIG_CACHE=/tmp/.npm
 
-# Stage 1: Dependencies
+# 階段 1：依賴項
 FROM base AS dependencies
 WORKDIR /app
 
-# Copy package files
+# 複製套件檔案
 COPY package*.json ./
 
-# Install dependencies with optimization
+# 安裝依賴項並進行優化
 RUN npm ci --only=production --silent
 
-# Stage 2: Build application
+# 階段 2：建置應用程式
 FROM base AS build
 WORKDIR /app
 
-# Copy dependencies
+# 複製依賴項
 COPY --from=dependencies /app/node_modules ./node_modules
 
-# Copy source code
+# 複製原始碼
 COPY . .
 
-# Build application with optimizations from /frontend-optimize
+# 使用 /frontend-optimize 的優化建置應用程式
 RUN npm run build
 
-# Run security audit
+# 運行安全審計
 RUN npm audit --audit-level high --production
 
-# Stage 3: Security scanning
+# 階段 3：安全掃描
 FROM build AS security-scan
 
-# Install security scanning tools
+# 安裝安全掃描工具
 RUN npm install -g retire snyk
 
-# Run security scans
+# 運行安全掃描
 RUN retire --outputformat json --outputpath /tmp/retire-report.json || true
 RUN snyk test --json > /tmp/snyk-report.json || true
 
-# Stage 4: Production server
+# 階段 4：生產伺服器
 FROM nginx:alpine AS production
 
-# Install security updates
+# 安裝安全更新
 RUN apk update && apk upgrade && apk add --no-cache dumb-init
 
-# Create non-root user
+# 建立非 root 使用者
 RUN addgroup -g 1001 www && adduser -D -u 1001 -G www www
 
-# Copy built application
+# 複製已建置的應用程式
 COPY --from=build --chown=www:www /app/dist /usr/share/nginx/html
 
-# Copy security reports
+# 複製安全報告
 COPY --from=security-scan /tmp/*-report.json /var/log/security/
 
-# Copy optimized nginx configuration
+# 複製優化的 nginx 配置
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Configure proper file permissions
+# 配置正確的檔案權限
 RUN chown -R www:www /usr/share/nginx/html
 RUN chmod -R 755 /usr/share/nginx/html
 
-# Use non-root user
+# 使用非 root 使用者
 USER www
 
-# Health check for frontend
+# 前端健康檢查
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1
 
 EXPOSE 80
 
-# Use dumb-init for proper signal handling
+# 使用 dumb-init 以正確處理信號
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-**Kubernetes Container Integration**
+**Kubernetes 容器整合**
 ```yaml
-# k8s-optimized-deployment.yaml - From /k8s-manifest + /docker-optimize
+# k8s-optimized-deployment.yaml - 從 /k8s-manifest + /docker-optimize 生成
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -1928,11 +1923,11 @@ spec:
       labels:
         app: api
       annotations:
-        # Container optimization annotations
+        # 容器優化註釋
         container.seccomp.security.alpha.kubernetes.io/defaultProfileName: runtime/default
         container.apparmor.security.beta.kubernetes.io/api: runtime/default
     spec:
-      # Optimized pod configuration
+      # 優化 Pod 配置
       securityContext:
         runAsNonRoot: true
         runAsUser: 1001
@@ -1941,24 +1936,24 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       
-      # Resource optimization from container analysis
+      # 來自容器分析的資源優化
       containers:
       - name: api
         image: registry.company.com/api:optimized-latest
         imagePullPolicy: Always
         
-        # Optimized resource allocation
+        # 優化資源分配
         resources:
           requests:
-            memory: "128Mi"     # Optimized based on actual usage
-            cpu: "100m"         # Optimized based on load testing
+            memory: "128Mi"     # 根據實際使用情況優化
+            cpu: "100m"         # 根據負載測試優化
             ephemeral-storage: "1Gi"
           limits:
-            memory: "512Mi"     # Prevents OOM, allows burst
-            cpu: "500m"         # Allows processing spikes
+            memory: "512Mi"     # 防止 OOM，允許突發
+            cpu: "500m"         # 允許處理峰值
             ephemeral-storage: "2Gi"
         
-        # Container security optimization
+        # 容器安全優化
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
@@ -1970,12 +1965,12 @@ spec:
             add:
               - NET_BIND_SERVICE
         
-        # Optimized startup and health checks
+        # 優化啟動和健康檢查
         ports:
         - containerPort: 8000
           protocol: TCP
           
-        # Fast startup probe
+        # 快速啟動探針
         startupProbe:
           httpGet:
             path: /startup
@@ -1983,7 +1978,7 @@ spec:
           failureThreshold: 30
           periodSeconds: 1
           
-        # Optimized health checks
+        # 優化健康檢查
         livenessProbe:
           httpGet:
             path: /health
@@ -1998,99 +1993,10 @@ spec:
             path: /ready
             port: 8000
           initialDelaySeconds: 2
-          periodSeconds: 5
-          timeoutSeconds: 3
-          
-        # Environment variables from container optimization
-        env:
-        - name: OPTIMIZATION_LEVEL
-          valueFrom:
-            configMapKeyRef:
-              name: container-config
-              key: optimization-level
-        - name: PYTHONUNBUFFERED
-          value: "1"
-        - name: WORKERS
-          value: "4"
-        
-        # Optimized volume mounts
-        volumeMounts:
-        - name: tmp-volume
-          mountPath: /tmp
-        - name: cache-volume
-          mountPath: /app/cache
-        - name: security-reports
-          mountPath: /app/security-reports
-          readOnly: true
-      
-      # Optimized volumes
-      volumes:
-      - name: tmp-volume
-        emptyDir:
-          sizeLimit: 100Mi
-      - name: cache-volume
-        emptyDir:
-          sizeLimit: 500Mi
-      - name: security-reports
-        configMap:
-          name: security-reports
 
----
-# Horizontal Pod Autoscaler with container metrics
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: api-hpa
-  namespace: production
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: optimized-api
-  minReplicas: 2
-  maxReplicas: 10
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: Utilization
-        averageUtilization: 80
-  behavior:
-    scaleDown:
-      stabilizationWindowSeconds: 300
-      policies:
-      - type: Percent
-        value: 50
-        periodSeconds: 60
-    scaleUp:
-      stabilizationWindowSeconds: 60
-      policies:
-      - type: Percent
-        value: 100
-        periodSeconds: 15
-
----
-# Pod Disruption Budget for rolling updates
-apiVersion: policy/v1
-kind: PodDisruptionBudget
-metadata:
-  name: api-pdb
-  namespace: production
-spec:
-  minAvailable: 1
-  selector:
-    matchLabels:
-      app: api
 ```
 
-**CI/CD Container Integration**
+**CI/CD 容器整合**
 ```yaml
 # .github/workflows/container-pipeline.yml
 name: Optimized Container Pipeline
@@ -2159,7 +2065,7 @@ jobs:
     # 4. Container optimization analysis
     - name: Analyze container optimization
       run: |
-        docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}" | \
+        docker images --format "table {{.Repository}}	{{.Tag}}	{{.Size}}" | \
         grep ${{ matrix.service }} > container-analysis-${{ matrix.service }}.txt
         
         # Compare with baseline
@@ -2204,7 +2110,7 @@ jobs:
         ## Build Information
         - **Image**: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ matrix.service }}:${{ github.sha }}
         - **Build Date**: $(date)
-        - **Platforms**: linux/amd64, linux/arm64
+        - **Platforms**: linux/amd64,linux/arm64
         
         ## Size Analysis
         $(cat container-analysis-${{ matrix.service }}.txt)
@@ -2332,3 +2238,4 @@ class ContainerOptimizationMonitor:
 ```
 
 This comprehensive integration ensures containers are optimized across the entire development lifecycle, from build-time optimization through runtime monitoring and Kubernetes deployment.
+```

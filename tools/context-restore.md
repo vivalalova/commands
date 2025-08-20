@@ -1,66 +1,66 @@
-Restore saved project context for agent coordination:
+# 恢復已儲存的專案上下文以進行代理協調：
 
-[Extended thinking: This tool uses the context-manager agent to restore previously saved project context, enabling continuity across sessions and providing agents with comprehensive project knowledge.]
+[延伸思考：此工具使用上下文管理器代理來恢復先前儲存的專案上下文，從而實現會話之間的連續性，並為代理提供全面的專案知識。]
 
-## Context Restoration Process
+## 上下文恢復流程
 
-Use Task tool with subagent_type="context-manager" to restore and apply saved context.
+使用任務工具，子代理類型為「context-manager」以恢復和應用已儲存的上下文。
 
-Prompt: "Restore project context for: $ARGUMENTS. Perform the following:
+提示：「恢復：$ARGUMENTS 的專案上下文。執行以下操作：
 
-1. **Locate Saved Context**
-   - Find the most recent or specified context version
-   - Validate context integrity
-   - Check compatibility with current codebase
+1. **定位已儲存的上下文**
+   - 找到最新或指定的上下文版本
+   - 驗證上下文完整性
+   - 檢查與當前程式碼庫的相容性
 
-2. **Load Context Components**
-   - Project overview and goals
-   - Architectural decisions and rationale
-   - Technology stack and patterns
-   - Previous agent work and findings
-   - Known issues and roadmap
+2. **載入上下文組件**
+   - 專案概覽和目標
+   - 架構決策和理由
+   - 技術堆疊和模式
+   - 先前代理工作和發現
+   - 已知問題和路線圖
 
-3. **Apply Context**
-   - Set up working environment based on context
-   - Restore project-specific configurations
-   - Load coding conventions and patterns
-   - Prepare agent coordination history
+3. **應用上下文**
+   - 根據上下文設定工作環境
+   - 恢復專案特定配置
+   - 載入編碼慣例和模式
+   - 準備代理協調歷史
 
-4. **Validate Restoration**
-   - Verify context applies to current code state
-   - Identify any conflicts or outdated information
-   - Flag areas that may need updates
+4. **驗證恢復**
+   - 驗證上下文是否適用於當前程式碼狀態
+   - 識別任何衝突或過時資訊
+   - 標記可能需要更新的區域
 
-5. **Prepare Summary**
-   - Key points from restored context
-   - Important decisions and patterns
-   - Recent work and current focus
-   - Suggested next steps
+5. **準備摘要**
+   - 從恢復的上下文中的關鍵點
+   - 重要決策和模式
+   - 最近的工作和當前重點
+   - 建議的下一步
 
-Return a comprehensive summary of the restored context and any issues encountered."
+返回恢復的上下文和遇到的任何問題的全面摘要。」
 
-## Context Integration
+## 上下文整合
 
-The restored context will:
-- Inform all subsequent agent invocations
-- Maintain consistency with past decisions
-- Provide historical knowledge to agents
-- Enable seamless work continuation
+恢復的上下文將：
+- 通知所有後續代理調用
+- 與過去的決策保持一致性
+- 為代理提供歷史知識
+- 實現無縫工作連續性
 
-## Usage Scenarios
+## 使用場景
 
-Use context restoration when:
-- Starting work after a break
-- Switching between projects
-- Onboarding to an existing project
-- Needing historical project knowledge
-- Coordinating complex multi-agent workflows
+在以下情況下使用上下文恢復：
+- 中斷後開始工作
+- 在專案之間切換
+- 入職到現有專案
+- 需要歷史專案知識
+- 協調複雜的多代理工作流程
 
-## Additional Options
+## 其他選項
 
-- Restore specific context version: Include version timestamp
-- Partial restoration: Restore only specific components
-- Merge contexts: Combine multiple context versions
-- Diff contexts: Compare current state with saved context
+- 恢復特定上下文版本：包含版本時間戳
+- 部分恢復：僅恢復特定組件
+- 合併上下文：組合多個上下文版本
+- 差異上下文：比較當前狀態與已儲存的上下文
 
-Context to restore: $ARGUMENTS
+要恢復的上下文：$ARGUMENTS

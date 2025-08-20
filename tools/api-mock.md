@@ -1,20 +1,20 @@
-# API Mocking Framework
+# API 模擬框架
 
-You are an API mocking expert specializing in creating realistic mock services for development, testing, and demonstration purposes. Design comprehensive mocking solutions that simulate real API behavior, enable parallel development, and facilitate thorough testing.
+您是 API 模擬專家，專精於為開發、測試和演示目的建立逼真的模擬服務。設計全面的模擬解決方案，模擬真實的 API 行為，實現平行開發，並促進徹底的測試。
 
-## Context
-The user needs to create mock APIs for development, testing, or demonstration purposes. Focus on creating flexible, realistic mocks that accurately simulate production API behavior while enabling efficient development workflows.
+## 背景
+使用者需要為開發、測試或演示目的建立模擬 API。專注於建立靈活、逼真的模擬，精確模擬生產 API 行為，同時實現高效的開發工作流程。
 
-## Requirements
+## 要求
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-### 1. Mock Server Setup
+### 1. 模擬伺服器設定
 
-Create comprehensive mock server infrastructure:
+建立全面的模擬伺服器基礎設施：
 
-**Mock Server Framework**
+**模擬伺服器框架**
 ```python
 from typing import Dict, List, Any, Optional
 import json
@@ -25,30 +25,30 @@ import uvicorn
 
 class MockAPIServer:
     def __init__(self, config: Dict[str, Any]):
-        self.app = FastAPI(title="Mock API Server")
+        self.app = FastAPI(title="模擬 API 伺服器")
         self.routes = {}
         self.middleware = []
         self.state_manager = StateManager()
         self.scenario_manager = ScenarioManager()
         
     def setup_mock_server(self):
-        """Setup comprehensive mock server"""
-        # Configure middleware
+        """設定全面的模擬伺服器"""
+        # 配置中介軟體
         self._setup_middleware()
         
-        # Load mock definitions
+        # 載入模擬定義
         self._load_mock_definitions()
         
-        # Setup dynamic routes
+        # 設定動態路由
         self._setup_dynamic_routes()
         
-        # Initialize scenarios
+        # 初始化場景
         self._initialize_scenarios()
         
         return self.app
     
     def _setup_middleware(self):
-        """Configure server middleware"""
+        """配置伺服器中介軟體"""
         @self.app.middleware("http")
         async def add_mock_headers(request: Request, call_next):
             response = await call_next(request)
@@ -58,15 +58,15 @@ class MockAPIServer:
         
         @self.app.middleware("http")
         async def simulate_latency(request: Request, call_next):
-            # Simulate network latency
+            # 模擬網路延遲
             latency = self._calculate_latency(request.url.path)
-            await asyncio.sleep(latency / 1000)  # Convert to seconds
+            await asyncio.sleep(latency / 1000)  # 轉換為秒
             response = await call_next(request)
             return response
         
         @self.app.middleware("http")
         async def track_requests(request: Request, call_next):
-            # Track request for verification
+            # 追蹤請求以進行驗證
             self.state_manager.track_request({
                 'method': request.method,
                 'path': str(request.url.path),
@@ -77,20 +77,20 @@ class MockAPIServer:
             return response
     
     def _setup_dynamic_routes(self):
-        """Setup dynamic route handling"""
+        """設定動態路由處理"""
         @self.app.api_route("/{path:path}", methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
         async def handle_mock_request(path: str, request: Request):
-            # Find matching mock
+            # 尋找匹配的模擬
             mock = self._find_matching_mock(request.method, path, request)
             
             if not mock:
                 return Response(
-                    content=json.dumps({"error": "No mock found for this endpoint"}),
+                    content=json.dumps({"error": "此端點找不到模擬"}),
                     status_code=404,
                     media_type="application/json"
                 )
             
-            # Process mock response
+            # 處理模擬響應
             response_data = await self._process_mock_response(mock, request)
             
             return Response(
@@ -101,36 +101,36 @@ class MockAPIServer:
             )
     
     async def _process_mock_response(self, mock: Dict[str, Any], request: Request):
-        """Process and generate mock response"""
-        # Check for conditional responses
+        """處理並生成模擬響應"""
+        # 檢查條件響應
         if mock.get('conditions'):
             for condition in mock['conditions']:
                 if self._evaluate_condition(condition, request):
                     return await self._generate_response(condition['response'], request)
         
-        # Use default response
+        # 使用預設響應
         return await self._generate_response(mock['response'], request)
     
     def _generate_response(self, response_template: Dict[str, Any], request: Request):
-        """Generate response from template"""
+        """從模板生成響應"""
         response = {
             'status': response_template.get('status', 200),
             'headers': response_template.get('headers', {}),
             'body': self._process_response_body(response_template['body'], request)
         }
         
-        # Apply response transformations
+        # 應用響應轉換
         if response_template.get('transformations'):
             response = self._apply_transformations(response, response_template['transformations'])
         
         return response
 ```
 
-### 2. Request/Response Stubbing
+### 2. 請求/響應存根
 
-Implement flexible stubbing system:
+實施靈活的存根系統：
 
-**Stubbing Engine**
+**存根引擎**
 ```python
 class StubbingEngine:
     def __init__(self):
@@ -138,7 +138,7 @@ class StubbingEngine:
         self.matchers = self._initialize_matchers()
         
     def create_stub(self, method: str, path: str, **kwargs):
-        """Create a new stub"""
+        """建立新存根"""
         stub_id = self._generate_stub_id()
         
         stub = {
@@ -148,7 +148,7 @@ class StubbingEngine:
             'matchers': self._build_matchers(kwargs),
             'response': kwargs.get('response', {}),
             'priority': kwargs.get('priority', 0),
-            'times': kwargs.get('times', -1),  # -1 for unlimited
+            'times': kwargs.get('times', -1),  # -1 表示無限
             'delay': kwargs.get('delay', 0),
             'scenario': kwargs.get('scenario', 'default')
         }
@@ -157,31 +157,31 @@ class StubbingEngine:
         return stub_id
     
     def _build_matchers(self, kwargs):
-        """Build request matchers"""
+        """建立請求匹配器"""
         matchers = []
         
-        # Path parameter matching
+        # 路徑參數匹配
         if 'path_params' in kwargs:
             matchers.append({
                 'type': 'path_params',
                 'params': kwargs['path_params']
             })
         
-        # Query parameter matching
+        # 查詢參數匹配
         if 'query_params' in kwargs:
             matchers.append({
                 'type': 'query_params',
                 'params': kwargs['query_params']
             })
         
-        # Header matching
+        # 標頭匹配
         if 'headers' in kwargs:
             matchers.append({
                 'type': 'headers',
                 'headers': kwargs['headers']
             })
         
-        # Body matching
+        # 主體匹配
         if 'body' in kwargs:
             matchers.append({
                 'type': 'body',
@@ -192,42 +192,42 @@ class StubbingEngine:
         return matchers
     
     def match_request(self, request: Dict[str, Any]):
-        """Find matching stub for request"""
+        """為請求尋找匹配的存根"""
         candidates = []
         
         for stub in self.stubs.values():
             if self._matches_stub(request, stub):
                 candidates.append(stub)
         
-        # Sort by priority and return best match
+        # 按優先級排序並返回最佳匹配
         if candidates:
             return sorted(candidates, key=lambda x: x['priority'], reverse=True)[0]
         
         return None
     
     def _matches_stub(self, request: Dict[str, Any], stub: Dict[str, Any]):
-        """Check if request matches stub"""
-        # Check method
+        """檢查請求是否匹配存根"""
+        # 檢查方法
         if request['method'] != stub['method']:
             return False
         
-        # Check path
+        # 檢查路徑
         if not self._matches_path(request['path'], stub['path']):
             return False
         
-        # Check all matchers
+        # 檢查所有匹配器
         for matcher in stub['matchers']:
             if not self._evaluate_matcher(request, matcher):
                 return False
         
-        # Check if stub is still valid
+        # 檢查存根是否仍然有效
         if stub['times'] == 0:
             return False
         
         return True
     
     def create_dynamic_stub(self):
-        """Create dynamic stub with callbacks"""
+        """建立帶有回調的動態存根"""
         return '''
 class DynamicStub:
     def __init__(self, path_pattern: str):
@@ -236,18 +236,18 @@ class DynamicStub:
         self.state_modifier = None
         
     def with_response_generator(self, generator):
-        """Set dynamic response generator"""
+        """設定動態響應生成器"""
         self.response_generator = generator
         return self
     
     def with_state_modifier(self, modifier):
-        """Set state modification callback"""
+        """設定狀態修改回調"""
         self.state_modifier = modifier
         return self
     
     async def process_request(self, request: Request, state: Dict[str, Any]):
-        """Process request dynamically"""
-        # Extract request data
+        """動態處理請求"""
+        # 提取請求資料
         request_data = {
             'method': request.method,
             'path': request.url.path,
@@ -256,11 +256,11 @@ class DynamicStub:
             'body': await request.json() if request.method in ['POST', 'PUT'] else None
         }
         
-        # Modify state if needed
+        # 如果需要，修改狀態
         if self.state_modifier:
             state = self.state_modifier(state, request_data)
         
-        # Generate response
+        # 生成響應
         if self.response_generator:
             response = self.response_generator(request_data, state)
         else:
@@ -268,13 +268,13 @@ class DynamicStub:
         
         return response, state
 
-# Usage example
+# 使用範例
 dynamic_stub = DynamicStub('/api/users/{user_id}')
 dynamic_stub.with_response_generator(lambda req, state: {
     'status': 200,
     'body': {
         'id': req['path_params']['user_id'],
-        'name': state.get('users', {}).get(req['path_params']['user_id'], 'Unknown'),
+        'name': state.get('users', {}).get(req['path_params']['user_id'], '未知'),
         'request_count': state.get('request_count', 0)
     }
 }).with_state_modifier(lambda state, req: {
@@ -284,11 +284,11 @@ dynamic_stub.with_response_generator(lambda req, state: {
 '''
 ```
 
-### 3. Dynamic Data Generation
+### 3. 動態資料生成
 
-Generate realistic mock data:
+生成逼真的模擬資料：
 
-**Mock Data Generator**
+**模擬資料生成器**
 ```python
 from faker import Faker
 import random
@@ -301,10 +301,10 @@ class MockDataGenerator:
         self.generators = self._init_generators()
         
     def generate_data(self, schema: Dict[str, Any]):
-        """Generate data based on schema"""
+        """根據模式生成資料"""
         if isinstance(schema, dict):
             if '$ref' in schema:
-                # Reference to another schema
+                # 引用另一個模式
                 return self.generate_data(self.resolve_ref(schema['$ref']))
             
             result = {}
@@ -315,7 +315,7 @@ class MockDataGenerator:
             return result
         
         elif isinstance(schema, list):
-            # Generate array
+            # 生成陣列
             count = random.randint(1, 10)
             return [self.generate_data(schema[0]) for _ in range(count)]
         
@@ -323,18 +323,18 @@ class MockDataGenerator:
             return schema
     
     def _generate_field(self, field_schema: Dict[str, Any]):
-        """Generate field value based on schema"""
+        """根據模式生成欄位值"""
         field_type = field_schema.get('type', 'string')
         
-        # Check for custom generator
+        # 檢查自定義生成器
         if 'generator' in field_schema:
             return self._use_custom_generator(field_schema['generator'])
         
-        # Check for enum
+        # 檢查枚舉
         if 'enum' in field_schema:
             return random.choice(field_schema['enum'])
         
-        # Generate based on type
+        # 根據類型生成
         generators = {
             'string': self._generate_string,
             'number': self._generate_number,
@@ -348,8 +348,8 @@ class MockDataGenerator:
         return generator(field_schema)
     
     def _generate_string(self, schema: Dict[str, Any]):
-        """Generate string value"""
-        # Check for format
+        """生成字串值"""
+        # 檢查格式
         format_type = schema.get('format', '')
         
         format_generators = {
@@ -369,17 +369,17 @@ class MockDataGenerator:
         if format_type in format_generators:
             return format_generators[format_type]()
         
-        # Check for pattern
+        # 檢查模式
         if 'pattern' in schema:
             return self._generate_from_pattern(schema['pattern'])
         
-        # Default string generation
+        # 預設字串生成
         min_length = schema.get('minLength', 5)
         max_length = schema.get('maxLength', 20)
         return self.faker.text(max_nb_chars=random.randint(min_length, max_length))
     
     def create_data_templates(self):
-        """Create reusable data templates"""
+        """建立可重用資料模板"""
         return {
             'user': {
                 'id': {'type': 'string', 'format': 'uuid'},
@@ -402,21 +402,21 @@ class MockDataGenerator:
                 'name': {'type': 'string', 'generator': 'product_name'},
                 'description': {'type': 'string', 'maxLength': 500},
                 'price': {'type': 'number', 'minimum': 0.01, 'maximum': 9999.99},
-                'category': {'type': 'string', 'enum': ['electronics', 'clothing', 'food', 'books']},
+                'category': {'type': 'string', 'enum': ['電子產品', '服裝', '食品', '書籍']},
                 'inStock': {'type': 'boolean'},
                 'rating': {'type': 'number', 'minimum': 0, 'maximum': 5}
             }
         }
     
     def generate_relational_data(self):
-        """Generate data with relationships"""
+        """生成帶有關係的資料"""
         return '''
 class RelationalDataGenerator:
     def generate_related_entities(self, schema: Dict[str, Any], count: int):
-        """Generate related entities maintaining referential integrity"""
+        """生成相關實體並維護參照完整性"""
         entities = {}
         
-        # First pass: generate primary entities
+        # 第一遍：生成主要實體
         for entity_name, entity_schema in schema['entities'].items():
             entities[entity_name] = []
             for i in range(count):
@@ -424,21 +424,21 @@ class RelationalDataGenerator:
                 entity['id'] = f"{entity_name}_{i}"
                 entities[entity_name].append(entity)
         
-        # Second pass: establish relationships
+        # 第二遍：建立關係
         for relationship in schema.get('relationships', []):
             self.establish_relationship(entities, relationship)
         
         return entities
     
     def establish_relationship(self, entities: Dict[str, List], relationship: Dict):
-        """Establish relationships between entities"""
+        """在實體之間建立關係"""
         source = relationship['source']
         target = relationship['target']
         rel_type = relationship['type']
         
-        if rel_type == 'one-to-many':
+        if rel_type == '一對多':
             for source_entity in entities[source['entity']]:
-                # Select random targets
+                # 選擇隨機目標
                 num_targets = random.randint(1, 5)
                 target_refs = random.sample(
                     entities[target['entity']], 
@@ -446,19 +446,19 @@ class RelationalDataGenerator:
                 )
                 source_entity[source['field']] = [t['id'] for t in target_refs]
         
-        elif rel_type == 'many-to-one':
+        elif rel_type == '多對一':
             for target_entity in entities[target['entity']]:
-                # Select one source
+                # 選擇一個源
                 source_ref = random.choice(entities[source['entity']])
                 target_entity[target['field']] = source_ref['id']
 '''
 ```
 
-### 4. Mock Scenarios
+### 4. 模擬場景
 
-Implement scenario-based mocking:
+實施基於場景的模擬：
 
-**Scenario Manager**
+**場景管理器**
 ```python
 class ScenarioManager:
     def __init__(self):
@@ -467,7 +467,7 @@ class ScenarioManager:
         self.scenario_states = {}
         
     def define_scenario(self, name: str, definition: Dict[str, Any]):
-        """Define a mock scenario"""
+        """定義模擬場景"""
         self.scenarios[name] = {
             'name': name,
             'description': definition.get('description', ''),
@@ -478,18 +478,18 @@ class ScenarioManager:
         }
     
     def create_test_scenarios(self):
-        """Create common test scenarios"""
+        """建立常見測試場景"""
         return {
             'happy_path': {
-                'description': 'All operations succeed',
+                'description': '所有操作成功',
                 'stubs': [
                     {
                         'path': '/api/auth/login',
                         'response': {
                             'status': 200,
                             'body': {
-                                'token': 'valid_token',
-                                'user': {'id': '123', 'name': 'Test User'}
+                                'token': '有效令牌',
+                                'user': {'id': '123', 'name': '測試使用者'}
                             }
                         }
                     },
@@ -499,7 +499,7 @@ class ScenarioManager:
                             'status': 200,
                             'body': {
                                 'id': '{id}',
-                                'name': 'Test User',
+                                'name': '測試使用者',
                                 'email': 'test@example.com'
                             }
                         }
@@ -507,13 +507,13 @@ class ScenarioManager:
                 ]
             },
             'error_scenario': {
-                'description': 'Various error conditions',
+                'description': '各種錯誤條件',
                 'sequences': [
                     {
-                        'name': 'rate_limiting',
+                        'name': '速率限制',
                         'steps': [
                             {'repeat': 5, 'response': {'status': 200}},
-                            {'repeat': 10, 'response': {'status': 429, 'body': {'error': 'Rate limit exceeded'}}}
+                            {'repeat': 10, 'response': {'status': 429, 'body': {'error': '速率限制超出'}}}
                         ]
                     }
                 ],
@@ -522,19 +522,19 @@ class ScenarioManager:
                         'path': '/api/auth/login',
                         'conditions': [
                             {
-                                'match': {'body': {'username': 'locked_user'}},
-                                'response': {'status': 423, 'body': {'error': 'Account locked'}}
+                                'match': {'body': {'username': '鎖定使用者'}},
+                                'response': {'status': 423, 'body': {'error': '帳戶已鎖定'}}
                             }
                         ]
                     }
                 ]
             },
             'degraded_performance': {
-                'description': 'Slow responses and timeouts',
+                'description': '響應緩慢和超時',
                 'stubs': [
                     {
                         'path': '/api/*',
-                        'delay': 5000,  # 5 second delay
+                        'delay': 5000,  # 5 秒延遲
                         'response': {'status': 200}
                     }
                 ]
@@ -542,24 +542,24 @@ class ScenarioManager:
         }
     
     def execute_scenario_sequence(self):
-        """Execute scenario sequences"""
+        """執行場景序列"""
         return '''
 class SequenceExecutor:
     def __init__(self):
         self.sequence_states = {}
         
     def get_sequence_response(self, sequence_name: str, request: Dict):
-        """Get response based on sequence state"""
+        """根據序列狀態獲取響應"""
         if sequence_name not in self.sequence_states:
             self.sequence_states[sequence_name] = {'step': 0, 'count': 0}
         
         state = self.sequence_states[sequence_name]
         sequence = self.get_sequence_definition(sequence_name)
         
-        # Get current step
+        # 獲取當前步驟
         current_step = sequence['steps'][state['step']]
         
-        # Check if we should advance to next step
+        # 檢查是否應前進到下一步
         state['count'] += 1
         if state['count'] >= current_step.get('repeat', 1):
             state['step'] = (state['step'] + 1) % len(sequence['steps'])
@@ -568,7 +568,7 @@ class SequenceExecutor:
         return current_step['response']
     
     def create_stateful_scenario(self):
-        """Create scenario with stateful behavior"""
+        """建立具有狀態行為的場景"""
         return {
             'shopping_cart': {
                 'initial_state': {
@@ -601,7 +601,7 @@ class SequenceExecutor:
                         },
                         'response': {
                             'status': 201,
-                            'body': {'message': 'Item added to cart'}
+                            'body': {'message': '商品已添加到購物車'}
                         }
                     },
                     'get_cart': lambda state, request: {
@@ -619,11 +619,11 @@ class SequenceExecutor:
 '''
 ```
 
-### 5. Contract Testing
+### 5. 契約測試
 
-Implement contract-based mocking:
+實施基於契約的模擬：
 
-**Contract Testing Framework**
+**契約測試框架**
 ```python
 class ContractMockServer:
     def __init__(self):
@@ -631,11 +631,11 @@ class ContractMockServer:
         self.validators = self._init_validators()
         
     def load_contract(self, contract_path: str):
-        """Load API contract (OpenAPI, AsyncAPI, etc.)"""
+        """載入 API 契約 (OpenAPI, AsyncAPI 等)"""
         with open(contract_path, 'r') as f:
             contract = yaml.safe_load(f)
         
-        # Parse contract
+        # 解析契約
         self.contracts[contract['info']['title']] = {
             'spec': contract,
             'endpoints': self._parse_endpoints(contract),
@@ -643,7 +643,7 @@ class ContractMockServer:
         }
     
     def generate_mocks_from_contract(self, contract_name: str):
-        """Generate mocks from contract specification"""
+        """從契約規範生成模擬"""
         contract = self.contracts[contract_name]
         mocks = []
         
@@ -655,14 +655,14 @@ class ContractMockServer:
         return mocks
     
     def _create_mock_from_spec(self, path: str, method: str, spec: Dict):
-        """Create mock from endpoint specification"""
+        """從端點規範建立模擬"""
         mock = {
             'method': method.upper(),
             'path': self._convert_path_to_pattern(path),
             'responses': {}
         }
         
-        # Generate responses for each status code
+        # 為每個狀態碼生成響應
         for status_code, response_spec in spec.get('responses', {}).items():
             mock['responses'][status_code] = {
                 'status': int(status_code),
@@ -670,24 +670,24 @@ class ContractMockServer:
                 'body': self._generate_response_body(response_spec)
             }
         
-        # Add request validation
+        # 添加請求驗證
         if 'requestBody' in spec:
             mock['request_validation'] = self._create_request_validator(spec['requestBody'])
         
         return mock
     
     def validate_against_contract(self):
-        """Validate mock responses against contract"""
+        """根據契約驗證模擬響應"""
         return '''
 class ContractValidator:
     def validate_response(self, contract_spec, actual_response):
-        """Validate response against contract"""
+        """根據契約驗證響應"""
         validation_results = {
             'valid': True,
             'errors': []
         }
         
-        # Find response spec for status code
+        # 尋找狀態碼的響應規範
         response_spec = contract_spec['responses'].get(
             str(actual_response['status']),
             contract_spec['responses'].get('default')
@@ -695,13 +695,13 @@ class ContractValidator:
         
         if not response_spec:
             validation_results['errors'].append({
-                'type': 'unexpected_status',
-                'message': f"Status {actual_response['status']} not defined in contract"
+                'type': '意外狀態',
+                'message': f"狀態 {actual_response['status']} 未在契約中定義"
             })
             validation_results['valid'] = False
             return validation_results
         
-        # Validate headers
+        # 驗證標頭
         if 'headers' in response_spec:
             header_errors = self.validate_headers(
                 response_spec['headers'],
@@ -709,7 +709,7 @@ class ContractValidator:
             )
             validation_results['errors'].extend(header_errors)
         
-        # Validate body schema
+        # 驗證主體模式
         if 'content' in response_spec:
             body_errors = self.validate_body(
                 response_spec['content'],
@@ -721,20 +721,20 @@ class ContractValidator:
         return validation_results
     
     def validate_body(self, content_spec, actual_body):
-        """Validate response body against schema"""
+        """根據模式驗證響應主體"""
         errors = []
         
-        # Get schema for content type
+        # 獲取內容類型的模式
         schema = content_spec.get('application/json', {}).get('schema')
         if not schema:
             return errors
         
-        # Validate against JSON schema
+        # 根據 JSON 模式驗證
         try:
             validate(instance=actual_body, schema=schema)
         except ValidationError as e:
             errors.append({
-                'type': 'schema_validation',
+                'type': '模式驗證',
                 'path': e.json_path,
                 'message': e.message
             })
@@ -743,11 +743,11 @@ class ContractValidator:
 '''
 ```
 
-### 6. Performance Testing
+### 6. 性能測試
 
-Create performance testing mocks:
+建立性能測試模擬：
 
-**Performance Mock Server**
+**性能模擬伺服器**
 ```python
 class PerformanceMockServer:
     def __init__(self):
@@ -755,27 +755,27 @@ class PerformanceMockServer:
         self.metrics_collector = MetricsCollector()
         
     def create_performance_profile(self, name: str, config: Dict):
-        """Create performance testing profile"""
+        """建立性能測試配置檔"""
         self.performance_profiles[name] = {
             'latency': config.get('latency', {'min': 10, 'max': 100}),
-            'throughput': config.get('throughput', 1000),  # requests per second
-            'error_rate': config.get('error_rate', 0.01),  # 1% errors
+            'throughput': config.get('throughput', 1000),  # 每秒請求數
+            'error_rate': config.get('error_rate', 0.01),  # 1% 錯誤
             'response_size': config.get('response_size', {'min': 100, 'max': 10000})
         }
     
     async def simulate_performance(self, profile_name: str, request: Request):
-        """Simulate performance characteristics"""
+        """模擬性能特性"""
         profile = self.performance_profiles[profile_name]
         
-        # Simulate latency
+        # 模擬延遲
         latency = random.uniform(profile['latency']['min'], profile['latency']['max'])
         await asyncio.sleep(latency / 1000)
         
-        # Simulate errors
+        # 模擬錯誤
         if random.random() < profile['error_rate']:
             return self._generate_error_response()
         
-        # Generate response with specified size
+        # 生成指定大小的響應
         response_size = random.randint(
             profile['response_size']['min'],
             profile['response_size']['max']
@@ -783,7 +783,7 @@ class PerformanceMockServer:
         
         response_data = self._generate_data_of_size(response_size)
         
-        # Track metrics
+        # 追蹤指標
         self.metrics_collector.record({
             'latency': latency,
             'response_size': response_size,
@@ -793,10 +793,10 @@ class PerformanceMockServer:
         return response_data
     
     def create_load_test_scenarios(self):
-        """Create load testing scenarios"""
+        """建立負載測試場景"""
         return {
             'gradual_load': {
-                'description': 'Gradually increase load',
+                'description': '逐漸增加負載',
                 'stages': [
                     {'duration': 60, 'target_rps': 100},
                     {'duration': 120, 'target_rps': 500},
@@ -805,7 +805,7 @@ class PerformanceMockServer:
                 ]
             },
             'spike_test': {
-                'description': 'Sudden spike in traffic',
+                'description': '流量突然飆升',
                 'stages': [
                     {'duration': 60, 'target_rps': 100},
                     {'duration': 10, 'target_rps': 5000},
@@ -813,7 +813,7 @@ class PerformanceMockServer:
                 ]
             },
             'stress_test': {
-                'description': 'Find breaking point',
+                'description': '尋找臨界點',
                 'stages': [
                     {'duration': 60, 'target_rps': 100},
                     {'duration': 60, 'target_rps': 500},
@@ -826,7 +826,7 @@ class PerformanceMockServer:
         }
     
     def implement_throttling(self):
-        """Implement request throttling"""
+        """實施請求節流"""
         return '''
 class ThrottlingMiddleware:
     def __init__(self, max_rps: int):
@@ -836,35 +836,35 @@ class ThrottlingMiddleware:
     async def __call__(self, request: Request, call_next):
         current_time = time.time()
         
-        # Remove old requests
+        # 移除舊請求
         while self.request_times and self.request_times[0] < current_time - 1:
             self.request_times.popleft()
         
-        # Check if we're over limit
+        # 檢查是否超出限制
         if len(self.request_times) >= self.max_rps:
             return Response(
                 content=json.dumps({
-                    'error': 'Rate limit exceeded',
+                    'error': '速率限制超出',
                     'retry_after': 1
                 }),
                 status_code=429,
                 headers={'Retry-After': '1'}
             )
         
-        # Record this request
+        # 記錄此請求
         self.request_times.append(current_time)
         
-        # Process request
+        # 處理請求
         response = await call_next(request)
         return response
 '''
 ```
 
-### 7. Mock Data Management
+### 7. 模擬資料管理
 
-Manage mock data effectively:
+有效管理模擬資料：
 
-**Mock Data Store**
+**模擬資料儲存**
 ```python
 class MockDataStore:
     def __init__(self):
@@ -872,49 +872,49 @@ class MockDataStore:
         self.indexes = {}
         
     def create_collection(self, name: str, schema: Dict = None):
-        """Create a new data collection"""
+        """建立新資料集合"""
         self.collections[name] = {
             'data': {},
             'schema': schema,
             'counter': 0
         }
         
-        # Create default index on 'id'
+        # 在 'id' 上建立預設索引
         self.create_index(name, 'id')
     
     def insert(self, collection: str, data: Dict):
-        """Insert data into collection"""
+        """將資料插入集合"""
         collection_data = self.collections[collection]
         
-        # Validate against schema if exists
+        # 如果存在，則根據模式驗證
         if collection_data['schema']:
             self._validate_data(data, collection_data['schema'])
         
-        # Generate ID if not provided
+        # 如果未提供，則生成 ID
         if 'id' not in data:
             collection_data['counter'] += 1
             data['id'] = str(collection_data['counter'])
         
-        # Store data
+        # 儲存資料
         collection_data['data'][data['id']] = data
         
-        # Update indexes
+        # 更新索引
         self._update_indexes(collection, data)
         
         return data['id']
     
     def query(self, collection: str, filters: Dict = None):
-        """Query collection with filters"""
+        """使用過濾器查詢集合"""
         collection_data = self.collections[collection]['data']
         
         if not filters:
             return list(collection_data.values())
         
-        # Use indexes if available
+        # 如果可用，則使用索引
         if self._can_use_index(collection, filters):
             return self._query_with_index(collection, filters)
         
-        # Full scan
+        # 全面掃描
         results = []
         for item in collection_data.values():
             if self._matches_filters(item, filters):
@@ -923,7 +923,7 @@ class MockDataStore:
         return results
     
     def create_relationships(self):
-        """Define relationships between collections"""
+        """定義集合之間的關係"""
         return '''
 class RelationshipManager:
     def __init__(self, data_store: MockDataStore):
@@ -935,7 +935,7 @@ class RelationshipManager:
                           target_collection: str,
                           relationship_type: str,
                           foreign_key: str):
-        """Define relationship between collections"""
+        """定義集合之間的關係"""
         self.relationships[f"{source_collection}->{target_collection}"] = {
             'type': relationship_type,
             'source': source_collection,
@@ -944,19 +944,19 @@ class RelationshipManager:
         }
     
     def populate_related_data(self, entity: Dict, collection: str, depth: int = 1):
-        """Populate related data for entity"""
+        """填充實體的相關資料"""
         if depth <= 0:
             return entity
         
-        # Find relationships for this collection
+        # 尋找此集合的關係
         for rel_key, rel in self.relationships.items():
             if rel['source'] == collection:
-                # Get related data
+                # 獲取相關資料
                 foreign_id = entity.get(rel['foreign_key'])
                 if foreign_id:
                     related = self.store.get(rel['target'], foreign_id)
                     if related:
-                        # Recursively populate
+                        # 遞歸填充
                         related = self.populate_related_data(
                             related, 
                             rel['target'], 
@@ -967,12 +967,12 @@ class RelationshipManager:
         return entity
     
     def cascade_operations(self, operation: str, collection: str, entity_id: str):
-        """Handle cascade operations"""
+        """處理級聯操作"""
         if operation == 'delete':
-            # Find dependent relationships
+            # 尋找依賴關係
             for rel in self.relationships.values():
                 if rel['target'] == collection:
-                    # Delete dependent entities
+                    # 刪除依賴實體
                     dependents = self.store.query(
                         rel['source'],
                         {rel['foreign_key']: entity_id}
@@ -982,15 +982,15 @@ class RelationshipManager:
 '''
 ```
 
-### 8. Testing Framework Integration
+### 8. 測試框架整合
 
-Integrate with popular testing frameworks:
+與流行測試框架整合：
 
-**Testing Integration**
+**測試整合**
 ```python
 class TestingFrameworkIntegration:
     def create_jest_integration(self):
-        """Jest testing integration"""
+        """Jest 測試整合"""
         return '''
 // jest.mock.config.js
 import { MockServer } from './mockServer';
@@ -1000,10 +1000,10 @@ const mockServer = new MockServer();
 beforeAll(async () => {
     await mockServer.start({ port: 3001 });
     
-    // Load mock definitions
+    // 載入模擬定義
     await mockServer.loadMocks('./mocks/*.json');
     
-    // Set default scenario
+    // 設定預設場景
     await mockServer.setScenario('test');
 });
 
@@ -1012,11 +1012,11 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-    // Reset mock state
+    // 重置模擬狀態
     await mockServer.reset();
 });
 
-// Test helper functions
+// 測試輔助函數
 export const setupMock = async (stub) => {
     return await mockServer.addStub(stub);
 };
@@ -1026,27 +1026,27 @@ export const verifyRequests = async (matcher) => {
     return requests;
 };
 
-// Example test
-describe('User API', () => {
-    it('should fetch user details', async () => {
-        // Setup mock
+// 範例測試
+describe('使用者 API', () => {
+    it('應獲取使用者詳細資訊', async () => {
+        // 設定模擬
         await setupMock({
             method: 'GET',
             path: '/api/users/123',
             response: {
                 status: 200,
-                body: { id: '123', name: 'Test User' }
+                body: { id: '123', name: '測試使用者' }
             }
         });
         
-        // Make request
+        // 發出請求
         const response = await fetch('http://localhost:3001/api/users/123');
         const user = await response.json();
         
-        // Verify
-        expect(user.name).toBe('Test User');
+        // 驗證
+        expect(user.name).toBe('測試使用者');
         
-        // Verify mock was called
+        // 驗證模擬是否被調用
         const requests = await verifyRequests({ path: '/api/users/123' });
         expect(requests).toHaveLength(1);
     });
@@ -1054,7 +1054,7 @@ describe('User API', () => {
 '''
     
     def create_pytest_integration(self):
-        """Pytest integration"""
+        """Pytest 整合"""
         return '''
 # conftest.py
 import pytest
@@ -1078,11 +1078,11 @@ async def mock_server(event_loop):
 async def reset_mocks(mock_server):
     await mock_server.reset()
     yield
-    # Verify no unexpected calls
+    # 驗證沒有意外調用
     unmatched = await mock_server.get_unmatched_requests()
-    assert len(unmatched) == 0, f"Unmatched requests: {unmatched}"
+    assert len(unmatched) == 0, f"未匹配的請求: {unmatched}"
 
-# Test utilities
+# 測試工具
 class MockBuilder:
     def __init__(self, mock_server):
         self.server = mock_server
@@ -1112,30 +1112,30 @@ class MockBuilder:
         for stub in self.stubs:
             await self.server.add_stub(stub)
 
-# Example test
+# 範例測試
 @pytest.mark.asyncio
 async def test_user_creation(mock_server):
-    # Setup mocks
+    # 設定模擬
     mock = MockBuilder(mock_server)
     mock.when('POST', '/api/users') \
-        .with_body({'name': 'New User'}) \
-        .then_return(201, {'id': '456', 'name': 'New User'})
+        .with_body({'name': '新使用者'}) \
+        .then_return(201, {'id': '456', 'name': '新使用者'})
     
     await mock.setup()
     
-    # Test code here
-    response = await create_user({'name': 'New User'})
+    # 在此測試程式碼
+    response = await create_user({'name': '新使用者'})
     assert response['id'] == '456'
 '''
 ```
 
-### 9. Mock Server Deployment
+### 9. 模擬伺服器部署
 
-Deploy mock servers:
+部署模擬伺服器：
 
-**Deployment Configuration**
+**部署配置**
 ```yaml
-# docker-compose.yml for mock services
+# 模擬服務的 docker-compose.yml
 version: '3.8'
 
 services:
@@ -1168,7 +1168,7 @@ services:
     depends_on:
       - mock-api
 
-# Kubernetes deployment
+# Kubernetes 部署
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1204,68 +1204,68 @@ spec:
           name: mock-definitions
 ```
 
-### 10. Mock Documentation
+### 10. 模擬文件
 
-Generate mock API documentation:
+生成模擬 API 文件：
 
-**Documentation Generator**
+**文件生成器**
 ```python
 class MockDocumentationGenerator:
     def generate_documentation(self, mock_server):
-        """Generate comprehensive mock documentation"""
+        """生成全面的模擬文件"""
         return f"""
-# Mock API Documentation
+# 模擬 API 文件
 
-## Overview
+## 概述
 {self._generate_overview(mock_server)}
 
-## Available Endpoints
+## 可用端點
 {self._generate_endpoints_doc(mock_server)}
 
-## Scenarios
+## 場景
 {self._generate_scenarios_doc(mock_server)}
 
-## Data Models
+## 資料模型
 {self._generate_models_doc(mock_server)}
 
-## Usage Examples
+## 使用範例
 {self._generate_examples(mock_server)}
 
-## Configuration
+## 配置
 {self._generate_config_doc(mock_server)}
 """
     
     def _generate_endpoints_doc(self, mock_server):
-        """Generate endpoint documentation"""
+        """生成端點文件"""
         doc = ""
         for endpoint in mock_server.get_endpoints():
             doc += f"""
 ### {endpoint['method']} {endpoint['path']}
 
-**Description**: {endpoint.get('description', 'No description')}
+**描述**: {endpoint.get('description', '無描述')}
 
-**Request**:
+**請求**:
 ```json
 {json.dumps(endpoint.get('request_example', {}), indent=2)}
 ```
 
-**Response**:
+**響應**:
 ```json
 {json.dumps(endpoint.get('response_example', {}), indent=2)}
 ```
 
-**Scenarios**:
+**場景**:
 {self._format_endpoint_scenarios(endpoint)}
 """
         return doc
     
     def create_interactive_docs(self):
-        """Create interactive API documentation"""
+        """建立互動式 API 文件"""
         return '''
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mock API Interactive Documentation</title>
+    <title>模擬 API 互動文件</title>
     <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
 </head>
@@ -1292,11 +1292,11 @@ class MockDocumentationGenerator:
     </script>
     
     <div class="scenario-selector">
-        <label>Scenario:</label>
+        <label>場景:</label>
         <select id="scenario-select">
-            <option value="default">Default</option>
-            <option value="error">Error Conditions</option>
-            <option value="slow">Slow Responses</option>
+            <option value="default">預設</option>
+            <option value="error">錯誤條件</option>
+            <option value="slow">慢響應</option>
         </select>
     </div>
 </body>
@@ -1304,17 +1304,18 @@ class MockDocumentationGenerator:
 '''
 ```
 
-## Output Format
+## 輸出格式
 
-1. **Mock Server Setup**: Complete mock server implementation
-2. **Stubbing Configuration**: Flexible request/response stubbing
-3. **Data Generation**: Realistic mock data generation
-4. **Scenario Definitions**: Comprehensive test scenarios
-5. **Contract Testing**: Contract-based mock validation
-6. **Performance Simulation**: Performance testing capabilities
-7. **Data Management**: Mock data storage and relationships
-8. **Testing Integration**: Framework integration examples
-9. **Deployment Guide**: Mock server deployment configurations
-10. **Documentation**: Auto-generated mock API documentation
+1. **模擬伺服器設定**：完整的模擬伺服器實施
+2. **存根配置**：靈活的請求/響應存根
+3. **資料生成**：逼真的模擬資料生成
+4. **場景定義**：全面的測試場景
+5. **契約測試**：基於契約的模擬驗證
+6. **性能模擬**：性能測試功能
+7. **資料管理**：模擬資料儲存和關係
+8. **測試整合**：框架整合範例
+9. **部署指南**：模擬伺服器部署配置
+10. **文件**：自動生成的模擬 API 文件
 
-Focus on creating flexible, realistic mock services that enable efficient development, thorough testing, and reliable API simulation for all stages of the development lifecycle.
+專注於建立靈活、逼真的模擬服務，以實現高效開發、徹底測試和可靠的 API 模擬，適用於開發生命週期的所有階段。
+```

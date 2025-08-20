@@ -1,20 +1,20 @@
-# Cloud Cost Optimization
+# 雲端成本優化
 
-You are a cloud cost optimization expert specializing in reducing infrastructure expenses while maintaining performance and reliability. Analyze cloud spending, identify savings opportunities, and implement cost-effective architectures across AWS, Azure, and GCP.
+您是雲端成本優化專家，專精於在維持性能和可靠性的同時降低基礎設施費用。分析雲端支出、識別節省機會，並在 AWS、Azure 和 GCP 上實施具成本效益的架構。
 
-## Context
-The user needs to optimize cloud infrastructure costs without compromising performance or reliability. Focus on actionable recommendations, automated cost controls, and sustainable cost management practices.
+## 背景
+使用者需要在不影響性能或可靠性的情況下優化雲端基礎設施成本。專注於可行的建議、自動化成本控制和可持續的成本管理實踐。
 
-## Requirements
+## 要求
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-### 1. Cost Analysis and Visibility
+### 1. 成本分析與可見性
 
-Implement comprehensive cost analysis:
+實施全面的成本分析：
 
-**Cost Analysis Framework**
+**成本分析框架**
 ```python
 import boto3
 import pandas as pd
@@ -29,7 +29,7 @@ class CloudCostAnalyzer:
         self.cost_data = None
         
     def analyze_costs(self, time_period: int = 30):
-        """Comprehensive cost analysis"""
+        """全面成本分析"""
         analysis = {
             'total_cost': self._get_total_cost(time_period),
             'cost_by_service': self._analyze_by_service(time_period),
@@ -43,7 +43,7 @@ class CloudCostAnalyzer:
         return self._generate_report(analysis)
     
     def _analyze_by_service(self, days: int):
-        """Analyze costs by service"""
+        """按服務分析成本"""
         if self.provider == 'aws':
             ce = boto3.client('ce')
             
@@ -59,7 +59,7 @@ class CloudCostAnalyzer:
                 ]
             )
             
-            # Process response
+            # 處理響應
             service_costs = {}
             for result in response['ResultsByTime']:
                 for group in result['Groups']:
@@ -70,7 +70,7 @@ class CloudCostAnalyzer:
                         service_costs[service] = []
                     service_costs[service].append(cost)
             
-            # Calculate totals and trends
+            # 計算總計和趨勢
             analysis = {}
             for service, costs in service_costs.items():
                 analysis[service] = {
@@ -83,7 +83,7 @@ class CloudCostAnalyzer:
             return analysis
     
     def _identify_waste(self):
-        """Identify wasted resources"""
+        """識別浪費的資源"""
         waste_analysis = {
             'unused_resources': self._find_unused_resources(),
             'oversized_resources': self._find_oversized_resources(),
@@ -102,11 +102,11 @@ class CloudCostAnalyzer:
         return waste_analysis
     
     def _find_unused_resources(self):
-        """Find resources with no usage"""
+        """尋找未使用的資源"""
         unused = []
         
         if self.provider == 'aws':
-            # Check EC2 instances
+            # 檢查 EC2 實例
             ec2 = boto3.client('ec2')
             cloudwatch = boto3.client('cloudwatch')
             
@@ -116,7 +116,7 @@ class CloudCostAnalyzer:
             
             for reservation in instances['Reservations']:
                 for instance in reservation['Instances']:
-                    # Check CPU utilization
+                    # 檢查 CPU 利用率
                     metrics = cloudwatch.get_metric_statistics(
                         Namespace='AWS/EC2',
                         MetricName='CPUUtilization',
@@ -132,22 +132,22 @@ class CloudCostAnalyzer:
                     if metrics['Datapoints']:
                         avg_cpu = sum(d['Average'] for d in metrics['Datapoints']) / len(metrics['Datapoints'])
                         
-                        if avg_cpu < 5:  # Less than 5% CPU usage
+                        if avg_cpu < 5:  # CPU 使用率低於 5%
                             unused.append({
-                                'resource_type': 'EC2 Instance',
+                                'resource_type': 'EC2 實例',
                                 'resource_id': instance['InstanceId'],
-                                'reason': f'Average CPU: {avg_cpu:.2f}%',
+                                'reason': f'平均 CPU: {avg_cpu:.2f}%',
                                 'estimated_savings': self._calculate_instance_cost(instance)
                             })
         
         return unused
 ```
 
-### 2. Resource Rightsizing
+### 2. 資源調整大小
 
-Implement intelligent rightsizing:
+實施智慧調整大小：
 
-**Rightsizing Engine**
+**調整大小引擎**
 ```python
 class ResourceRightsizer:
     def __init__(self):
@@ -161,7 +161,7 @@ class ResourceRightsizer:
         }
     
     def analyze_rightsizing_opportunities(self):
-        """Find rightsizing opportunities"""
+        """尋找調整大小的機會"""
         opportunities = {
             'ec2_instances': self._rightsize_ec2(),
             'rds_instances': self._rightsize_rds(),
@@ -173,16 +173,16 @@ class ResourceRightsizer:
         return self._prioritize_opportunities(opportunities)
     
     def _rightsize_ec2(self):
-        """Rightsize EC2 instances"""
+        """調整 EC2 實例大小"""
         recommendations = []
         
         instances = self._get_running_instances()
         
         for instance in instances:
-            # Get utilization metrics
+            # 獲取利用率指標
             utilization = self._get_instance_utilization(instance['InstanceId'])
             
-            # Determine if oversized or undersized
+            # 確定是否過大或過小
             current_type = instance['InstanceType']
             recommended_type = self._recommend_instance_type(
                 current_type, 
@@ -208,15 +208,15 @@ class ResourceRightsizer:
         return recommendations
     
     def _recommend_instance_type(self, current_type: str, utilization: Dict):
-        """Recommend optimal instance type"""
-        # Parse current instance family and size
+        """推薦最佳實例類型"""
+        # 解析當前實例系列和大小
         family, size = self._parse_instance_type(current_type)
         
-        # Calculate required resources
+        # 計算所需資源
         required_cpu = self._calculate_required_cpu(utilization['cpu'])
         required_memory = self._calculate_required_memory(utilization['memory'])
         
-        # Find best matching instance
+        # 尋找最佳匹配實例
         instance_catalog = self._get_instance_catalog()
         
         candidates = []
@@ -233,7 +233,7 @@ class ResourceRightsizer:
                     )
                 })
         
-        # Select best candidate
+        # 選擇最佳候選者
         if candidates:
             best = sorted(candidates, 
                          key=lambda x: (x['efficiency_score'], x['cost']))[0]
@@ -242,7 +242,7 @@ class ResourceRightsizer:
         return current_type
     
     def create_rightsizing_automation(self):
-        """Automated rightsizing implementation"""
+        """自動調整大小實施"""
         return '''
 import boto3
 from datetime import datetime
@@ -255,7 +255,7 @@ class AutomatedRightsizer:
         self.logger = logging.getLogger(__name__)
         
     def execute_rightsizing(self, recommendations: List[Dict], dry_run: bool = True):
-        """Execute rightsizing recommendations"""
+        """執行調整大小建議"""
         results = []
         
         for recommendation in recommendations:
@@ -268,29 +268,29 @@ class AutomatedRightsizer:
                     )
                     results.append(result)
             except Exception as e:
-                self.logger.error(f"Failed to resize {recommendation['resource_id']}: {e}")
+                self.logger.error(f"調整 {recommendation['resource_id']} 大小失敗: {e}")
                 
         return results
     
     def _resize_instance(self, instance_id: str, new_type: str, dry_run: bool):
-        """Resize an EC2 instance"""
-        # Create snapshot for rollback
+        """調整 EC2 實例大小"""
+        # 建立快照以進行回滾
         snapshot_id = self._create_snapshot(instance_id)
         
         try:
-            # Stop instance
+            # 停止實例
             if not dry_run:
                 self.ec2.stop_instances(InstanceIds=[instance_id])
                 self._wait_for_state(instance_id, 'stopped')
             
-            # Change instance type
+            # 更改實例類型
             self.ec2.modify_instance_attribute(
                 InstanceId=instance_id,
                 InstanceType={'Value': new_type},
                 DryRun=dry_run
             )
             
-            # Start instance
+            # 啟動實例
             if not dry_run:
                 self.ec2.start_instances(InstanceIds=[instance_id])
                 self._wait_for_state(instance_id, 'running')
@@ -303,18 +303,18 @@ class AutomatedRightsizer:
             }
             
         except Exception as e:
-            # Rollback on failure
+            # 失敗時回滾
             if not dry_run:
                 self._rollback_instance(instance_id, snapshot_id)
             raise
 '''
 ```
 
-### 3. Reserved Instances and Savings Plans
+### 3. 預留實例和儲蓄計畫
 
-Optimize commitment-based discounts:
+優化基於承諾的折扣：
 
-**Reservation Optimizer**
+**預留優化器**
 ```python
 class ReservationOptimizer:
     def __init__(self):
@@ -322,7 +322,7 @@ class ReservationOptimizer:
         self.existing_reservations = None
         
     def analyze_reservation_opportunities(self):
-        """Analyze opportunities for reservations"""
+        """分析預留機會"""
         analysis = {
             'current_coverage': self._analyze_current_coverage(),
             'usage_patterns': self._analyze_usage_patterns(),
@@ -334,8 +334,8 @@ class ReservationOptimizer:
         return analysis
     
     def _analyze_usage_patterns(self):
-        """Analyze historical usage patterns"""
-        # Get 12 months of usage data
+        """分析歷史使用模式"""
+        # 獲取 12 個月的使用資料
         usage_data = self._get_historical_usage(months=12)
         
         patterns = {
@@ -345,11 +345,11 @@ class ReservationOptimizer:
             'growth_trends': []
         }
         
-        # Analyze each instance family
+        # 分析每個實例系列
         for family in self._get_instance_families(usage_data):
             family_usage = self._filter_by_family(usage_data, family)
             
-            # Calculate stability metrics
+            # 計算穩定性指標
             stability = self._calculate_stability(family_usage)
             
             if stability['coefficient_of_variation'] < 0.1:
@@ -357,37 +357,37 @@ class ReservationOptimizer:
                     'family': family,
                     'average_usage': stability['mean'],
                     'min_usage': stability['min'],
-                    'recommendation': 'reserved_instance',
-                    'term': '3_year',
-                    'payment': 'all_upfront'
+                    'recommendation': '預留實例',
+                    'term': '3_年',
+                    'payment': '全額預付'
                 })
             elif stability['coefficient_of_variation'] < 0.3:
                 patterns['variable_workloads'].append({
                     'family': family,
                     'average_usage': stability['mean'],
                     'baseline': stability['percentile_25'],
-                    'recommendation': 'savings_plan',
+                    'recommendation': '儲蓄計畫',
                     'commitment': stability['percentile_25']
                 })
             
-            # Check for seasonal patterns
+            # 檢查季節性模式
             if self._has_seasonal_pattern(family_usage):
                 patterns['seasonal_patterns'].append({
                     'family': family,
                     'pattern': self._identify_seasonal_pattern(family_usage),
-                    'recommendation': 'spot_with_savings_plan_baseline'
+                    'recommendation': '帶有儲蓄計畫基準的 Spot 實例'
                 })
         
         return patterns
     
     def _generate_recommendations(self):
-        """Generate reservation recommendations"""
+        """生成預留建議"""
         recommendations = []
         
         patterns = self._analyze_usage_patterns()
         current_costs = self._calculate_current_costs()
         
-        # Reserved Instance recommendations
+        # 預留實例建議
         for workload in patterns['stable_workloads']:
             ri_options = self._calculate_ri_options(workload)
             
@@ -396,7 +396,7 @@ class ReservationOptimizer:
                 
                 if savings > 0:
                     recommendations.append({
-                        'type': 'reserved_instance',
+                        'type': '預留實例',
                         'family': workload['family'],
                         'quantity': option['quantity'],
                         'term': option['term'],
@@ -405,55 +405,55 @@ class ReservationOptimizer:
                         'monthly_cost': option['monthly_cost'],
                         'total_savings': savings,
                         'break_even_months': option['upfront_cost'] / (savings / 36),
-                        'confidence': 'high'
+                        'confidence': '高'
                     })
         
-        # Savings Plan recommendations
+        # 儲蓄計畫建議
         for workload in patterns['variable_workloads']:
             sp_options = self._calculate_savings_plan_options(workload)
             
             for option in sp_options:
                 recommendations.append({
-                    'type': 'savings_plan',
+                    'type': '儲蓄計畫',
                     'commitment_type': option['type'],
                     'hourly_commitment': option['commitment'],
                     'term': option['term'],
                     'estimated_savings': option['savings'],
                     'flexibility': option['flexibility_score'],
-                    'confidence': 'medium'
+                    'confidence': '中'
                 })
         
         return sorted(recommendations, key=lambda x: x.get('total_savings', 0), reverse=True)
     
     def create_reservation_dashboard(self):
-        """Create reservation tracking dashboard"""
+        """建立預留追蹤儀表板"""
         return '''
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reservation & Savings Dashboard</title>
+    <title>預留與儲蓄儀表板</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="dashboard">
         <div class="summary-cards">
             <div class="card">
-                <h3>Current Coverage</h3>
+                <h3>當前覆蓋率</h3>
                 <div class="metric">{coverage_percentage}%</div>
-                <div class="sub-metric">On-Demand: ${on_demand_cost}</div>
-                <div class="sub-metric">Reserved: ${reserved_cost}</div>
+                <div class="sub-metric">按需: ${on_demand_cost}</div>
+                <div class="sub-metric">預留: ${reserved_cost}</div>
             </div>
             
             <div class="card">
-                <h3>Potential Savings</h3>
-                <div class="metric">${potential_savings}/month</div>
-                <div class="sub-metric">{recommendations_count} opportunities</div>
+                <h3>潛在節省</h3>
+                <div class="metric">${potential_savings}/月</div>
+                <div class="sub-metric">{recommendations_count} 個機會</div>
             </div>
             
             <div class="card">
-                <h3>Expiring Soon</h3>
-                <div class="metric">{expiring_count} RIs</div>
-                <div class="sub-metric">Next 30 days</div>
+                <h3>即將到期</h3>
+                <div class="metric">{expiring_count} 個 RI</div>
+                <div class="sub-metric">未來 30 天</div>
             </div>
         </div>
         
@@ -463,16 +463,16 @@ class ReservationOptimizer:
         </div>
         
         <div class="recommendations-table">
-            <h3>Top Recommendations</h3>
+            <h3>熱門建議</h3>
             <table>
                 <tr>
-                    <th>Type</th>
-                    <th>Resource</th>
-                    <th>Term</th>
-                    <th>Upfront</th>
-                    <th>Monthly Savings</th>
-                    <th>ROI</th>
-                    <th>Action</th>
+                    <th>類型</th>
+                    <th>資源</th>
+                    <th>期限</th>
+                    <th>預付</th>
+                    <th>每月節省</th>
+                    <th>投資回報率</th>
+                    <th>行動</th>
                 </tr>
                 {recommendation_rows}
             </table>
@@ -483,11 +483,11 @@ class ReservationOptimizer:
 '''
 ```
 
-### 4. Spot Instance Optimization
+### 4. Spot 實例優化
 
-Leverage spot instances effectively:
+有效利用 Spot 實例：
 
-**Spot Instance Manager**
+**Spot 實例管理器**
 ```python
 class SpotInstanceOptimizer:
     def __init__(self):
@@ -495,7 +495,7 @@ class SpotInstanceOptimizer:
         self.interruption_handler = None
         
     def identify_spot_opportunities(self):
-        """Identify workloads suitable for spot"""
+        """識別適合 Spot 的工作負載"""
         workloads = self._analyze_workloads()
         
         spot_candidates = {
@@ -513,7 +513,7 @@ class SpotInstanceOptimizer:
                 spot_candidates[workload['type']].append({
                     'workload': workload['name'],
                     'current_cost': workload['cost'],
-                    'spot_savings': workload['cost'] * 0.7,  # ~70% savings
+                    'spot_savings': workload['cost'] * 0.7,  # 約 70% 節省
                     'interruption_tolerance': suitability['interruption_tolerance'],
                     'recommended_strategy': self._recommend_spot_strategy(workload)
                 })
@@ -521,34 +521,34 @@ class SpotInstanceOptimizer:
         return spot_candidates
     
     def _recommend_spot_strategy(self, workload):
-        """Recommend spot instance strategy"""
-        if workload['interruption_tolerance'] == 'high':
+        """推薦 Spot 實例策略"""
+        if workload['interruption_tolerance'] == '高':
             return {
-                'strategy': 'spot_fleet_diverse',
+                'strategy': 'Spot 隊列多樣化',
                 'instance_pools': 10,
-                'allocation_strategy': 'capacity-optimized',
+                'allocation_strategy': '容量優化',
                 'on_demand_base': 0,
                 'spot_percentage': 100
             }
-        elif workload['interruption_tolerance'] == 'medium':
+        elif workload['interruption_tolerance'] == '中':
             return {
-                'strategy': 'mixed_instances',
+                'strategy': '混合實例',
                 'on_demand_base': 25,
                 'spot_percentage': 75,
-                'spot_allocation': 'lowest-price'
+                'spot_allocation': '最低價格'
             }
         else:
             return {
-                'strategy': 'spot_with_fallback',
-                'primary': 'spot',
-                'fallback': 'on-demand',
+                'strategy': '帶有回退的 Spot',
+                'primary': 'Spot',
+                'fallback': '按需',
                 'checkpointing': True
             }
     
     def create_spot_configuration(self):
-        """Create spot instance configuration"""
+        """建立 Spot 實例配置"""
         return '''
-# Terraform configuration for Spot instances
+# 用於 Spot 實例的 Terraform 配置
 resource "aws_spot_fleet_request" "processing_fleet" {
   iam_fleet_role = aws_iam_role.spot_fleet.arn
   
@@ -556,7 +556,7 @@ resource "aws_spot_fleet_request" "processing_fleet" {
   target_capacity     = 100
   valid_until        = timeadd(timestamp(), "168h")
   
-  # Define multiple launch specifications for diversity
+  # 定義多個啟動規範以實現多樣性
   dynamic "launch_specification" {
     for_each = var.spot_instance_types
     
@@ -581,13 +581,13 @@ resource "aws_spot_fleet_request" "processing_fleet" {
     }
   }
   
-  # Interruption handling
+  # 中斷處理
   lifecycle {
     create_before_destroy = true
   }
 }
 
-# Spot interruption handler
+# Spot 中斷處理器
 resource "aws_lambda_function" "spot_interruption_handler" {
   filename         = "spot-handler.zip"
   function_name    = "spot-interruption-handler"
@@ -605,15 +605,15 @@ resource "aws_lambda_function" "spot_interruption_handler" {
 '''
 ```
 
-### 5. Storage Optimization
+### 5. 儲存優化
 
-Optimize storage costs:
+優化儲存成本：
 
-**Storage Optimizer**
+**儲存優化器**
 ```python
 class StorageOptimizer:
     def analyze_storage_costs(self):
-        """Comprehensive storage analysis"""
+        """全面儲存分析"""
         analysis = {
             'ebs_volumes': self._analyze_ebs_volumes(),
             's3_buckets': self._analyze_s3_buckets(),
@@ -625,7 +625,7 @@ class StorageOptimizer:
         return analysis
     
     def _analyze_s3_buckets(self):
-        """Analyze S3 bucket costs and optimization"""
+        """分析 S3 儲存桶成本和優化"""
         s3 = boto3.client('s3')
         cloudwatch = boto3.client('cloudwatch')
         
@@ -635,13 +635,13 @@ class StorageOptimizer:
         for bucket in buckets:
             bucket_name = bucket['Name']
             
-            # Get storage metrics
+            # 獲取儲存指標
             metrics = self._get_s3_metrics(bucket_name)
             
-            # Analyze storage classes
+            # 分析儲存類別分佈
             storage_class_distribution = self._get_storage_class_distribution(bucket_name)
             
-            # Calculate optimization potential
+            # 計算優化潛力
             optimization = self._calculate_s3_optimization(
                 bucket_name,
                 metrics,
@@ -661,7 +661,7 @@ class StorageOptimizer:
         return bucket_analysis
     
     def create_lifecycle_policies(self):
-        """Create S3 lifecycle policies"""
+        """建立 S3 生命週期策略"""
         return '''
 import boto3
 from datetime import datetime
@@ -671,11 +671,11 @@ class S3LifecycleManager:
         self.s3 = boto3.client('s3')
         
     def create_intelligent_lifecycle(self, bucket_name: str, access_patterns: Dict):
-        """Create lifecycle policy based on access patterns"""
+        """根據存取模式建立生命週期策略"""
         
         rules = []
         
-        # Intelligent tiering for unknown access patterns
+        # 針對未知存取模式的智慧分層
         if access_patterns.get('unpredictable'):
             rules.append({
                 'ID': 'intelligent-tiering',
@@ -686,7 +686,7 @@ class S3LifecycleManager:
                 }]
             })
         
-        # Standard lifecycle for predictable patterns
+        # 針對可預測模式的標準生命週期
         if access_patterns.get('predictable'):
             rules.append({
                 'ID': 'standard-lifecycle',
@@ -707,7 +707,7 @@ class S3LifecycleManager:
                 ]
             })
         
-        # Delete old versions
+        # 刪除舊版本
         rules.append({
             'ID': 'delete-old-versions',
             'Status': 'Enabled',
@@ -722,7 +722,7 @@ class S3LifecycleManager:
             }
         })
         
-        # Apply lifecycle configuration
+        # 應用生命週期配置
         self.s3.put_bucket_lifecycle_configuration(
             Bucket=bucket_name,
             LifecycleConfiguration={'Rules': rules}
@@ -731,14 +731,14 @@ class S3LifecycleManager:
         return rules
     
     def optimize_ebs_volumes(self):
-        """Optimize EBS volume types and sizes"""
+        """優化 EBS 卷類型和大小"""
         ec2 = boto3.client('ec2')
         
         volumes = ec2.describe_volumes()['Volumes']
         optimizations = []
         
         for volume in volumes:
-            # Analyze volume metrics
+            # 分析卷指標
             iops_usage = self._get_volume_iops_usage(volume['VolumeId'])
             throughput_usage = self._get_volume_throughput_usage(volume['VolumeId'])
             
@@ -770,15 +770,15 @@ class S3LifecycleManager:
 '''
 ```
 
-### 6. Network Cost Optimization
+### 6. 網路成本優化
 
-Reduce network transfer costs:
+降低網路傳輸成本：
 
-**Network Cost Optimizer**
+**網路成本優化器**
 ```python
 class NetworkCostOptimizer:
     def analyze_network_costs(self):
-        """Analyze network transfer costs"""
+        """分析網路傳輸成本"""
         analysis = {
             'data_transfer_costs': self._analyze_data_transfer(),
             'nat_gateway_costs': self._analyze_nat_gateways(),
@@ -790,7 +790,7 @@ class NetworkCostOptimizer:
         return analysis
     
     def _analyze_data_transfer(self):
-        """Analyze data transfer patterns and costs"""
+        """分析資料傳輸模式和成本"""
         transfers = {
             'inter_region': self._get_inter_region_transfers(),
             'internet_egress': self._get_internet_egress(),
@@ -800,20 +800,20 @@ class NetworkCostOptimizer:
         
         recommendations = []
         
-        # Analyze inter-region transfers
+        # 分析跨區域傳輸
         if transfers['inter_region']['monthly_gb'] > 1000:
             recommendations.append({
-                'type': 'region_consolidation',
-                'description': 'Consider consolidating resources in fewer regions',
+                'type': '區域整合',
+                'description': '考慮將資源整合到更少的區域',
                 'current_cost': transfers['inter_region']['monthly_cost'],
                 'potential_savings': transfers['inter_region']['monthly_cost'] * 0.8
             })
         
-        # Analyze internet egress
+        # 分析網際網路出口
         if transfers['internet_egress']['monthly_gb'] > 10000:
             recommendations.append({
-                'type': 'cdn_implementation',
-                'description': 'Implement CDN to reduce origin egress',
+                'type': 'CDN 實施',
+                'description': '實施 CDN 以減少源出口',
                 'current_cost': transfers['internet_egress']['monthly_cost'],
                 'potential_savings': transfers['internet_egress']['monthly_cost'] * 0.6
             })
@@ -824,7 +824,7 @@ class NetworkCostOptimizer:
         }
     
     def create_network_optimization_script(self):
-        """Script to implement network optimizations"""
+        """實施網路優化的腳本"""
         return '''
 #!/usr/bin/env python3
 import boto3
@@ -836,11 +836,11 @@ class NetworkOptimizer:
         self.cloudwatch = boto3.client('cloudwatch')
         
     def optimize_nat_gateways(self):
-        """Consolidate and optimize NAT gateways"""
-        # Get all NAT gateways
+        """整合和優化 NAT 閘道"""
+        # 獲取所有 NAT 閘道
         nat_gateways = self.ec2.describe_nat_gateways()['NatGateways']
         
-        # Group by VPC
+        # 按 VPC 分組
         vpc_nat_gateways = defaultdict(list)
         for nat in nat_gateways:
             if nat['State'] == 'available':
@@ -850,13 +850,13 @@ class NetworkOptimizer:
         
         for vpc_id, nats in vpc_nat_gateways.items():
             if len(nats) > 1:
-                # Check if consolidation is possible
+                # 檢查是否可以整合
                 traffic_analysis = self._analyze_nat_traffic(nats)
                 
                 if traffic_analysis['can_consolidate']:
                     optimizations.append({
                         'vpc_id': vpc_id,
-                        'action': 'consolidate_nat',
+                        'action': '整合 NAT',
                         'current_count': len(nats),
                         'recommended_count': traffic_analysis['recommended_count'],
                         'monthly_savings': (len(nats) - traffic_analysis['recommended_count']) * 45
@@ -865,7 +865,7 @@ class NetworkOptimizer:
         return optimizations
     
     def implement_vpc_endpoints(self):
-        """Implement VPC endpoints for AWS services"""
+        """為 AWS 服務實施 VPC 端點"""
         services_to_check = ['s3', 'dynamodb', 'ec2', 'sns', 'sqs']
         vpc_list = self.ec2.describe_vpcs()['Vpcs']
         
@@ -874,14 +874,14 @@ class NetworkOptimizer:
         for vpc in vpc_list:
             vpc_id = vpc['VpcId']
             
-            # Check existing endpoints
+            # 檢查現有端點
             existing = self._get_existing_endpoints(vpc_id)
             
             for service in services_to_check:
                 if service not in existing:
-                    # Check if service is being used
+                    # 檢查服務是否正在使用
                     if self._is_service_used(vpc_id, service):
-                        # Create VPC endpoint
+                        # 建立 VPC 端點
                         endpoint = self._create_vpc_endpoint(vpc_id, service)
                         
                         implementations.append({
@@ -894,14 +894,14 @@ class NetworkOptimizer:
         return implementations
     
     def optimize_cloudfront_distribution(self):
-        """Optimize CloudFront for cost reduction"""
+        """優化 CloudFront 以降低成本"""
         cloudfront = boto3.client('cloudfront')
         
         distributions = cloudfront.list_distributions()
         optimizations = []
         
         for dist in distributions.get('DistributionList', {}).get('Items', []):
-            # Analyze distribution patterns
+            # 分析分佈模式
             analysis = self._analyze_distribution(dist['Id'])
             
             if analysis['optimization_potential']:
@@ -909,13 +909,13 @@ class NetworkOptimizer:
                     'distribution_id': dist['Id'],
                     'recommendations': [
                         {
-                            'action': 'adjust_price_class',
+                            'action': '調整價格類別',
                             'current': dist['PriceClass'],
                             'recommended': analysis['recommended_price_class'],
                             'savings': analysis['price_class_savings']
                         },
                         {
-                            'action': 'optimize_cache_behaviors',
+                            'action': '優化快取行為',
                             'cache_improvements': analysis['cache_improvements'],
                             'savings': analysis['cache_savings']
                         }
@@ -926,15 +926,15 @@ class NetworkOptimizer:
 '''
 ```
 
-### 7. Container Cost Optimization
+### 7. 容器成本優化
 
-Optimize container workloads:
+優化容器工作負載：
 
-**Container Cost Optimizer**
+**容器成本優化器**
 ```python
 class ContainerCostOptimizer:
     def optimize_ecs_costs(self):
-        """Optimize ECS/Fargate costs"""
+        """優化 ECS/Fargate 成本"""
         return {
             'cluster_optimization': self._optimize_clusters(),
             'task_rightsizing': self._rightsize_tasks(),
@@ -943,7 +943,7 @@ class ContainerCostOptimizer:
         }
     
     def _rightsize_tasks(self):
-        """Rightsize ECS tasks"""
+        """調整 ECS 任務大小"""
         ecs = boto3.client('ecs')
         cloudwatch = boto3.client('cloudwatch')
         
@@ -951,11 +951,11 @@ class ContainerCostOptimizer:
         recommendations = []
         
         for cluster in clusters:
-            # Get services
+            # 獲取服務
             services = ecs.list_services(cluster=cluster)['serviceArns']
             
             for service in services:
-                # Get task definition
+                # 獲取任務定義
                 service_detail = ecs.describe_services(
                     cluster=cluster,
                     services=[service]
@@ -963,10 +963,10 @@ class ContainerCostOptimizer:
                 
                 task_def = service_detail['taskDefinition']
                 
-                # Analyze resource utilization
+                # 分析資源利用率
                 utilization = self._analyze_task_utilization(cluster, service)
                 
-                # Generate recommendations
+                # 生成建議
                 if utilization['cpu']['average'] < 30 or utilization['memory']['average'] < 40:
                     recommendations.append({
                         'cluster': cluster,
@@ -984,7 +984,7 @@ class ContainerCostOptimizer:
         return recommendations
     
     def create_k8s_cost_optimization(self):
-        """Kubernetes cost optimization"""
+        """Kubernetes 成本優化"""
         return '''
 apiVersion: v1
 kind: ConfigMap
@@ -1062,15 +1062,15 @@ data:
 '''
 ```
 
-### 8. Serverless Cost Optimization
+### 8. 無伺服器成本優化
 
-Optimize serverless workloads:
+優化無伺服器工作負載：
 
-**Serverless Optimizer**
+**無伺服器優化器**
 ```python
 class ServerlessOptimizer:
     def optimize_lambda_costs(self):
-        """Optimize Lambda function costs"""
+        """優化 Lambda 函數成本"""
         lambda_client = boto3.client('lambda')
         cloudwatch = boto3.client('cloudwatch')
         
@@ -1078,56 +1078,56 @@ class ServerlessOptimizer:
         optimizations = []
         
         for function in functions:
-            # Analyze function performance
+            # 分析函數性能
             analysis = self._analyze_lambda_function(function)
             
-            # Memory optimization
+            # 記憶體優化
             if analysis['memory_optimization_possible']:
                 optimizations.append({
                     'function_name': function['FunctionName'],
-                    'type': 'memory_optimization',
+                    'type': '記憶體優化',
                     'current_memory': function['MemorySize'],
                     'recommended_memory': analysis['optimal_memory'],
                     'estimated_savings': analysis['memory_savings']
                 })
             
-            # Timeout optimization
+            # 超時優化
             if analysis['timeout_optimization_possible']:
                 optimizations.append({
                     'function_name': function['FunctionName'],
-                    'type': 'timeout_optimization',
+                    'type': '超時優化',
                     'current_timeout': function['Timeout'],
                     'recommended_timeout': analysis['optimal_timeout'],
-                    'risk_reduction': 'prevents unnecessary charges from hanging functions'
+                    'risk_reduction': '防止因函數掛起而產生不必要的費用'
                 })
         
         return optimizations
     
     def implement_lambda_cost_controls(self):
-        """Implement Lambda cost controls"""
+        """實施 Lambda 成本控制"""
         return '''
 import json
 import boto3
 from datetime import datetime
 
 def lambda_cost_controller(event, context):
-    """Lambda function to monitor and control Lambda costs"""
+    """用於監控和控制 Lambda 成本的 Lambda 函數"""
     
     cloudwatch = boto3.client('cloudwatch')
     lambda_client = boto3.client('lambda')
     
-    # Get current month costs
+    # 獲取當前月份成本
     costs = get_current_month_lambda_costs()
     
-    # Check against budget
+    # 檢查預算
     budget_limit = float(os.environ.get('MONTHLY_BUDGET', '1000'))
     
-    if costs > budget_limit * 0.8:  # 80% of budget
-        # Implement cost controls
+    if costs > budget_limit * 0.8:  # 預算的 80%
+        # 實施成本控制
         high_cost_functions = identify_high_cost_functions()
         
         for func in high_cost_functions:
-            # Reduce concurrency
+            # 減少並發
             lambda_client.put_function_concurrency(
                 FunctionName=func['FunctionName'],
                 ReservedConcurrentExecutions=max(
@@ -1136,10 +1136,10 @@ def lambda_cost_controller(event, context):
                 )
             )
             
-            # Alert
+            # 警報
             send_cost_alert(func, costs, budget_limit)
     
-    # Implement provisioned concurrency optimization
+    # 實施預置並發優化
     optimize_provisioned_concurrency()
     
     return {
@@ -1152,36 +1152,36 @@ def lambda_cost_controller(event, context):
     }
 
 def optimize_provisioned_concurrency():
-    """Optimize provisioned concurrency based on usage patterns"""
+    """根據使用模式優化預置並發"""
     functions = get_functions_with_provisioned_concurrency()
     
     for func in functions:
-        # Analyze invocation patterns
+        # 分析調用模式
         patterns = analyze_invocation_patterns(func['FunctionName'])
         
         if patterns['predictable']:
-            # Schedule provisioned concurrency
+            # 排程預置並發
             create_scheduled_scaling(
                 func['FunctionName'],
                 patterns['peak_hours'],
                 patterns['peak_concurrency']
             )
         else:
-            # Consider removing provisioned concurrency
-            if patterns['avg_cold_starts'] < 10:  # per minute
+            # 考慮移除預置並發
+            if patterns['avg_cold_starts'] < 10:  # 每分鐘
                 remove_provisioned_concurrency(func['FunctionName'])
 '''
 ```
 
-### 9. Cost Allocation and Tagging
+### 9. 成本分配和標籤
 
-Implement cost allocation strategies:
+實施成本分配策略：
 
-**Cost Allocation Manager**
+**成本分配管理器**
 ```python
 class CostAllocationManager:
     def implement_tagging_strategy(self):
-        """Implement comprehensive tagging strategy"""
+        """實施全面的標籤策略"""
         return {
             'required_tags': [
                 {'key': 'Environment', 'values': ['prod', 'staging', 'dev', 'test']},
@@ -1196,7 +1196,7 @@ class CostAllocationManager:
         }
     
     def _create_tagging_automation(self):
-        """Automate resource tagging"""
+        """自動化資源標籤"""
         return '''
 import boto3
 from datetime import datetime
@@ -1206,31 +1206,31 @@ class AutoTagger:
         self.tag_policies = self.load_tag_policies()
         
     def auto_tag_resources(self, event, context):
-        """Auto-tag resources on creation"""
+        """在建立時自動標記資源"""
         
-        # Parse CloudTrail event
+        # 解析 CloudTrail 事件
         detail = event['detail']
         event_name = detail['eventName']
         
-        # Map events to resource types
+        # 將事件映射到資源類型
         if event_name.startswith('Create'):
             resource_arn = self.extract_resource_arn(detail)
             
             if resource_arn:
-                # Determine tags
+                # 確定標籤
                 tags = self.determine_tags(detail)
                 
-                # Apply tags
+                # 應用標籤
                 self.apply_tags(resource_arn, tags)
                 
-                # Log tagging action
+                # 記錄標籤操作
                 self.log_tagging(resource_arn, tags)
     
     def determine_tags(self, event_detail):
-        """Determine tags based on context"""
+        """根據上下文確定標籤"""
         tags = []
         
-        # User-based tags
+        # 基於使用者的標籤
         user_identity = event_detail.get('userIdentity', {})
         if 'userName' in user_identity:
             tags.append({
@@ -1238,13 +1238,13 @@ class AutoTagger:
                 'Value': user_identity['userName']
             })
         
-        # Time-based tags
+        # 基於時間的標籤
         tags.append({
             'Key': 'CreatedDate',
             'Value': datetime.now().strftime('%Y-%m-%d')
         })
         
-        # Environment inference
+        # 環境推斷
         if 'prod' in event_detail.get('sourceIPAddress', ''):
             env = 'prod'
         elif 'dev' in event_detail.get('sourceIPAddress', ''):
@@ -1260,7 +1260,7 @@ class AutoTagger:
         return tags
     
     def create_cost_allocation_dashboard(self):
-        """Create cost allocation dashboard"""
+        """建立成本分配儀表板"""
         return """
         SELECT 
             tags.environment,
@@ -1284,49 +1284,49 @@ class AutoTagger:
 '''
 ```
 
-### 10. Cost Monitoring and Alerts
+### 10. 成本監控和警報
 
-Implement proactive cost monitoring:
+實施主動成本監控：
 
-**Cost Monitoring System**
+**成本監控系統**
 ```python
 class CostMonitoringSystem:
     def setup_cost_alerts(self):
-        """Setup comprehensive cost alerting"""
+        """設定全面的成本警報"""
         alerts = []
         
-        # Budget alerts
+        # 預算警報
         alerts.extend(self._create_budget_alerts())
         
-        # Anomaly detection
+        # 異常檢測
         alerts.extend(self._create_anomaly_alerts())
         
-        # Threshold alerts
+        # 閾值警報
         alerts.extend(self._create_threshold_alerts())
         
-        # Forecast alerts
+        # 預測警報
         alerts.extend(self._create_forecast_alerts())
         
         return alerts
     
     def _create_anomaly_alerts(self):
-        """Create anomaly detection alerts"""
+        """建立異常檢測警報"""
         ce = boto3.client('ce')
         
-        # Create anomaly monitor
+        # 建立異常監控器
         monitor = ce.create_anomaly_monitor(
             AnomalyMonitor={
-                'MonitorName': 'ServiceCostMonitor',
+                'MonitorName': '服務成本監控器',
                 'MonitorType': 'DIMENSIONAL',
                 'MonitorDimension': 'SERVICE'
             }
         )
         
-        # Create anomaly subscription
+        # 建立異常訂閱
         subscription = ce.create_anomaly_subscription(
             AnomalySubscription={
-                'SubscriptionName': 'CostAnomalyAlerts',
-                'Threshold': 100.0,  # Alert on anomalies > $100
+                'SubscriptionName': '成本異常警報',
+                'Threshold': 100.0,  # 異常 > $100 時警報
                 'Frequency': 'DAILY',
                 'MonitorArnList': [monitor['MonitorArn']],
                 'Subscribers': [
@@ -1345,12 +1345,12 @@ class CostMonitoringSystem:
         return [monitor, subscription]
     
     def create_cost_dashboard(self):
-        """Create executive cost dashboard"""
+        """建立執行成本儀表板"""
         return '''
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cloud Cost Dashboard</title>
+    <title>雲端成本儀表板</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         .metric-card {
@@ -1367,31 +1367,31 @@ class CostMonitoringSystem:
 </head>
 <body>
     <div id="dashboard">
-        <h1>Cloud Cost Optimization Dashboard</h1>
+        <h1>雲端成本優化儀表板</h1>
         
         <div class="summary-row">
             <div class="metric-card">
-                <h3>Current Month Spend</h3>
+                <h3>當月支出</h3>
                 <div class="metric">${current_spend}</div>
-                <div class="trend ${spend_trend_class}">${spend_trend}% vs last month</div>
+                <div class="trend ${spend_trend_class}">與上月相比 ${spend_trend}%</div>
             </div>
             
             <div class="metric-card">
-                <h3>Projected Month End</h3>
+                <h3>預計月底</h3>
                 <div class="metric">${projected_spend}</div>
-                <div class="budget-status">Budget: ${budget}</div>
+                <div class="budget-status">預算: ${budget}</div>
             </div>
             
             <div class="metric-card">
-                <h3>Optimization Opportunities</h3>
+                <h3>優化機會</h3>
                 <div class="metric">${total_savings_identified}</div>
-                <div class="count">{opportunity_count} recommendations</div>
+                <div class="count">{opportunity_count} 個建議</div>
             </div>
             
             <div class="metric-card">
-                <h3>Realized Savings</h3>
+                <h3>已實現節省</h3>
                 <div class="metric">${realized_savings_mtd}</div>
-                <div class="count">YTD: ${realized_savings_ytd}</div>
+                <div class="count">年初至今: ${realized_savings_ytd}</div>
             </div>
         </div>
         
@@ -1402,16 +1402,16 @@ class CostMonitoringSystem:
         </div>
         
         <div class="recommendations-section">
-            <h2>Top Optimization Recommendations</h2>
+            <h2>熱門優化建議</h2>
             <table id="recommendations-table">
                 <thead>
                     <tr>
-                        <th>Priority</th>
-                        <th>Service</th>
-                        <th>Recommendation</th>
-                        <th>Monthly Savings</th>
-                        <th>Effort</th>
-                        <th>Action</th>
+                        <th>優先級</th>
+                        <th>服務</th>
+                        <th>建議</th>
+                        <th>每月節省</th>
+                        <th>工作量</th>
+                        <th>行動</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1422,10 +1422,10 @@ class CostMonitoringSystem:
     </div>
     
     <script>
-        // Real-time updates
+        // 即時更新
         setInterval(updateDashboard, 60000);
         
-        // Initialize charts
+        // 初始化圖表
         initializeCharts();
     </script>
 </body>
@@ -1433,15 +1433,15 @@ class CostMonitoringSystem:
 '''
 ```
 
-## Output Format
+## 輸出格式
 
-1. **Cost Analysis Report**: Comprehensive breakdown of current cloud costs
-2. **Optimization Recommendations**: Prioritized list of cost-saving opportunities
-3. **Implementation Scripts**: Automated scripts for implementing optimizations
-4. **Monitoring Dashboards**: Real-time cost tracking and alerting
-5. **ROI Calculations**: Detailed savings projections and payback periods
-6. **Risk Assessment**: Analysis of risks associated with each optimization
-7. **Implementation Roadmap**: Phased approach to cost optimization
-8. **Best Practices Guide**: Long-term cost management strategies
+1. **成本分析報告**：當前雲端成本的全面細分
+2. **優化建議**：節省成本機會的優先列表
+3. **實施腳本**：用於實施優化的自動化腳本
+4. **監控儀表板**：即時成本追蹤和警報
+5. **投資回報率計算**：詳細的節省預測和回收期
+6. **風險評估**：與每個優化相關的風險分析
+7. **實施路線圖**：成本優化的分階段方法
+8. **最佳實踐指南**：長期成本管理策略
 
-Focus on delivering immediate cost savings while establishing sustainable cost optimization practices that maintain performance and reliability standards.
+專注於提供即時成本節省，同時建立可持續的成本優化實踐，以維持性能和可靠性標準。

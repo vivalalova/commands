@@ -1,20 +1,20 @@
-# Dependency Audit and Security Analysis
+# 依賴項審計與安全分析
 
-You are a dependency security expert specializing in vulnerability scanning, license compliance, and supply chain security. Analyze project dependencies for known vulnerabilities, licensing issues, outdated packages, and provide actionable remediation strategies.
+您是依賴項安全專家，專精於漏洞掃描、許可證合規性和供應鏈安全。分析專案依賴項中的已知漏洞、許可證問題、過時套件，並提供可行的補救策略。
 
-## Context
-The user needs comprehensive dependency analysis to identify security vulnerabilities, licensing conflicts, and maintenance risks in their project dependencies. Focus on actionable insights with automated fixes where possible.
+## 背景
+使用者需要全面的依賴項分析，以識別其專案依賴項中的安全漏洞、許可證衝突和維護風險。專注於可操作的見解，並在可能的情況下提供自動化修復。
 
-## Requirements
+## 要求
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-### 1. Dependency Discovery
+### 1. 依賴項發現
 
-Scan and inventory all project dependencies:
+掃描並盤點所有專案依賴項：
 
-**Multi-Language Detection**
+**多語言檢測**
 ```python
 import os
 import json
@@ -38,15 +38,15 @@ class DependencyDiscovery:
         
     def discover_all_dependencies(self):
         """
-        Discover all dependencies across different package managers
+        發現不同套件管理器中的所有依賴項
         """
         dependencies = {}
         
-        # NPM/Yarn dependencies
+        # NPM/Yarn 依賴項
         if (self.project_path / 'package.json').exists():
             dependencies['npm'] = self._parse_npm_dependencies()
             
-        # Python dependencies
+        # Python 依賴項
         if (self.project_path / 'requirements.txt').exists():
             dependencies['python'] = self._parse_requirements_txt()
         elif (self.project_path / 'Pipfile').exists():
@@ -54,7 +54,7 @@ class DependencyDiscovery:
         elif (self.project_path / 'pyproject.toml').exists():
             dependencies['python'] = self._parse_pyproject_toml()
             
-        # Go dependencies
+        # Go 依賴項
         if (self.project_path / 'go.mod').exists():
             dependencies['go'] = self._parse_go_mod()
             
@@ -62,14 +62,14 @@ class DependencyDiscovery:
     
     def _parse_npm_dependencies(self):
         """
-        Parse NPM package.json and lock files
+        解析 NPM package.json 和鎖定檔案
         """
         with open(self.project_path / 'package.json', 'r') as f:
             package_json = json.load(f)
             
         deps = {}
         
-        # Direct dependencies
+        # 直接依賴項
         for dep_type in ['dependencies', 'devDependencies', 'peerDependencies']:
             if dep_type in package_json:
                 for name, version in package_json[dep_type].items():
@@ -79,7 +79,7 @@ class DependencyDiscovery:
                         'direct': True
                     }
         
-        # Parse lock file for exact versions
+        # 解析鎖定檔案以獲取確切版本
         if (self.project_path / 'package-lock.json').exists():
             with open(self.project_path / 'package-lock.json', 'r') as f:
                 lock_data = json.load(f)
@@ -88,11 +88,11 @@ class DependencyDiscovery:
         return deps
 ```
 
-**Dependency Tree Analysis**
+**依賴項樹分析**
 ```python
 def build_dependency_tree(dependencies):
     """
-    Build complete dependency tree including transitive dependencies
+    建置完整的依賴項樹，包括傳遞性依賴項
     """
     tree = {
         'root': {
@@ -108,7 +108,7 @@ def build_dependency_tree(dependencies):
             
         for dep_name, dep_info in deps.items():
             if dep_name in visited:
-                # Circular dependency detected
+                # 檢測到循環依賴
                 node['dependencies'][dep_name] = {
                     'circular': True,
                     'version': dep_info['version']
@@ -123,7 +123,7 @@ def build_dependency_tree(dependencies):
                 'dependencies': {}
             }
             
-            # Recursively add transitive dependencies
+            # 遞歸添加傳遞性依賴項
             if 'dependencies' in dep_info:
                 add_dependencies(
                     node['dependencies'][dep_name],
@@ -135,11 +135,11 @@ def build_dependency_tree(dependencies):
     return tree
 ```
 
-### 2. Vulnerability Scanning
+### 2. 漏洞掃描
 
-Check dependencies against vulnerability databases:
+根據漏洞資料庫檢查依賴項：
 
-**CVE Database Check**
+**CVE 資料庫檢查**
 ```python
 import requests
 from datetime import datetime
@@ -155,7 +155,7 @@ class VulnerabilityScanner:
         
     def scan_vulnerabilities(self, dependencies):
         """
-        Scan dependencies for known vulnerabilities
+        掃描依賴項中的已知漏洞
         """
         vulnerabilities = []
         
@@ -173,7 +173,7 @@ class VulnerabilityScanner:
     
     def _check_package_vulnerabilities(self, name, version, ecosystem):
         """
-        Check specific package for vulnerabilities
+        檢查特定套件的漏洞
         """
         if ecosystem == 'npm':
             return self._check_npm_vulnerabilities(name, version)
@@ -184,9 +184,9 @@ class VulnerabilityScanner:
             
     def _check_npm_vulnerabilities(self, name, version):
         """
-        Check NPM package vulnerabilities
+        檢查 NPM 套件漏洞
         """
-        # Using npm audit API
+        # 使用 npm audit API
         response = requests.post(
             'https://registry.npmjs.org/-/npm/v1/security/advisories/bulk',
             json={name: [version]}
@@ -212,11 +212,11 @@ class VulnerabilityScanner:
         return vulnerabilities
 ```
 
-**Severity Analysis**
+**嚴重性分析**
 ```python
 def analyze_vulnerability_severity(vulnerabilities):
     """
-    Analyze and prioritize vulnerabilities by severity
+    分析並按嚴重性優先處理漏洞
     """
     severity_scores = {
         'critical': 9.0,
@@ -241,10 +241,10 @@ def analyze_vulnerability_severity(vulnerabilities):
         severity = vuln['severity'].lower()
         analysis['by_severity'][severity].append(vuln)
         
-        # Calculate risk score
+        # 計算風險分數
         base_score = severity_scores.get(severity, 0)
         
-        # Adjust score based on factors
+        # 根據因素調整分數
         if vuln.get('exploit_available', False):
             base_score *= 1.5
         if vuln.get('publicly_disclosed', True):
@@ -255,15 +255,15 @@ def analyze_vulnerability_severity(vulnerabilities):
         vuln['risk_score'] = base_score
         analysis['risk_score'] += base_score
         
-        # Flag immediate action items
+        # 標記立即行動項目
         if severity in ['critical', 'high'] or base_score > 8.0:
             analysis['immediate_action_required'].append({
                 'package': vuln['package'],
                 'severity': severity,
-                'action': f"Update to {vuln['patched_versions']}"
+                'action': f"更新到 {vuln['patched_versions']}"
             })
     
-    # Sort by risk score
+    # 按風險分數排序
     for severity in analysis['by_severity']:
         analysis['by_severity'][severity].sort(
             key=lambda x: x.get('risk_score', 0),
@@ -273,11 +273,11 @@ def analyze_vulnerability_severity(vulnerabilities):
     return analysis
 ```
 
-### 3. License Compliance
+### 3. 許可證合規性
 
-Analyze dependency licenses for compatibility:
+分析依賴項許可證的相容性：
 
-**License Detection**
+**許可證檢測**
 ```python
 class LicenseAnalyzer:
     def __init__(self):
@@ -290,15 +290,15 @@ class LicenseAnalyzer:
         }
         
         self.license_restrictions = {
-            'GPL-3.0': 'Copyleft - requires source code disclosure',
-            'AGPL-3.0': 'Strong copyleft - network use requires source disclosure',
-            'proprietary': 'Cannot be used without explicit license',
-            'unknown': 'License unclear - legal review required'
+            'GPL-3.0': 'Copyleft - 需要原始碼公開',
+            'AGPL-3.0': '強 Copyleft - 網路使用需要原始碼公開',
+            'proprietary': '未經明確許可證不得使用',
+            'unknown': '許可證不明確 - 需要法律審查'
         }
         
     def analyze_licenses(self, dependencies, project_license='MIT'):
         """
-        Analyze license compatibility
+        分析許可證相容性
         """
         issues = []
         license_summary = {}
@@ -306,17 +306,17 @@ class LicenseAnalyzer:
         for package_name, package_info in dependencies.items():
             license_type = package_info.get('license', 'unknown')
             
-            # Track license usage
+            # 追蹤許可證使用情況
             if license_type not in license_summary:
                 license_summary[license_type] = []
             license_summary[license_type].append(package_name)
             
-            # Check compatibility
+            # 檢查相容性
             if not self._is_compatible(project_license, license_type):
                 issues.append({
                     'package': package_name,
                     'license': license_type,
-                    'issue': f'Incompatible with project license {project_license}',
+                    'issue': f'與專案許可證 {project_license} 不相容',
                     'severity': 'high',
                     'recommendation': self._get_license_recommendation(
                         license_type,
@@ -324,73 +324,73 @@ class LicenseAnalyzer:
                     )
                 })
             
-            # Check for restrictive licenses
+            # 檢查限制性許可證
             if license_type in self.license_restrictions:
                 issues.append({
                     'package': package_name,
                     'license': license_type,
                     'issue': self.license_restrictions[license_type],
                     'severity': 'medium',
-                    'recommendation': 'Review usage and ensure compliance'
+                    'recommendation': '審查使用情況並確保合規性'
                 })
         
         return {
             'summary': license_summary,
             'issues': issues,
-            'compliance_status': 'FAIL' if issues else 'PASS'
+            'compliance_status': '失敗' if issues else '通過'
         }
 ```
 
-**License Report**
+**許可證報告**
 ```markdown
-## License Compliance Report
+## 許可證合規報告
 
-### Summary
-- **Project License**: MIT
-- **Total Dependencies**: 245
-- **License Issues**: 3
-- **Compliance Status**: ⚠️ REVIEW REQUIRED
+### 摘要
+- **專案許可證**：MIT
+- **總依賴項**：245
+- **許可證問題**：3
+- **合規狀態**：⚠️ 需要審查
 
-### License Distribution
-| License | Count | Packages |
+### 許可證分佈
+| 許可證 | 計數 | 套件 |
 |---------|-------|----------|
 | MIT | 180 | express, lodash, ... |
 | Apache-2.0 | 45 | aws-sdk, ... |
 | BSD-3-Clause | 15 | ... |
-| GPL-3.0 | 3 | [ISSUE] package1, package2, package3 |
-| Unknown | 2 | [ISSUE] mystery-lib, old-package |
+| GPL-3.0 | 3 | [問題] package1, package2, package3 |
+| 未知 | 2 | [問題] mystery-lib, old-package |
 
-### Compliance Issues
+### 合規問題
 
-#### High Severity
-1. **GPL-3.0 Dependencies**
-   - Packages: package1, package2, package3
-   - Issue: GPL-3.0 is incompatible with MIT license
-   - Risk: May require open-sourcing your entire project
-   - Recommendation: 
-     - Replace with MIT/Apache licensed alternatives
-     - Or change project license to GPL-3.0
+#### 高嚴重性
+1. **GPL-3.0 依賴項**
+   - 套件：package1, package2, package3
+   - 問題：GPL-3.0 與 MIT 許可證不相容
+   - 風險：可能需要開源您的整個專案
+   - 建議：
+     - 替換為 MIT/Apache 許可證的替代方案
+     - 或將專案許可證更改為 GPL-3.0
 
-#### Medium Severity
-2. **Unknown Licenses**
-   - Packages: mystery-lib, old-package
-   - Issue: Cannot determine license compatibility
-   - Risk: Potential legal exposure
-   - Recommendation:
-     - Contact package maintainers
-     - Review source code for license information
-     - Consider replacing with known alternatives
+#### 中等嚴重性
+2. **未知許可證**
+   - 套件：mystery-lib, old-package
+   - 問題：無法確定許可證相容性
+   - 風險：潛在的法律風險
+   - 建議：
+     - 聯繫套件維護者
+     - 審查原始碼以獲取許可證資訊
+     - 考慮替換為已知替代方案
 ```
 
-### 4. Outdated Dependencies
+### 4. 過時依賴項
 
-Identify and prioritize dependency updates:
+識別並優先處理依賴項更新：
 
-**Version Analysis**
+**版本分析**
 ```python
 def analyze_outdated_dependencies(dependencies):
     """
-    Check for outdated dependencies
+    檢查過時的依賴項
     """
     outdated = []
     
@@ -399,7 +399,7 @@ def analyze_outdated_dependencies(dependencies):
         latest_version = fetch_latest_version(package_name, package_info['ecosystem'])
         
         if is_outdated(current_version, latest_version):
-            # Calculate how outdated
+            # 計算過時程度
             version_diff = calculate_version_difference(current_version, latest_version)
             
             outdated.append({
@@ -418,16 +418,16 @@ def analyze_outdated_dependencies(dependencies):
 
 def prioritize_updates(outdated_deps):
     """
-    Prioritize updates based on multiple factors
+    根據多個因素優先處理更新
     """
     for dep in outdated_deps:
         score = 0
         
-        # Security updates get highest priority
+        # 安全更新獲得最高優先級
         if dep.get('has_security_fix', False):
             score += 100
             
-        # Major version updates
+        # 主要版本更新
         if dep['type'] == 'major':
             score += 20
         elif dep['type'] == 'minor':
@@ -435,7 +435,7 @@ def prioritize_updates(outdated_deps):
         else:
             score += 5
             
-        # Age factor
+        # 年齡因素
         if dep['age_days'] > 365:
             score += 30
         elif dep['age_days'] > 180:
@@ -443,7 +443,7 @@ def prioritize_updates(outdated_deps):
         elif dep['age_days'] > 90:
             score += 10
             
-        # Number of releases behind
+        # 落後發布數量
         score += min(dep['releases_behind'] * 2, 20)
         
         dep['priority_score'] = score
@@ -452,13 +452,13 @@ def prioritize_updates(outdated_deps):
     return sorted(outdated_deps, key=lambda x: x['priority_score'], reverse=True)
 ```
 
-### 5. Dependency Size Analysis
+### 5. 依賴項大小分析
 
-Analyze bundle size impact:
+分析捆綁包大小影響：
 
-**Bundle Size Impact**
+**捆綁包大小影響**
 ```javascript
-// Analyze NPM package sizes
+// 分析 NPM 套件大小
 const analyzeBundleSize = async (dependencies) => {
     const sizeAnalysis = {
         totalSize: 0,
@@ -469,7 +469,7 @@ const analyzeBundleSize = async (dependencies) => {
     
     for (const [packageName, info] of Object.entries(dependencies)) {
         try {
-            // Fetch package stats
+            // 獲取套件統計資訊
             const response = await fetch(
                 `https://bundlephobia.com/api/size?package=${packageName}@${info.version}`
             );
@@ -489,80 +489,80 @@ const analyzeBundleSize = async (dependencies) => {
             sizeAnalysis.totalSize += data.size;
             sizeAnalysis.totalGzipped += data.gzip;
             
-            // Size recommendations
+            // 大小建議
             if (data.size > 1000000) { // 1MB
                 sizeAnalysis.recommendations.push({
                     package: packageName,
-                    issue: 'Large bundle size',
+                    issue: '捆綁包大小過大',
                     size: `${(data.size / 1024 / 1024).toFixed(2)} MB`,
-                    suggestion: 'Consider lighter alternatives or lazy loading'
+                    suggestion: '考慮更輕量的替代方案或延遲載入'
                 });
             }
         } catch (error) {
-            console.error(`Failed to analyze ${packageName}:`, error);
+            console.error(`分析 ${packageName} 失敗:`, error);
         }
     }
     
-    // Sort by size
+    // 按大小排序
     sizeAnalysis.packages.sort((a, b) => b.size - a.size);
     
-    // Add top offenders
+    // 添加主要問題
     sizeAnalysis.topOffenders = sizeAnalysis.packages.slice(0, 10);
     
     return sizeAnalysis;
 };
 ```
 
-### 6. Supply Chain Security
+### 6. 供應鏈安全
 
-Check for dependency hijacking and typosquatting:
+檢查依賴項劫持和錯字劫持：
 
-**Supply Chain Checks**
+**供應鏈檢查**
 ```python
 def check_supply_chain_security(dependencies):
     """
-    Perform supply chain security checks
+    執行供應鏈安全檢查
     """
     security_issues = []
     
     for package_name, package_info in dependencies.items():
-        # Check for typosquatting
+        # 檢查錯字劫持
         typo_check = check_typosquatting(package_name)
         if typo_check['suspicious']:
             security_issues.append({
-                'type': 'typosquatting',
+                'type': '錯字劫持',
                 'package': package_name,
                 'severity': 'high',
                 'similar_to': typo_check['similar_packages'],
-                'recommendation': 'Verify package name spelling'
+                'recommendation': '驗證套件名稱拼寫'
             })
         
-        # Check maintainer changes
+        # 檢查維護者變更
         maintainer_check = check_maintainer_changes(package_name)
         if maintainer_check['recent_changes']:
             security_issues.append({
-                'type': 'maintainer_change',
+                'type': '維護者變更',
                 'package': package_name,
                 'severity': 'medium',
                 'details': maintainer_check['changes'],
-                'recommendation': 'Review recent package changes'
+                'recommendation': '審查最近的套件變更'
             })
         
-        # Check for suspicious patterns
+        # 檢查可疑模式
         if contains_suspicious_patterns(package_info):
             security_issues.append({
-                'type': 'suspicious_behavior',
+                'type': '可疑行為',
                 'package': package_name,
                 'severity': 'high',
                 'patterns': package_info['suspicious_patterns'],
-                'recommendation': 'Audit package source code'
+                'recommendation': '審計套件原始碼'
             })
     
     return security_issues
 
 def check_typosquatting(package_name):
     """
-    Check if package name might be typosquatting
+    檢查套件名稱是否可能是錯字劫持
     """
     common_packages = [
         'react', 'express', 'lodash', 'axios', 'webpack',
@@ -571,7 +571,7 @@ def check_typosquatting(package_name):
     
     for legit_package in common_packages:
         distance = levenshtein_distance(package_name.lower(), legit_package)
-        if 0 < distance <= 2:  # Close but not exact match
+        if 0 < distance <= 2:  # 接近但不完全匹配
             return {
                 'suspicious': True,
                 'similar_packages': [legit_package],
@@ -581,192 +581,14 @@ def check_typosquatting(package_name):
     return {'suspicious': False}
 ```
 
-### 7. Automated Remediation
+### 7. 自動化補救
 
-Generate automated fixes:
+生成自動化修復：
 
-**Update Scripts**
+**更新腳本**
 ```bash
 #!/bin/bash
-# Auto-update dependencies with security fixes
+# 自動更新帶有安全修復的依賴項
 
-echo "🔒 Security Update Script"
-echo "========================"
-
-# NPM/Yarn updates
-if [ -f "package.json" ]; then
-    echo "📦 Updating NPM dependencies..."
-    
-    # Audit and auto-fix
-    npm audit fix --force
-    
-    # Update specific vulnerable packages
-    npm update package1@^2.0.0 package2@~3.1.0
-    
-    # Run tests
-    npm test
-    
-    if [ $? -eq 0 ]; then
-        echo "✅ NPM updates successful"
-    else
-        echo "❌ Tests failed, reverting..."
-        git checkout package-lock.json
-    fi
-fi
-
-# Python updates
-if [ -f "requirements.txt" ]; then
-    echo "🐍 Updating Python dependencies..."
-    
-    # Create backup
-    cp requirements.txt requirements.txt.backup
-    
-    # Update vulnerable packages
-    pip-compile --upgrade-package package1 --upgrade-package package2
-    
-    # Test installation
-    pip install -r requirements.txt --dry-run
-    
-    if [ $? -eq 0 ]; then
-        echo "✅ Python updates successful"
-    else
-        echo "❌ Update failed, reverting..."
-        mv requirements.txt.backup requirements.txt
-    fi
-fi
-```
-
-**Pull Request Generation**
-```python
-def generate_dependency_update_pr(updates):
-    """
-    Generate PR with dependency updates
-    """
-    pr_body = f"""
-## 🔒 Dependency Security Update
-
-This PR updates {len(updates)} dependencies to address security vulnerabilities and outdated packages.
-
-### Security Fixes ({sum(1 for u in updates if u['has_security'])})
-
-| Package | Current | Updated | Severity | CVE |
-|---------|---------|---------|----------|-----|
-"""
-    
-    for update in updates:
-        if update['has_security']:
-            pr_body += f"| {update['package']} | {update['current']} | {update['target']} | {update['severity']} | {', '.join(update['cves'])} |\n"
-    
-    pr_body += """
-
-### Other Updates
-
-| Package | Current | Updated | Type | Age |
-|---------|---------|---------|------|-----|
-"""
-    
-    for update in updates:
-        if not update['has_security']:
-            pr_body += f"| {update['package']} | {update['current']} | {update['target']} | {update['type']} | {update['age_days']} days |\n"
-    
-    pr_body += """
-
-### Testing
-- [ ] All tests pass
-- [ ] No breaking changes identified
-- [ ] Bundle size impact reviewed
-
-### Review Checklist
-- [ ] Security vulnerabilities addressed
-- [ ] License compliance maintained
-- [ ] No unexpected dependencies added
-- [ ] Performance impact assessed
-
-cc @security-team
-"""
-    
-    return {
-        'title': f'chore(deps): Security update for {len(updates)} dependencies',
-        'body': pr_body,
-        'branch': f'deps/security-update-{datetime.now().strftime("%Y%m%d")}',
-        'labels': ['dependencies', 'security']
-    }
-```
-
-### 8. Monitoring and Alerts
-
-Set up continuous dependency monitoring:
-
-**GitHub Actions Workflow**
-```yaml
-name: Dependency Audit
-
-on:
-  schedule:
-    - cron: '0 0 * * *'  # Daily
-  push:
-    paths:
-      - 'package*.json'
-      - 'requirements.txt'
-      - 'Gemfile*'
-      - 'go.mod'
-  workflow_dispatch:
-
-jobs:
-  security-audit:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Run NPM Audit
-      if: hashFiles('package.json')
-      run: |
-        npm audit --json > npm-audit.json
-        if [ $(jq '.vulnerabilities.total' npm-audit.json) -gt 0 ]; then
-          echo "::error::Found $(jq '.vulnerabilities.total' npm-audit.json) vulnerabilities"
-          exit 1
-        fi
-    
-    - name: Run Python Safety Check
-      if: hashFiles('requirements.txt')
-      run: |
-        pip install safety
-        safety check --json > safety-report.json
-        
-    - name: Check Licenses
-      run: |
-        npx license-checker --json > licenses.json
-        python scripts/check_license_compliance.py
-    
-    - name: Create Issue for Critical Vulnerabilities
-      if: failure()
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const audit = require('./npm-audit.json');
-          const critical = audit.vulnerabilities.critical;
-          
-          if (critical > 0) {
-            github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `🚨 ${critical} critical vulnerabilities found`,
-              body: 'Dependency audit found critical vulnerabilities. See workflow run for details.',
-              labels: ['security', 'dependencies', 'critical']
-            });
-          }
-```
-
-## Output Format
-
-1. **Executive Summary**: High-level risk assessment and action items
-2. **Vulnerability Report**: Detailed CVE analysis with severity ratings
-3. **License Compliance**: Compatibility matrix and legal risks
-4. **Update Recommendations**: Prioritized list with effort estimates
-5. **Supply Chain Analysis**: Typosquatting and hijacking risks
-6. **Remediation Scripts**: Automated update commands and PR generation
-7. **Size Impact Report**: Bundle size analysis and optimization tips
-8. **Monitoring Setup**: CI/CD integration for continuous scanning
-
-Focus on actionable insights that help maintain secure, compliant, and efficient dependency management.
+echo "🔒 安全更新腳本"
+echo "========================

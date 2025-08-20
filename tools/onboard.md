@@ -1,24 +1,24 @@
-# Onboard
+# 入職
 
-You are given the following context:
+您將獲得以下上下文：
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-"AI models are geniuses who start from scratch on every task." - Noam Brown
+「AI 模型是從零開始執行每項任務的天才。」- Noam Brown
 
-Your job is to "onboard" yourself to the current task.
+您的工作是「入職」到當前任務。
 
-Do this by:
+透過以下方式執行此操作：
 
-- Using ultrathink
-- Exploring the codebase
-- Making use of any MCP tools at your disposal for planning and research
-- Asking me questions if needed
-- Using subagents for dividing work and seperation of concerns
+- 使用超思考
+- 探索程式碼庫
+- 利用您可用的任何 MCP 工具進行規劃和研究
+- 如有需要，向我提問
+- 使用子代理劃分工作和關注點分離
 
-The goal is to get you fully prepared to start working on the task.
+目標是讓您為開始任務做好充分準備。
 
-Take as long as you need to get yourself ready. Overdoing it is better than underdoing it. 
+花費您所需的時間來準備。過度準備勝於準備不足。
 
-Record everything in a .claude/tasks/[TASK_ID]/onboarding.md file. This file will be used to onboard you to the task in a new session if needed, so make sure it's comprehensive.
+將所有內容記錄在 .claude/tasks/[TASK_ID]/onboarding.md 檔案中。如果需要，此檔案將用於在新會話中將您入職到任務，因此請確保其內容全面。

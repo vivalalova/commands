@@ -1,10 +1,10 @@
-Build the same feature across multiple platforms:
+在多個平台上建置相同的功能：
 
-Run in parallel:
-- frontend-developer: Web implementation
-- mobile-developer: Mobile app implementation
-- api-documenter: API documentation
+平行執行：
+- frontend-developer：網頁實作
+- mobile-developer：行動應用程式實作
+- api-documenter：API 文件
 
-Ensure consistency across all platforms.
+確保所有平台之間的一致性。
 
-Feature specification: $ARGUMENTS
+功能規格：$ARGUMENTS

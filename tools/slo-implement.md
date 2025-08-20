@@ -1,20 +1,17 @@
-# SLO Implementation Guide
+# SLO 實施指南
 
-You are an SLO (Service Level Objective) expert specializing in implementing reliability standards and error budget-based engineering practices. Design comprehensive SLO frameworks, establish meaningful SLIs, and create monitoring systems that balance reliability with feature velocity.
+您是 SLO（服務水平目標）專家，專精於實施可靠性標準和基於錯誤預算的工程實踐。設計全面的 SLO 框架、建立有意義的 SLI，並創建平衡可靠性與功能速度的監控系統。
 
-## Context
-The user needs to implement SLOs to establish reliability targets, measure service performance, and make data-driven decisions about reliability vs. feature development. Focus on practical SLO implementation that aligns with business objectives.
+## 背景
+使用者需要實施 SLO 以建立可靠性目標、衡量服務性能，並就可靠性與功能開發做出數據驅動的決策。專注於符合業務目標的實用 SLO 實施。
 
-## Requirements
-$ARGUMENTS
+## 指示
 
-## Instructions
+### 1. SLO 基礎
 
-### 1. SLO Foundation
+建立 SLO 基礎和框架：
 
-Establish SLO fundamentals and framework:
-
-**SLO Framework Designer**
+**SLO 框架設計器**
 ```python
 import numpy as np
 from datetime import datetime, timedelta
@@ -28,7 +25,7 @@ class SLOFramework:
         
     def design_slo_framework(self):
         """
-        Design comprehensive SLO framework
+        設計全面的 SLO 框架
         """
         framework = {
             'service_context': self._analyze_service_context(),
@@ -42,7 +39,7 @@ class SLOFramework:
         return self._generate_slo_specification(framework)
     
     def _analyze_service_context(self):
-        """Analyze service characteristics for SLO design"""
+        """分析服務特性以進行 SLO 設計"""
         return {
             'service_tier': self._determine_service_tier(),
             'user_expectations': self._assess_user_expectations(),
@@ -52,39 +49,39 @@ class SLOFramework:
         }
     
     def _determine_service_tier(self):
-        """Determine appropriate service tier and SLO targets"""
+        """確定適當的服務層級和 SLO 目標"""
         tiers = {
             'critical': {
-                'description': 'Revenue-critical or safety-critical services',
+                'description': '收入關鍵或安全關鍵服務',
                 'availability_target': 99.95,
                 'latency_p99': 100,
                 'error_rate': 0.001,
-                'examples': ['payment processing', 'authentication']
+                'examples': ['支付處理', '身份驗證']
             },
             'essential': {
-                'description': 'Core business functionality',
+                'description': '核心業務功能',
                 'availability_target': 99.9,
                 'latency_p99': 500,
                 'error_rate': 0.01,
-                'examples': ['search', 'product catalog']
+                'examples': ['搜尋', '產品目錄']
             },
             'standard': {
-                'description': 'Standard features',
+                'description': '標準功能',
                 'availability_target': 99.5,
                 'latency_p99': 1000,
                 'error_rate': 0.05,
-                'examples': ['recommendations', 'analytics']
+                'examples': ['推薦', '分析']
             },
             'best_effort': {
-                'description': 'Non-critical features',
+                'description': '非關鍵功能',
                 'availability_target': 99.0,
                 'latency_p99': 2000,
                 'error_rate': 0.1,
-                'examples': ['batch processing', 'reporting']
+                'examples': ['批次處理', '報告']
             }
         }
         
-        # Analyze service characteristics to determine tier
+        # 分析服務特性以確定層級
         characteristics = self._analyze_service_characteristics()
         recommended_tier = self._match_tier(characteristics, tiers)
         
@@ -95,47 +92,47 @@ class SLOFramework:
         }
     
     def _identify_user_journeys(self):
-        """Map critical user journeys for SLI selection"""
+        """映射關鍵使用者旅程以進行 SLI 選擇"""
         journeys = []
         
-        # Example user journey mapping
+        # 範例使用者旅程映射
         journey_template = {
-            'name': 'User Login',
-            'description': 'User authenticates and accesses dashboard',
+            'name': '使用者登入',
+            'description': '使用者驗證並存取儀表板',
             'steps': [
                 {
-                    'step': 'Load login page',
-                    'sli_type': 'availability',
-                    'threshold': '< 2s load time'
+                    'step': '載入登入頁面',
+                    'sli_type': '可用性',
+                    'threshold': '< 2s 載入時間'
                 },
                 {
-                    'step': 'Submit credentials',
-                    'sli_type': 'latency',
-                    'threshold': '< 500ms response'
+                    'step': '提交憑證',
+                    'sli_type': '延遲',
+                    'threshold': '< 500ms 響應'
                 },
                 {
-                    'step': 'Validate authentication',
-                    'sli_type': 'error_rate',
-                    'threshold': '< 0.1% auth failures'
+                    'step': '驗證身份驗證',
+                    'sli_type': '錯誤率',
+                    'threshold': '< 0.1% 身份驗證失敗'
                 },
                 {
-                    'step': 'Load dashboard',
-                    'sli_type': 'latency',
-                    'threshold': '< 3s full render'
+                    'step': '載入儀表板',
+                    'sli_type': '延遲',
+                    'threshold': '< 3s 完全渲染'
                 }
             ],
             'critical_path': True,
-            'business_impact': 'high'
+            'business_impact': '高'
         }
         
         return journeys
 ```
 
-### 2. SLI Selection and Measurement
+### 2. SLI 選擇與測量
 
-Choose and implement appropriate SLIs:
+選擇並實施適當的 SLI：
 
-**SLI Implementation**
+**SLI 實施**
 ```python
 class SLIImplementation:
     def __init__(self):
@@ -148,7 +145,7 @@ class SLIImplementation:
         }
     
     def implement_slis(self, service_type):
-        """Implement SLIs based on service type"""
+        """根據服務類型實施 SLI"""
         if service_type == 'api':
             return self._api_slis()
         elif service_type == 'web':
@@ -159,19 +156,19 @@ class SLIImplementation:
             return self._streaming_slis()
     
     def _api_slis(self):
-        """SLIs for API services"""
+        """API 服務的 SLI"""
         return {
             'availability': {
-                'definition': 'Percentage of successful requests',
+                'definition': '成功請求的百分比',
                 'formula': 'successful_requests / total_requests * 100',
                 'implementation': '''
-# Prometheus query for API availability
+# Prometheus 查詢 API 可用性
 api_availability = """
 sum(rate(http_requests_total{status!~"5.."}[5m])) / 
 sum(rate(http_requests_total[5m])) * 100
 """
 
-# Implementation
+# 實施
 class APIAvailabilitySLI:
     def __init__(self, prometheus_client):
         self.prom = prometheus_client
@@ -185,7 +182,7 @@ class APIAvailabilitySLI:
         return float(result[0]['value'][1])
     
     def calculate_with_exclusions(self, time_range='5m'):
-        """Calculate availability excluding certain endpoints"""
+        """計算排除某些端點的可用性"""
         query = f"""
         sum(rate(http_requests_total{{
             status!~"5..",
@@ -199,13 +196,13 @@ class APIAvailabilitySLI:
 '''
             },
             'latency': {
-                'definition': 'Percentage of requests faster than threshold',
+                'definition': '快於閾值的請求百分比',
                 'formula': 'fast_requests / total_requests * 100',
                 'implementation': '''
-# Latency SLI with multiple thresholds
+# 具有多個閾值的延遲 SLI
 class LatencySLI:
     def __init__(self, thresholds_ms):
-        self.thresholds = thresholds_ms  # e.g., {'p50': 100, 'p95': 500, 'p99': 1000}
+        self.thresholds = thresholds_ms  # 例如，{'p50': 100, 'p95': 500, 'p99': 1000}
     
     def calculate_latency_sli(self, time_range='5m'):
         slis = {}
@@ -227,10 +224,10 @@ class LatencySLI:
         return slis
     
     def calculate_user_centric_latency(self):
-        """Calculate latency from user perspective"""
-        # Include client-side metrics
+        """從使用者角度計算延遲"""
+        # 包含客戶端指標
         query = """
-        histogram_quantile(0.95,
+histogram_quantile(0.95,
             sum(rate(user_request_duration_bucket[5m])) by (le)
         )
         """
@@ -238,14 +235,14 @@ class LatencySLI:
 '''
             },
             'error_rate': {
-                'definition': 'Percentage of successful requests',
+                'definition': '成功請求的百分比',
                 'formula': '(1 - error_requests / total_requests) * 100',
                 'implementation': '''
 class ErrorRateSLI:
     def calculate_error_rate(self, time_range='5m'):
-        """Calculate error rate with categorization"""
+        """計算錯誤率並分類"""
         
-        # Different error categories
+        # 不同錯誤類別
         error_categories = {
             'client_errors': 'status=~"4.."',
             'server_errors': 'status=~"5.."',
@@ -261,7 +258,7 @@ class ErrorRateSLI:
             """
             results[category] = self.execute_query(query)
         
-        # Overall error rate (excluding 4xx)
+        # 總體錯誤率（不包括 4xx）
         overall_query = f"""
         (1 - sum(rate(http_requests_total{{status=~"5.."}}[{time_range}])) / 
         sum(rate(http_requests_total[{time_range}]))) * 100
@@ -274,11 +271,11 @@ class ErrorRateSLI:
         }
 ```
 
-### 3. Error Budget Calculation
+### 3. 錯誤預算計算
 
-Implement error budget tracking:
+實施錯誤預算追蹤：
 
-**Error Budget Manager**
+**錯誤預算管理器**
 ```python
 class ErrorBudgetManager:
     def __init__(self, slo_target: float, window_days: int):
@@ -287,26 +284,26 @@ class ErrorBudgetManager:
         self.error_budget_minutes = self._calculate_total_budget()
     
     def _calculate_total_budget(self):
-        """Calculate total error budget in minutes"""
+        """計算總錯誤預算（分鐘）"""
         total_minutes = self.window_days * 24 * 60
         allowed_downtime_ratio = 1 - (self.slo_target / 100)
         return total_minutes * allowed_downtime_ratio
     
     def calculate_error_budget_status(self, start_date, end_date):
-        """Calculate current error budget status"""
-        # Get actual performance
+        """計算當前錯誤預算狀態"""
+        # 獲取實際性能
         actual_uptime = self._get_actual_uptime(start_date, end_date)
         
-        # Calculate consumed budget
+        # 計算已消耗預算
         total_time = (end_date - start_date).total_seconds() / 60
         expected_uptime = total_time * (self.slo_target / 100)
         consumed_minutes = expected_uptime - actual_uptime
         
-        # Calculate remaining budget
+        # 計算剩餘預算
         remaining_budget = self.error_budget_minutes - consumed_minutes
         burn_rate = consumed_minutes / self.error_budget_minutes
         
-        # Project exhaustion
+        # 預計耗盡
         if burn_rate > 0:
             days_until_exhaustion = (self.window_days * (1 - burn_rate)) / burn_rate
         else:
@@ -323,7 +320,7 @@ class ErrorBudgetManager:
         }
     
     def _determine_status(self, remaining_budget, burn_rate):
-        """Determine error budget status"""
+        """確定錯誤預算狀態"""
         if remaining_budget <= 0:
             return 'exhausted'
         elif burn_rate > 2:
@@ -336,40 +333,40 @@ class ErrorBudgetManager:
             return 'healthy'
     
     def generate_burn_rate_alerts(self):
-        """Generate multi-window burn rate alerts"""
+        """生成多視窗燃燒率警報"""
         return {
             'fast_burn': {
-                'description': '14.4x burn rate over 1 hour',
+                'description': '1 小時內燃燒率為 14.4 倍',
                 'condition': 'burn_rate >= 14.4 AND window = 1h',
                 'action': 'page',
-                'budget_consumed': '2% in 1 hour'
+                'budget_consumed': '1 小時內消耗 2% 預算'
             },
             'slow_burn': {
-                'description': '3x burn rate over 6 hours',
+                'description': '6 小時內燃燒率為 3 倍',
                 'condition': 'burn_rate >= 3 AND window = 6h',
                 'action': 'ticket',
-                'budget_consumed': '10% in 6 hours'
+                'budget_consumed': '6 小時內消耗 10% 預算'
             }
         }
 ```
 
-### 4. SLO Monitoring Setup
+### 4. SLO 監控設定
 
-Implement comprehensive SLO monitoring:
+實施全面的 SLO 監控：
 
-**SLO Monitoring Implementation**
+**SLO 監控實施**
 ```yaml
-# Prometheus recording rules for SLO
+# Prometheus 記錄 SLO 規則
 groups:
   - name: slo_rules
     interval: 30s
     rules:
-      # Request rate
+      # 請求率
       - record: service:request_rate
         expr: |
           sum(rate(http_requests_total[5m])) by (service, method, route)
       
-      # Success rate
+      # 成功率
       - record: service:success_rate_5m
         expr: |
           (
@@ -378,7 +375,7 @@ groups:
             sum(rate(http_requests_total[5m])) by (service)
           ) * 100
       
-      # Multi-window success rates
+      # 多視窗成功率
       - record: service:success_rate_30m
         expr: |
           (
@@ -395,7 +392,7 @@ groups:
             sum(rate(http_requests_total[1h])) by (service)
           ) * 100
       
-      # Latency percentiles
+      # 延遲百分位數
       - record: service:latency_p50_5m
         expr: |
           histogram_quantile(0.50,
@@ -414,7 +411,7 @@ groups:
             sum(rate(http_request_duration_seconds_bucket[5m])) by (service, le)
           )
       
-      # Error budget burn rate
+      # 錯誤預算燃燒率
       - record: service:error_budget_burn_rate_1h
         expr: |
           (
@@ -426,13 +423,13 @@ groups:
           ) / (1 - 0.999) # 99.9% SLO
 ```
 
-**Alert Configuration**
+**警報配置**
 ```yaml
-# Multi-window multi-burn-rate alerts
+# 多視窗多燃燒率警報
 groups:
   - name: slo_alerts
     rules:
-      # Fast burn alert (2% budget in 1 hour)
+      # 快速燃燒警報（1 小時內消耗 2% 預算）
       - alert: ErrorBudgetFastBurn
         expr: |
           (
@@ -445,13 +442,13 @@ groups:
           severity: critical
           team: platform
         annotations:
-          summary: "Fast error budget burn for {{ $labels.service }}"
+          summary: "{{ $labels.service }} 的錯誤預算快速燃燒"
           description: |
-            Service {{ $labels.service }} is burning error budget at 14.4x rate.
-            Current burn rate: {{ $value }}x
-            This will exhaust 2% of monthly budget in 1 hour.
+            服務 {{ $labels.service }} 正以 14.4 倍的速度燃燒錯誤預算。
+            當前燃燒率：{{ $value }}x
+            這將在 1 小時內消耗每月預算的 2%。
           
-      # Slow burn alert (10% budget in 6 hours)
+      # 慢速燃燒警報（6 小時內消耗 10% 預算）
       - alert: ErrorBudgetSlowBurn
         expr: |
           (
@@ -464,32 +461,32 @@ groups:
           severity: warning
           team: platform
         annotations:
-          summary: "Slow error budget burn for {{ $labels.service }}"
+          summary: "{{ $labels.service }} 的錯誤預算慢速燃燒"
           description: |
-            Service {{ $labels.service }} is burning error budget at 3x rate.
-            Current burn rate: {{ $value }}x
-            This will exhaust 10% of monthly budget in 6 hours.
+            服務 {{ $labels.service }} 正以 3 倍的速度燃燒錯誤預算。
+            當前燃燒率：{{ $value }}x
+            這將在 6 小時內消耗每月預算的 10%。
 ```
 
-### 5. SLO Dashboard
+### 5. SLO 儀表板
 
-Create comprehensive SLO dashboards:
+建立全面的 SLO 儀表板：
 
-**Grafana Dashboard Configuration**
+**Grafana 儀表板配置**
 ```python
 def create_slo_dashboard():
-    """Generate Grafana dashboard for SLO monitoring"""
+    """生成用於 SLO 監控的 Grafana 儀表板"""
     return {
         "dashboard": {
-            "title": "Service SLO Dashboard",
+            "title": "服務 SLO 儀表板",
             "panels": [
                 {
-                    "title": "SLO Summary",
+                    "title": "SLO 摘要",
                     "type": "stat",
                     "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0},
                     "targets": [{
-                        "expr": "service:success_rate_30d{service=\"$service\"}",
-                        "legendFormat": "30-day SLO"
+                        "expr": "service:success_rate_30d{service=\"$$service\"}",
+                        "legendFormat": "30 天 SLO"
                     }],
                     "fieldConfig": {
                         "defaults": {
@@ -506,19 +503,19 @@ def create_slo_dashboard():
                     }
                 },
                 {
-                    "title": "Error Budget Status",
+                    "title": "錯誤預算狀態",
                     "type": "gauge",
                     "gridPos": {"h": 4, "w": 6, "x": 6, "y": 0},
                     "targets": [{
                         "expr": '''
                         100 * (
                             1 - (
-                                (1 - service:success_rate_30d{service="$service"}/100) /
-                                (1 - $slo_target/100)
+                                (1 - service:success_rate_30d{service="$$service"}/100) /
+                                (1 - $$slo_target/100)
                             )
                         )
                         ''',
-                        "legendFormat": "Remaining Budget"
+                        "legendFormat": "剩餘預算"
                     }],
                     "fieldConfig": {
                         "defaults": {
@@ -537,26 +534,26 @@ def create_slo_dashboard():
                     }
                 },
                 {
-                    "title": "Burn Rate Trend",
+                    "title": "燃燒率趨勢",
                     "type": "graph",
                     "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
                     "targets": [
                         {
-                            "expr": "service:error_budget_burn_rate_1h{service=\"$service\"}",
-                            "legendFormat": "1h burn rate"
+                            "expr": "service:error_budget_burn_rate_1h{service=\"$$service\"}",
+                            "legendFormat": "1 小時燃燒率"
                         },
                         {
-                            "expr": "service:error_budget_burn_rate_6h{service=\"$service\"}",
-                            "legendFormat": "6h burn rate"
+                            "expr": "service:error_budget_burn_rate_6h{service=\"$$service\"}",
+                            "legendFormat": "6 小時燃燒率"
                         },
                         {
-                            "expr": "service:error_budget_burn_rate_24h{service=\"$service\"}",
-                            "legendFormat": "24h burn rate"
+                            "expr": "service:error_budget_burn_rate_24h{service=\"$$service\"}",
+                            "legendFormat": "24 小時燃燒率"
                         }
                     ],
                     "yaxes": [{
                         "format": "short",
-                        "label": "Burn Rate (x)",
+                        "label": "燃燒率 (x)",
                         "min": 0
                     }],
                     "alert": {
@@ -566,7 +563,7 @@ def create_slo_dashboard():
                             "query": {"params": ["A", "5m", "now"]},
                             "type": "query"
                         }],
-                        "name": "High burn rate detected"
+                        "name": "檢測到高燃燒率"
                     }
                 }
             ]
@@ -574,18 +571,18 @@ def create_slo_dashboard():
     }
 ```
 
-### 6. SLO Reporting
+### 6. SLO 報告
 
-Generate SLO reports and reviews:
+生成 SLO 報告和審查：
 
-**SLO Report Generator**
+**SLO 報告生成器**
 ```python
 class SLOReporter:
     def __init__(self, metrics_client):
         self.metrics = metrics_client
         
     def generate_monthly_report(self, service, month):
-        """Generate comprehensive monthly SLO report"""
+        """生成全面的每月 SLO 報告"""
         report_data = {
             'service': service,
             'period': month,
@@ -599,10 +596,10 @@ class SLOReporter:
         return self._format_report(report_data)
     
     def _calculate_slo_performance(self, service, month):
-        """Calculate SLO performance metrics"""
+        """計算 SLO 性能指標"""
         slos = {}
         
-        # Availability SLO
+        # 可用性 SLO
         availability_query = f"""
         avg_over_time(
             service:success_rate_5m{{service="{service}"}}[{month}]
@@ -614,14 +611,14 @@ class SLOReporter:
             'met': self.metrics.query(availability_query) >= 99.9
         }
         
-        # Latency SLO
+        # 延遲 SLO
         latency_query = f"""
         quantile_over_time(0.95,
             service:latency_p95_5m{{service="{service}"}}[{month}]
         )
         """
         slos['latency_p95'] = {
-            'target': 500,  # ms
+            'target': 500,  # 毫秒
             'actual': self.metrics.query(latency_query) * 1000,
             'met': self.metrics.query(latency_query) * 1000 <= 500
         }
@@ -629,12 +626,12 @@ class SLOReporter:
         return slos
     
     def _format_report(self, data):
-        """Format report as HTML"""
+        """將報告格式化為 HTML"""
         return f"""
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SLO Report - {data['service']} - {data['period']}</title>
+    <title>SLO 報告 - {data['service']} - {data['period']}</title>
     <style>
         body {{ font-family: Arial, sans-serif; margin: 40px; }}
         .summary {{ background: #f0f0f0; padding: 20px; border-radius: 8px; }}
@@ -647,36 +644,36 @@ class SLOReporter:
     </style>
 </head>
 <body>
-    <h1>SLO Report: {data['service']}</h1>
-    <h2>Period: {data['period']}</h2>
+    <h1>SLO 報告: {data['service']}</h1>
+    <h2>期間: {data['period']}</h2>
     
     <div class="summary">
-        <h3>Executive Summary</h3>
-        <p>Service reliability: {data['slo_performance']['availability']['actual']:.2f}%</p>
-        <p>Error budget remaining: {data['error_budget']['remaining_percentage']:.1f}%</p>
-        <p>Number of incidents: {len(data['incidents'])}</p>
+        <h3>執行摘要</h3>
+        <p>服務可靠性: {data['slo_performance']['availability']['actual']:.2f}%</p>
+        <p>剩餘錯誤預算: {data['error_budget']['remaining_percentage']:.1f}%</p>
+        <p>事件數量: {len(data['incidents'])}</p>
     </div>
     
     <div class="metric">
-        <h3>SLO Performance</h3>
+        <h3>SLO 性能</h3>
         <table>
             <tr>
                 <th>SLO</th>
-                <th>Target</th>
-                <th>Actual</th>
-                <th>Status</th>
+                <th>目標</th>
+                <th>實際</th>
+                <th>狀態</th>
             </tr>
             {self._format_slo_table_rows(data['slo_performance'])}
         </table>
     </div>
     
     <div class="incidents">
-        <h3>Incident Analysis</h3>
+        <h3>事件分析</h3>
         {self._format_incident_analysis(data['incidents'])}
     </div>
     
     <div class="recommendations">
-        <h3>Recommendations</h3>
+        <h3>建議</h3>
         {self._format_recommendations(data['recommendations'])}
     </div>
 </body>
@@ -684,45 +681,45 @@ class SLOReporter:
 """
 ```
 
-### 7. SLO-Based Decision Making
+### 7. 基於 SLO 的決策
 
-Implement SLO-driven engineering decisions:
+實施 SLO 驅動的工程決策：
 
-**SLO Decision Framework**
+**SLO 決策框架**
 ```python
 class SLODecisionFramework:
     def __init__(self, error_budget_policy):
         self.policy = error_budget_policy
         
     def make_release_decision(self, service, release_risk):
-        """Make release decisions based on error budget"""
+        """根據錯誤預算做出發布決策"""
         budget_status = self.get_error_budget_status(service)
         
         decision_matrix = {
             'healthy': {
-                'low_risk': 'approve',
-                'medium_risk': 'approve',
-                'high_risk': 'review'
+                'low_risk': '批准',
+                'medium_risk': '批准',
+                'high_risk': '審查'
             },
             'attention': {
-                'low_risk': 'approve',
-                'medium_risk': 'review',
-                'high_risk': 'defer'
+                'low_risk': '批准',
+                'medium_risk': '審查',
+                'high_risk': '延遲'
             },
             'warning': {
-                'low_risk': 'review',
-                'medium_risk': 'defer',
-                'high_risk': 'block'
+                'low_risk': '審查',
+                'medium_risk': '延遲',
+                'high_risk': '阻止'
             },
             'critical': {
-                'low_risk': 'defer',
-                'medium_risk': 'block',
-                'high_risk': 'block'
+                'low_risk': '延遲',
+                'medium_risk': '阻止',
+                'high_risk': '阻止'
             },
             'exhausted': {
-                'low_risk': 'block',
-                'medium_risk': 'block',
-                'high_risk': 'block'
+                'low_risk': '阻止',
+                'medium_risk': '阻止',
+                'high_risk': '阻止'
             }
         }
         
@@ -736,7 +733,7 @@ class SLODecisionFramework:
         }
     
     def prioritize_reliability_work(self, service):
-        """Prioritize reliability improvements based on SLO gaps"""
+        """根據 SLO 差距優先處理可靠性工作"""
         slo_gaps = self.analyze_slo_gaps(service)
         
         priorities = []
@@ -754,61 +751,61 @@ class SLODecisionFramework:
         return sorted(priorities, key=lambda x: x['priority_score'], reverse=True)
     
     def calculate_toil_budget(self, team_size, slo_performance):
-        """Calculate how much toil is acceptable based on SLOs"""
-        # If meeting SLOs, can afford more toil
-        # If not meeting SLOs, need to reduce toil
+        """計算根據 SLO 可接受的繁瑣工作量"""
+        # 如果達到 SLO，可以承擔更多繁瑣工作
+        # 如果未達到 SLO，需要減少繁瑣工作
         
-        base_toil_percentage = 50  # Google SRE recommendation
+        base_toil_percentage = 50  # Google SRE 建議
         
         if slo_performance >= 100:
-            # Exceeding SLO, can take on more toil
+            # 超過 SLO，可以承擔更多繁瑣工作
             toil_budget = base_toil_percentage + 10
         elif slo_performance >= 99:
-            # Meeting SLO
+            # 達到 SLO
             toil_budget = base_toil_percentage
         else:
-            # Not meeting SLO, reduce toil
+            # 未達到 SLO，減少繁瑣工作
             toil_budget = base_toil_percentage - (100 - slo_performance) * 5
         
         return {
-            'toil_percentage': max(toil_budget, 20),  # Minimum 20%
+            'toil_percentage': max(toil_budget, 20),  # 最小 20%
             'toil_hours_per_week': (toil_budget / 100) * 40 * team_size,
             'automation_hours_per_week': ((100 - toil_budget) / 100) * 40 * team_size
         }
 ```
 
-### 8. SLO Templates
+### 8. SLO 模板
 
-Provide SLO templates for common services:
+為常見服務提供 SLO 模板：
 
-**SLO Template Library**
+**SLO 模板庫**
 ```python
 class SLOTemplates:
     @staticmethod
     def get_api_service_template():
-        """SLO template for API services"""
+        """API 服務的 SLO 模板"""
         return {
-            'name': 'API Service SLO Template',
+            'name': 'API 服務 SLO 模板',
             'slos': [
                 {
-                    'name': 'availability',
-                    'description': 'The proportion of successful requests',
+                    'name': '可用性',
+                    'description': '成功請求的比例',
                     'sli': {
                         'type': 'ratio',
-                        'good_events': 'requests with status != 5xx',
-                        'total_events': 'all requests'
+                        'good_events': '狀態 != 5xx 的請求',
+                        'total_events': '所有請求'
                     },
                     'objectives': [
                         {'window': '30d', 'target': 99.9}
                     ]
                 },
                 {
-                    'name': 'latency',
-                    'description': 'The proportion of fast requests',
+                    'name': '延遲',
+                    'description': '快於閾值的請求比例',
                     'sli': {
                         'type': 'ratio',
-                        'good_events': 'requests faster than 500ms',
-                        'total_events': 'all requests'
+                        'good_events': '快於 500ms 的請求',
+                        'total_events': '所有請求'
                     },
                     'objectives': [
                         {'window': '30d', 'target': 95.0}
@@ -819,29 +816,29 @@ class SLOTemplates:
     
     @staticmethod
     def get_data_pipeline_template():
-        """SLO template for data pipelines"""
+        """資料管道的 SLO 模板"""
         return {
-            'name': 'Data Pipeline SLO Template',
+            'name': '資料管道 SLO 模板',
             'slos': [
                 {
-                    'name': 'freshness',
-                    'description': 'Data is processed within SLA',
+                    'name': '新鮮度',
+                    'description': '資料在 SLA 內處理',
                     'sli': {
                         'type': 'ratio',
-                        'good_events': 'batches processed within 30 minutes',
-                        'total_events': 'all batches'
+                        'good_events': '在 30 分鐘內處理的批次',
+                        'total_events': '所有批次'
                     },
                     'objectives': [
                         {'window': '7d', 'target': 99.0}
                     ]
                 },
                 {
-                    'name': 'completeness',
-                    'description': 'All expected data is processed',
+                    'name': '完整性',
+                    'description': '所有預期資料都已處理',
                     'sli': {
                         'type': 'ratio',
-                        'good_events': 'records successfully processed',
-                        'total_events': 'all records'
+                        'good_events': '成功處理的記錄',
+                        'total_events': '所有記錄'
                     },
                     'objectives': [
                         {'window': '7d', 'target': 99.95}
@@ -851,29 +848,29 @@ class SLOTemplates:
         }
 ```
 
-### 9. SLO Automation
+### 9. SLO 自動化
 
-Automate SLO management:
+自動化 SLO 管理：
 
-**SLO Automation Tools**
+**SLO 自動化工具**
 ```python
 class SLOAutomation:
     def __init__(self):
         self.config = self.load_slo_config()
         
     def auto_generate_slos(self, service_discovery):
-        """Automatically generate SLOs for discovered services"""
+        """自動為發現的服務生成 SLO"""
         services = service_discovery.get_all_services()
         generated_slos = []
         
         for service in services:
-            # Analyze service characteristics
+            # 分析服務特性
             characteristics = self.analyze_service(service)
             
-            # Select appropriate template
+            # 選擇適當的模板
             template = self.select_template(characteristics)
             
-            # Customize based on observed behavior
+            # 根據觀察到的行為自定義
             customized_slo = self.customize_slo(template, service)
             
             generated_slos.append(customized_slo)
@@ -881,32 +878,32 @@ class SLOAutomation:
         return generated_slos
     
     def implement_progressive_slos(self, service):
-        """Implement progressively stricter SLOs"""
+        """實施逐步嚴格的 SLO"""
         return {
             'phase1': {
-                'duration': '1 month',
+                'duration': '1 個月',
                 'target': 99.0,
-                'description': 'Baseline establishment'
+                'description': '基準建立'
             },
             'phase2': {
-                'duration': '2 months',
+                'duration': '2 個月',
                 'target': 99.5,
-                'description': 'Initial improvement'
+                'description': '初步改進'
             },
             'phase3': {
-                'duration': '3 months',
+                'duration': '3 個月',
                 'target': 99.9,
-                'description': 'Production readiness'
+                'description': '生產就緒'
             },
             'phase4': {
-                'duration': 'ongoing',
+                'duration': '持續',
                 'target': 99.95,
-                'description': 'Excellence'
+                'description': '卓越'
             }
         }
     
     def create_slo_as_code(self):
-        """Define SLOs as code"""
+        """將 SLO 定義為程式碼"""
         return '''
 # slo_definitions.yaml
 apiVersion: slo.dev/v1
@@ -916,7 +913,7 @@ metadata:
   namespace: production
 spec:
   service: api-service
-  description: API service availability SLO
+  description: API 服務可用性 SLO
   
   indicator:
     type: ratio
@@ -928,7 +925,7 @@ spec:
       metric: http_requests_total
   
   objectives:
-    - displayName: 30-day rolling window
+    - displayName: 30 天滾動視窗
       window: 30d
       target: 0.999
       
@@ -949,21 +946,21 @@ spec:
 '''
 ```
 
-### 10. SLO Culture and Governance
+### 10. SLO 文化與治理
 
-Establish SLO culture:
+建立 SLO 文化：
 
-**SLO Governance Framework**
+**SLO 治理框架**
 ```python
 class SLOGovernance:
     def establish_slo_culture(self):
-        """Establish SLO-driven culture"""
+        """建立 SLO 驅動的文化"""
         return {
             'principles': [
-                'SLOs are a shared responsibility',
-                'Error budgets drive prioritization',
-                'Reliability is a feature',
-                'Measure what matters to users'
+                'SLO 是共同責任',
+                '錯誤預算驅動優先級',
+                '可靠性是一種功能',
+                '衡量對使用者重要的事物'
             ],
             'practices': {
                 'weekly_reviews': self.weekly_slo_review_template(),
@@ -974,82 +971,82 @@ class SLOGovernance:
             'roles': {
                 'slo_owner': {
                     'responsibilities': [
-                        'Define and maintain SLO definitions',
-                        'Monitor SLO performance',
-                        'Lead SLO reviews',
-                        'Communicate with stakeholders'
+                        '定義和維護 SLO 定義',
+                        '監控 SLO 性能',
+                        '領導 SLO 審查',
+                        '與利害關係人溝通'
                     ]
                 },
                 'engineering_team': {
                     'responsibilities': [
-                        'Implement SLI measurements',
-                        'Respond to SLO breaches',
-                        'Improve reliability',
-                        'Participate in reviews'
+                        '實施 SLI 測量',
+                        '響應 SLO 違規',
+                        '提高可靠性',
+                        '參與審查'
                     ]
                 },
                 'product_owner': {
                     'responsibilities': [
-                        'Balance features vs reliability',
-                        'Approve error budget usage',
-                        'Set business priorities',
-                        'Communicate with customers'
+                        '平衡功能與可靠性',
+                        '批准錯誤預算使用',
+                        '設定業務優先級',
+                        '與客戶溝通'
                     ]
                 }
             }
         }
     
     def create_slo_review_process(self):
-        """Create structured SLO review process"""
+        """建立結構化的 SLO 審查流程"""
         return '''
-# Weekly SLO Review Template
+# 每週 SLO 審查模板
 
-## Agenda (30 minutes)
+## 議程 (30 分鐘)
 
-### 1. SLO Performance Review (10 min)
-- Current SLO status for all services
-- Error budget consumption rate
-- Trend analysis
+### 1. SLO 性能審查 (10 分鐘)
+- 所有服務的當前 SLO 狀態
+- 錯誤預算消耗率
+- 趨勢分析
 
-### 2. Incident Review (10 min)
-- Incidents impacting SLOs
-- Root cause analysis
-- Action items
+### 2. 事件審查 (10 分鐘)
+- 影響 SLO 的事件
+- 根本原因分析
+- 行動項目
 
-### 3. Decision Making (10 min)
-- Release approvals/deferrals
-- Resource allocation
-- Priority adjustments
+### 3. 決策 (10 分鐘)
+- 發布批准/延遲
+- 資源分配
+- 優先級調整
 
-## Review Checklist
+## 審查檢查清單
 
-- [ ] All SLOs reviewed
-- [ ] Burn rates analyzed
-- [ ] Incidents discussed
-- [ ] Action items assigned
-- [ ] Decisions documented
+- [ ] 所有 SLO 已審查
+- [ ] 燃燒率已分析
+- [ ] 事件已討論
+- [ ] 行動項目已分配
+- [ ] 決策已記錄
 
-## Output Template
+## 輸出模板
 
-### Service: [Service Name]
-- **SLO Status**: [Green/Yellow/Red]
-- **Error Budget**: [XX%] remaining
-- **Key Issues**: [List]
-- **Actions**: [List with owners]
-- **Decisions**: [List]
+### 服務: [服務名稱]
+- **SLO 狀態**: [綠色/黃色/紅色]
+- **錯誤預算**: 剩餘 [XX%]
+- **關鍵問題**: [列表]
+- **行動**: [帶有負責人的列表]
+- **決策**: [列表]
 '''
 ```
 
-## Output Format
+## 輸出格式
 
-1. **SLO Framework**: Comprehensive SLO design and objectives
-2. **SLI Implementation**: Code and queries for measuring SLIs
-3. **Error Budget Tracking**: Calculations and burn rate monitoring
-4. **Monitoring Setup**: Prometheus rules and Grafana dashboards
-5. **Alert Configuration**: Multi-window multi-burn-rate alerts
-6. **Reporting Templates**: Monthly reports and reviews
-7. **Decision Framework**: SLO-based engineering decisions
-8. **Automation Tools**: SLO-as-code and auto-generation
-9. **Governance Process**: Culture and review processes
+1. **SLO 框架**：全面的 SLO 設計和目標
+2. **SLI 實施**：測量 SLI 的程式碼和查詢
+3. **錯誤預算追蹤**：計算和燃燒率監控
+4. **監控設定**：Prometheus 規則和 Grafana 儀表板
+5. **警報配置**：多視窗多燃燒率警報
+6. **報告模板**：每月報告和審查
+7. **決策框架**：基於 SLO 的工程決策
+8. **自動化工具**：SLO 即程式碼和自動生成
+9. **治理流程**：文化和審查流程
 
-Focus on creating meaningful SLOs that balance reliability with feature velocity, providing clear signals for engineering decisions and fostering a culture of reliability.
+專注於創建有意義的 SLO，平衡可靠性與功能速度，為工程決策提供清晰的信號，並培養可靠性文化。

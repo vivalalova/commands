@@ -1,56 +1,56 @@
-# Error Analysis and Resolution
+# 錯誤分析與解決
 
-Analyze and resolve errors in: $ARGUMENTS
+分析並解決以下錯誤：$ARGUMENTS
 
-Perform comprehensive error analysis:
+執行全面的錯誤分析：
 
-1. **Error Pattern Analysis**:
-   - Categorize error types
-   - Identify root causes
-   - Trace error propagation
-   - Analyze error frequency
-   - Correlate with system events
+1. **錯誤模式分析**：
+   - 錯誤類型分類
+   - 識別根本原因
+   - 追蹤錯誤傳播
+   - 分析錯誤頻率
+   - 與系統事件關聯
 
-2. **Debugging Strategy**:
-   - Stack trace analysis
-   - Variable state inspection
-   - Execution flow tracing
-   - Memory dump analysis
-   - Race condition detection
+2. **除錯策略**：
+   - 堆疊追蹤分析
+   - 變數狀態檢查
+   - 執行流程追蹤
+   - 記憶體傾印分析
+   - 競爭條件檢測
 
-3. **Error Handling Improvements**:
-   - Custom exception classes
-   - Error boundary implementation
-   - Retry logic with backoff
-   - Circuit breaker patterns
-   - Graceful degradation
+3. **錯誤處理改進**：
+   - 自定義例外類別
+   - 錯誤邊界實施
+   - 帶有退避的重試邏輯
+   - 斷路器模式
+   - 優雅降級
 
-4. **Logging Enhancement**:
-   - Structured logging setup
-   - Correlation ID implementation
-   - Log aggregation strategy
-   - Debug vs production logging
-   - Sensitive data masking
+4. **日誌增強**：
+   - 結構化日誌設定
+   - 關聯 ID 實施
+   - 日誌聚合策略
+   - 除錯與生產日誌記錄
+   - 敏感資料遮罩
 
-5. **Monitoring Integration**:
-   - Sentry/Rollbar setup
-   - Error alerting rules
-   - Error dashboards
-   - Trend analysis
-   - SLA impact assessment
+5. **監控整合**：
+   - Sentry/Rollbar 設定
+   - 錯誤警報規則
+   - 錯誤儀表板
+   - 趨勢分析
+   - SLA 影響評估
 
-6. **Recovery Mechanisms**:
-   - Automatic recovery procedures
-   - Data consistency checks
-   - Rollback strategies
-   - State recovery
-   - Compensation logic
+6. **恢復機制**：
+   - 自動恢復程序
+   - 資料一致性檢查
+   - 回滾策略
+   - 狀態恢復
+   - 補償邏輯
 
-7. **Prevention Strategies**:
-   - Input validation
-   - Type safety improvements
-   - Contract testing
-   - Defensive programming
-   - Code review checklist
+7. **預防策略**：
+   - 輸入驗證
+   - 類型安全改進
+   - 契約測試
+   - 防禦性程式設計
+   - 程式碼審查清單
 
-Provide specific fixes, preventive measures, and long-term reliability improvements. Include test cases for each error scenario.
+提供具體修復、預防措施和長期可靠性改進。為每個錯誤場景包含測試案例。

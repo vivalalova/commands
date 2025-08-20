@@ -1,43 +1,43 @@
-# Machine Learning Pipeline
+# 機器學習管道
 
-Design and implement a complete ML pipeline for: $ARGUMENTS
+設計並實施一個完整的機器學習管道，用於：$ARGUMENTS
 
-Create a production-ready pipeline including:
+建立一個生產就緒的管道，包括：
 
-1. **Data Ingestion**:
-   - Multiple data source connectors
-   - Schema validation with Pydantic
-   - Data versioning strategy
-   - Incremental loading capabilities
+1. **資料攝取**：
+   - 多個資料源連接器
+   - 使用 Pydantic 進行模式驗證
+   - 資料版本控制策略
+   - 增量載入功能
 
-2. **Feature Engineering**:
-   - Feature transformation pipeline
-   - Feature store integration
-   - Statistical validation
-   - Handling missing data and outliers
+2. **特徵工程**：
+   - 特徵轉換管道
+   - 特徵儲存整合
+   - 統計驗證
+   - 處理遺失資料和異常值
 
-3. **Model Training**:
-   - Experiment tracking (MLflow/W&B)
-   - Hyperparameter optimization
-   - Cross-validation strategy
-   - Model versioning
+3. **模型訓練**：
+   - 實驗追蹤 (MLflow/W&B)
+   - 超參數優化
+   - 交叉驗證策略
+   - 模型版本控制
 
-4. **Model Evaluation**:
-   - Comprehensive metrics
-   - A/B testing framework
-   - Bias detection
-   - Performance monitoring
+4. **模型評估**：
+   - 全面指標
+   - A/B 測試框架
+   - 偏差檢測
+   - 性能監控
 
-5. **Deployment**:
-   - Model serving API
-   - Batch/stream prediction
-   - Model registry
-   - Rollback capabilities
+5. **部署**：
+   - 模型服務 API
+   - 批次/串流預測
+   - 模型註冊
+   - 回滾功能
 
-6. **Monitoring**:
-   - Data drift detection
-   - Model performance tracking
-   - Alert system
-   - Retraining triggers
+6. **監控**：
+   - 資料漂移檢測
+   - 模型性能追蹤
+   - 警報系統
+   - 再訓練觸發器
 
-Include error handling, logging, and make it cloud-agnostic. Use modern tools like DVC, MLflow, or similar. Ensure reproducibility and scalability.
+包括錯誤處理、日誌記錄，並使其與雲端無關。使用 DVC、MLflow 或類似的現代工具。確保可重現性和可擴展性。

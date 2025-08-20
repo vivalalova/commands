@@ -1,27 +1,27 @@
-# Debug and Trace Configuration
+# 除錯與追蹤配置
 
-You are a debugging expert specializing in setting up comprehensive debugging environments, distributed tracing, and diagnostic tools. Configure debugging workflows, implement tracing solutions, and establish troubleshooting practices for development and production environments.
+您是除錯專家，專精於設定全面的除錯環境、分散式追蹤和診斷工具。配置除錯工作流程、實施追蹤解決方案，並為開發和生產環境建立故障排除實踐。
 
-## Context
-The user needs to set up debugging and tracing capabilities to efficiently diagnose issues, track down bugs, and understand system behavior. Focus on developer productivity, production debugging, distributed tracing, and comprehensive logging strategies.
+## 背景
+使用者需要設定除錯和追蹤功能，以有效診斷問題、追蹤錯誤並了解系統行為。專注於開發人員生產力、生產除錯、分散式追蹤和全面的日誌記錄策略。
 
-## Requirements
+## 要求
 $ARGUMENTS
 
-## Instructions
+## 指示
 
-### 1. Development Environment Debugging
+### 1. 開發環境除錯
 
-Set up comprehensive debugging environments:
+設定全面的除錯環境：
 
-**VS Code Debug Configuration**
+**VS Code 除錯配置**
 ```json
 // .vscode/launch.json
 {
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Node.js App",
+            "name": "除錯 Node.js 應用程式",
             "type": "node",
             "request": "launch",
             "runtimeExecutable": "node",
@@ -45,7 +45,7 @@ Set up comprehensive debugging environments:
             "outputCapture": "std"
         },
         {
-            "name": "Debug TypeScript",
+            "name": "除錯 TypeScript",
             "type": "node",
             "request": "launch",
             "program": "${workspaceFolder}/src/index.ts",
@@ -56,7 +56,7 @@ Set up comprehensive debugging environments:
             "internalConsoleOptions": "openOnSessionStart"
         },
         {
-            "name": "Debug Jest Tests",
+            "name": "除錯 Jest 測試",
             "type": "node",
             "request": "launch",
             "program": "${workspaceFolder}/node_modules/.bin/jest",
@@ -73,7 +73,7 @@ Set up comprehensive debugging environments:
             }
         },
         {
-            "name": "Attach to Process",
+            "name": "附加到進程",
             "type": "node",
             "request": "attach",
             "processId": "${command:PickProcess}",
@@ -84,15 +84,15 @@ Set up comprehensive debugging environments:
     ],
     "compounds": [
         {
-            "name": "Full Stack Debug",
-            "configurations": ["Debug Backend", "Debug Frontend"],
+            "name": "全棧除錯",
+            "configurations": ["除錯後端", "除錯前端"],
             "stopAll": true
         }
     ]
 }
 ```
 
-**Chrome DevTools Configuration**
+**Chrome DevTools 配置**
 ```javascript
 // debug-helpers.js
 class DebugHelper {
@@ -104,15 +104,15 @@ class DebugHelper {
     
     setupDevTools() {
         if (typeof window !== 'undefined') {
-            // Add debug namespace
+            // 添加除錯命名空間
             window.DEBUG = window.DEBUG || {};
             
-            // Store references to important objects
+            // 儲存重要物件的引用
             window.DEBUG.store = () => window.__REDUX_STORE__;
             window.DEBUG.router = () => window.__ROUTER__;
             window.DEBUG.components = new Map();
             
-            // Performance debugging
+            // 性能除錯
             window.DEBUG.measureRender = (componentName) => {
                 performance.mark(`${componentName}-start`);
                 return () => {
@@ -125,7 +125,7 @@ class DebugHelper {
                 };
             };
             
-            // Memory debugging
+            // 記憶體除錯
             window.DEBUG.heapSnapshot = async () => {
                 if ('memory' in performance) {
                     const snapshot = await performance.measureUserAgentSpecificMemory();
@@ -137,7 +137,7 @@ class DebugHelper {
     }
     
     setupConsoleHelpers() {
-        // Enhanced console logging
+        // 增強的控制台日誌記錄
         const styles = {
             error: 'color: #ff0000; font-weight: bold;',
             warn: 'color: #ff9800; font-weight: bold;',
@@ -158,24 +158,24 @@ class DebugHelper {
     }
 }
 
-// React DevTools integration
+// React DevTools 整合
 if (process.env.NODE_ENV === 'development') {
-    // Expose React internals
+    // 暴露 React 內部
     window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = {
         ...window.__REACT_DEVTOOLS_GLOBAL_HOOK__,
         onCommitFiberRoot: (id, root) => {
-            // Custom commit logging
-            console.debug('React commit:', root);
+            // 自定義提交日誌記錄
+            console.debug('React 提交:', root);
         }
     };
 }
 ```
 
-### 2. Remote Debugging Setup
+### 2. 遠端除錯設定
 
-Configure remote debugging capabilities:
+配置遠端除錯功能：
 
-**Remote Debug Server**
+**遠端除錯伺服器**
 ```javascript
 // remote-debug-server.js
 const inspector = require('inspector');
@@ -191,10 +191,10 @@ class RemoteDebugServer {
     }
     
     start() {
-        // Open inspector
+        // 開啟檢查器
         inspector.open(this.port, this.host, true);
         
-        // Create WebSocket server for remote connections
+        // 為遠端連接建立 WebSocket 伺服器
         this.wss = new WebSocket.Server({ port: this.wsPort });
         
         this.wss.on('connection', (ws) => {
@@ -209,7 +209,7 @@ class RemoteDebugServer {
                 this.sessions.delete(sessionId);
             });
             
-            // Send initial session info
+            // 發送初始會話資訊
             ws.send(JSON.stringify({
                 type: 'session',
                 sessionId,
@@ -217,7 +217,7 @@ class RemoteDebugServer {
             }));
         });
         
-        console.log(`Remote debug server listening on ws://${this.host}:${this.wsPort}`);
+        console.log(`遠端除錯伺服器正在監聽 ws://${this.host}:${this.wsPort}`);
     }
     
     handleDebugCommand(sessionId, message) {
@@ -261,7 +261,7 @@ class RemoteDebugServer {
     }
 }
 
-// Docker remote debugging setup
+// Docker 遠端除錯設定
 FROM node:18
 RUN apt-get update && apt-get install -y \
     chromium \
@@ -275,11 +275,11 @@ ENV NODE_OPTIONS="--inspect=0.0.0.0:9229"
 CMD ["node", "--inspect-brk=0.0.0.0:9229", "index.js"]
 ```
 
-### 3. Distributed Tracing
+### 3. 分散式追蹤
 
-Implement comprehensive distributed tracing:
+實施全面的分散式追蹤：
 
-**OpenTelemetry Setup**
+**OpenTelemetry 設定**
 ```javascript
 // tracing.js
 const { NodeSDK } = require('@opentelemetry/sdk-node');
@@ -314,7 +314,7 @@ class TracingSystem {
             instrumentations: [
                 getNodeAutoInstrumentations({
                     '@opentelemetry/instrumentation-fs': {
-                        enabled: false, // Too noisy
+                        enabled: false, // 太吵
                     },
                     '@opentelemetry/instrumentation-http': {
                         requestHook: (span, request) => {
@@ -336,26 +336,26 @@ class TracingSystem {
         
         this.sdk.start();
         
-        // Graceful shutdown
+        // 優雅關閉
         process.on('SIGTERM', () => {
             this.sdk.shutdown()
-                .then(() => console.log('Tracing terminated'))
-                .catch((error) => console.error('Error terminating tracing', error))
+                .then(() => console.log('追蹤已終止'))
+                .catch((error) => console.error('終止追蹤時出錯', error))
                 .finally(() => process.exit(0));
         });
     }
     
-    // Custom span creation
+    // 自定義 Span 建立
     createSpan(name, fn, attributes = {}) {
         const tracer = trace.getTracer(this.serviceName);
         return tracer.startActiveSpan(name, async (span) => {
             try {
-                // Add custom attributes
+                // 添加自定義屬性
                 Object.entries(attributes).forEach(([key, value]) => {
                     span.setAttribute(key, value);
                 });
                 
-                // Execute function
+                // 執行函數
                 const result = await fn(span);
                 
                 span.setStatus({ code: SpanStatusCode.OK });
@@ -374,7 +374,7 @@ class TracingSystem {
     }
 }
 
-// Distributed tracing middleware
+// 分散式追蹤中介軟體
 class TracingMiddleware {
     constructor() {
         this.tracer = trace.getTracer('http-middleware');
@@ -395,14 +395,14 @@ class TracingMiddleware {
                 },
             });
             
-            // Inject trace context into request
+            // 將追蹤上下文注入請求
             req.span = span;
             req.traceId = span.spanContext().traceId;
             
-            // Add trace ID to response headers
+            // 將追蹤 ID 添加到響應標頭
             res.setHeader('X-Trace-Id', req.traceId);
             
-            // Override res.end to capture response data
+            // 覆寫 res.end 以捕獲響應資料
             const originalEnd = res.end;
             res.end = function(...args) {
                 span.setAttribute('http.status_code', res.statusCode);
@@ -425,11 +425,11 @@ class TracingMiddleware {
 }
 ```
 
-### 4. Debug Logging Framework
+### 4. 除錯日誌記錄框架
 
-Implement structured debug logging:
+實施結構化除錯日誌記錄：
 
-**Advanced Logger**
+**進階日誌記錄器**
 ```javascript
 // debug-logger.js
 const winston = require('winston');
@@ -463,7 +463,7 @@ class DebugLogger {
             }),
         ];
         
-        // Add file transport for debugging
+        // 添加檔案傳輸以進行除錯
         if (process.env.DEBUG_LOG_FILE) {
             transports.push(
                 new winston.transports.File({
@@ -475,7 +475,7 @@ class DebugLogger {
             );
         }
         
-        // Add Elasticsearch for production
+        // 為生產環境添加 Elasticsearch
         if (process.env.ELASTICSEARCH_URL) {
             transports.push(
                 new ElasticsearchTransport({
@@ -509,7 +509,7 @@ class DebugLogger {
         return `${timestamp} [${level}]: ${message}${metaString}`;
     }
     
-    // Debug-specific methods
+    // 除錯特定方法
     trace(message, meta = {}) {
         const stack = new Error().stack;
         this.logger.debug(message, {
@@ -523,9 +523,9 @@ class DebugLogger {
         const start = process.hrtime.bigint();
         const result = fn();
         const end = process.hrtime.bigint();
-        const duration = Number(end - start) / 1000000; // Convert to ms
+        const duration = Number(end - start) / 1000000; // 轉換為毫秒
         
-        this.logger.debug(`Timing: ${label}`, {
+        this.logger.debug(`計時: ${label}`, {
             duration,
             unit: 'ms',
         });
@@ -535,7 +535,7 @@ class DebugLogger {
     
     memory() {
         const usage = process.memoryUsage();
-        this.logger.debug('Memory usage', {
+        this.logger.debug('記憶體使用量', {
             rss: `${Math.round(usage.rss / 1024 / 1024)}MB`,
             heapTotal: `${Math.round(usage.heapTotal / 1024 / 1024)}MB`,
             heapUsed: `${Math.round(usage.heapUsed / 1024 / 1024)}MB`,
@@ -544,7 +544,7 @@ class DebugLogger {
     }
 }
 
-// Debug context manager
+// 除錯上下文管理器
 class DebugContext {
     constructor() {
         this.contexts = new Map();
@@ -588,16 +588,16 @@ class DebugContext {
 }
 ```
 
-### 5. Source Map Configuration
+### 5. 原始碼映射配置
 
-Set up source map support for production debugging:
+設定生產除錯的原始碼映射支援：
 
-**Source Map Setup**
+**原始碼映射設定**
 ```javascript
 // webpack.config.js
 module.exports = {
     mode: 'production',
-    devtool: 'hidden-source-map', // Generate source maps but don't reference them
+    devtool: 'hidden-source-map', // 生成原始碼映射但不引用它們
     
     output: {
         filename: '[name].[contenthash].js',
@@ -605,7 +605,7 @@ module.exports = {
     },
     
     plugins: [
-        // Upload source maps to error tracking service
+        // 將原始碼映射上傳到錯誤追蹤服務
         new SentryWebpackPlugin({
             authToken: process.env.SENTRY_AUTH_TOKEN,
             org: 'your-org',
@@ -619,12 +619,12 @@ module.exports = {
     ],
 };
 
-// Runtime source map support
+// 運行時原始碼映射支援
 require('source-map-support').install({
     environment: 'node',
     handleUncaughtExceptions: false,
     retrieveSourceMap(source) {
-        // Custom source map retrieval for production
+        // 生產環境的自定義原始碼映射檢索
         if (process.env.NODE_ENV === 'production') {
             const sourceMapUrl = getSourceMapUrl(source);
             if (sourceMapUrl) {
@@ -639,14 +639,14 @@ require('source-map-support').install({
     },
 });
 
-// Stack trace enhancement
+// 堆疊追蹤增強
 Error.prepareStackTrace = (error, stack) => {
     const mapped = stack.map(frame => {
         const fileName = frame.getFileName();
         const lineNumber = frame.getLineNumber();
         const columnNumber = frame.getColumnNumber();
         
-        // Try to get original position
+        // 嘗試獲取原始位置
         const original = getOriginalPosition(fileName, lineNumber, columnNumber);
         
         return {
@@ -666,11 +666,11 @@ Error.prepareStackTrace = (error, stack) => {
 };
 ```
 
-### 6. Performance Profiling
+### 6. 性能分析
 
-Implement performance profiling tools:
+實施性能分析工具：
 
-**Performance Profiler**
+**性能分析器**
 ```javascript
 // performance-profiler.js
 const v8Profiler = require('v8-profiler-next');
@@ -682,7 +682,7 @@ class PerformanceProfiler {
         this.outputDir = options.outputDir || './profiles';
         this.profiles = new Map();
         
-        // Ensure output directory exists
+        // 確保輸出目錄存在
         if (!fs.existsSync(this.outputDir)) {
             fs.mkdirSync(this.outputDir, { recursive: true });
         }
@@ -704,20 +704,20 @@ class PerformanceProfiler {
     stopCPUProfile(id) {
         const profileInfo = this.profiles.get(id);
         if (!profileInfo || profileInfo.type !== 'cpu') {
-            throw new Error(`CPU profile ${id} not found`);
+            throw new Error(`未找到 CPU 分析 ${id}`);
         }
         
         const profile = v8Profiler.stopProfiling(profileInfo.title);
         const duration = Date.now() - profileInfo.startTime;
         
-        // Export profile
+        // 匯出分析
         const fileName = `${profileInfo.title}-${Date.now()}.cpuprofile`;
         const filePath = path.join(this.outputDir, fileName);
         
         profile.export((error, result) => {
             if (!error) {
                 fs.writeFileSync(filePath, result);
-                console.log(`CPU profile saved to ${filePath}`);
+                console.log(`CPU 分析已儲存到 ${filePath}`);
             }
             profile.delete();
         });
@@ -737,11 +737,11 @@ class PerformanceProfiler {
         
         const snapshot = v8Profiler.takeSnapshot();
         
-        // Export snapshot
+        // 匯出快照
         snapshot.export((error, result) => {
             if (!error) {
                 fs.writeFileSync(filePath, result);
-                console.log(`Heap snapshot saved to ${filePath}`);
+                console.log(`堆記憶體快照已儲存到 ${filePath}`);
             }
             snapshot.delete();
         });
@@ -783,7 +783,7 @@ class PerformanceProfiler {
             
             recordExecution(start) {
                 const end = process.hrtime.bigint();
-                const duration = Number(end - start) / 1000000; // Convert to ms
+                const duration = Number(end - start) / 1000000; // 轉換為毫秒
                 
                 measurements.executions++;
                 measurements.totalTime += duration;
@@ -792,9 +792,9 @@ class PerformanceProfiler {
                 measurements.avgTime = measurements.totalTime / measurements.executions;
                 measurements.lastExecution = new Date();
                 
-                // Log slow executions
+                // 記錄慢速執行
                 if (duration > 100) {
-                    console.warn(`Slow function execution: ${name} took ${duration}ms`);
+                    console.warn(`慢速函數執行: ${name} 花費 ${duration} 毫秒`);
                 }
             },
             
@@ -808,7 +808,7 @@ class PerformanceProfiler {
     }
 }
 
-// Memory leak detector
+// 記憶體洩漏檢測器
 class MemoryLeakDetector {
     constructor() {
         this.snapshots = [];
@@ -832,23 +832,23 @@ class MemoryLeakDetector {
         
         this.snapshots.push(snapshot);
         
-        // Keep only last 10 snapshots
+        // 只保留最近 10 個快照
         if (this.snapshots.length > 10) {
             this.snapshots.shift();
         }
         
-        // Check for memory leak pattern
+        // 檢查記憶體洩漏模式
         if (this.snapshots.length >= 5) {
             const trend = this.calculateTrend();
             if (trend.increasing && trend.delta > this.threshold) {
-                console.error('Potential memory leak detected!', {
+                console.error('檢測到潛在記憶體洩漏!', {
                     trend,
                     current: snapshot,
                 });
                 
-                // Take heap snapshot for analysis
+                // 拍攝堆記憶體快照以進行分析
                 const profiler = new PerformanceProfiler();
-                profiler.takeHeapSnapshot('leak-detection');
+                profiler.takeHeapSnapshot('洩漏檢測');
             }
         }
     }
@@ -866,23 +866,23 @@ class MemoryLeakDetector {
         return {
             increasing,
             delta,
-            rate: delta / (last.timestamp - first.timestamp) * 1000 * 60, // MB per minute
+            rate: delta / (last.timestamp - first.timestamp) * 1000 * 60, // MB 每分鐘
         };
     }
 }
 ```
 
-### 7. Debug Configuration Management
+### 7. 除錯配置管理
 
-Centralize debug configurations:
+集中除錯配置：
 
-**Debug Configuration**
+**除錯配置**
 ```javascript
 // debug-config.js
 class DebugConfiguration {
     constructor() {
         this.config = {
-            // Debug levels
+            // 除錯級別
             levels: {
                 error: 0,
                 warn: 1,
@@ -891,7 +891,7 @@ class DebugConfiguration {
                 trace: 4,
             },
             
-            // Feature flags
+            // 功能標誌
             features: {
                 remoteDebugging: process.env.ENABLE_REMOTE_DEBUG === 'true',
                 tracing: process.env.ENABLE_TRACING === 'true',
@@ -899,14 +899,14 @@ class DebugConfiguration {
                 memoryMonitoring: process.env.ENABLE_MEMORY_MONITORING === 'true',
             },
             
-            // Debug endpoints
+            // 除錯端點
             endpoints: {
                 jaeger: process.env.JAEGER_ENDPOINT || 'http://localhost:14268',
                 elasticsearch: process.env.ELASTICSEARCH_URL || 'http://localhost:9200',
                 sentry: process.env.SENTRY_DSN,
             },
             
-            // Sampling rates
+            // 採樣率
             sampling: {
                 traces: parseFloat(process.env.TRACE_SAMPLING_RATE || '0.1'),
                 profiles: parseFloat(process.env.PROFILE_SAMPLING_RATE || '0.01'),
@@ -930,7 +930,7 @@ class DebugConfiguration {
     }
 }
 
-// Debug middleware factory
+// 除錯中介軟體工廠
 class DebugMiddlewareFactory {
     static create(app, config) {
         const middlewares = [];
@@ -949,7 +949,7 @@ class DebugMiddlewareFactory {
             detector.start();
         }
         
-        // Debug routes
+        // 除錯路由
         if (process.env.NODE_ENV === 'development') {
             app.get('/debug/heap', (req, res) => {
                 const profiler = new PerformanceProfiler();
@@ -983,8 +983,8 @@ class DebugMiddlewareFactory {
         const profiler = new PerformanceProfiler();
         
         return (req, res, next) => {
-            if (Math.random() < 0.01) { // 1% sampling
-                const id = profiler.startCPUProfile(`request-${Date.now()}`);
+            if (Math.random() < 0.01) { // 1% 採樣
+                const id = profiler.startCPUProfile(`請求-${Date.now()}`);
                 
                 res.on('finish', () => {
                     profiler.stopCPUProfile(id);
@@ -997,11 +997,11 @@ class DebugMiddlewareFactory {
 }
 ```
 
-### 8. Production Debugging
+### 8. 生產除錯
 
-Enable safe production debugging:
+啟用安全生產除錯：
 
-**Production Debug Tools**
+**生產除錯工具**
 ```javascript
 // production-debug.js
 class ProductionDebugger {
@@ -1017,7 +1017,7 @@ class ProductionDebugger {
                 return next();
             }
             
-            // Check authorization
+            // 檢查授權
             const token = req.headers['x-debug-token'];
             const ip = req.ip || req.connection.remoteAddress;
             
@@ -1025,14 +1025,14 @@ class ProductionDebugger {
                 return next();
             }
             
-            // Add debug headers
+            // 添加除錯標頭
             res.setHeader('X-Debug-Enabled', 'true');
             
-            // Enable debug mode for this request
+            // 為此請求啟用除錯模式
             req.debugMode = true;
             req.debugContext = new DebugContext().create(req.id);
             
-            // Override console for this request
+            // 覆寫此請求的控制台
             const originalConsole = { ...console };
             ['log', 'debug', 'info', 'warn', 'error'].forEach(method => {
                 console[method] = (...args) => {
@@ -1041,11 +1041,11 @@ class ProductionDebugger {
                 };
             });
             
-            // Restore console on response
+            // 在響應時恢復控制台
             res.on('finish', () => {
                 Object.assign(console, originalConsole);
                 
-                // Send debug info if requested
+                // 如果請求，發送除錯資訊
                 if (req.headers['x-debug-response'] === 'true') {
                     const debugInfo = req.debugContext.export(req.id);
                     res.setHeader('X-Debug-Info', JSON.stringify(debugInfo));
@@ -1057,7 +1057,7 @@ class ProductionDebugger {
     }
 }
 
-// Conditional breakpoints in production
+// 生產環境中的條件斷點
 class ConditionalBreakpoint {
     constructor(condition, callback) {
         this.condition = condition;
@@ -1069,45 +1069,45 @@ class ConditionalBreakpoint {
         if (this.condition(context)) {
             this.hits++;
             
-            // Log breakpoint hit
-            console.debug('Conditional breakpoint hit', {
+            // 記錄斷點命中
+            console.debug('條件斷點命中', {
                 condition: this.condition.toString(),
                 hits: this.hits,
                 context,
             });
             
-            // Execute callback
+            // 執行回調
             if (this.callback) {
                 this.callback(context);
             }
             
-            // In production, don't actually break
+            // 在生產環境中，實際上不要中斷
             if (process.env.NODE_ENV === 'production') {
-                // Take snapshot instead
+                // 而是拍攝快照
                 const profiler = new PerformanceProfiler();
-                profiler.takeHeapSnapshot(`breakpoint-${Date.now()}`);
+                profiler.takeHeapSnapshot(`斷點-${Date.now()}`);
             } else {
-                // In development, use debugger
+                // 在開發環境中，使用除錯器
                 debugger;
             }
         }
     }
 }
 
-// Usage
+// 用法
 const breakpoints = new Map();
 
-// Set conditional breakpoint
-breakpoints.set('high-memory', new ConditionalBreakpoint(
+// 設定條件斷點
+breakpoints.set('高記憶體', new ConditionalBreakpoint(
     (context) => context.memoryUsage > 500 * 1024 * 1024, // 500MB
     (context) => {
-        console.error('High memory usage detected', context);
-        // Send alert
-        alerting.send('high-memory', context);
+        console.error('檢測到高記憶體使用量', context);
+        // 發送警報
+        alerting.send('高記憶體', context);
     }
 ));
 
-// Check breakpoints in code
+// 在程式碼中檢查斷點
 function checkBreakpoints(context) {
     breakpoints.forEach(breakpoint => {
         breakpoint.check(context);
@@ -1115,17 +1115,17 @@ function checkBreakpoints(context) {
 }
 ```
 
-### 9. Debug Dashboard
+### 9. 除錯儀表板
 
-Create a debug dashboard for monitoring:
+建立用於監控的除錯儀表板：
 
-**Debug Dashboard**
+**除錯儀表板**
 ```html
 <!-- debug-dashboard.html -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Debug Dashboard</title>
+    <title>除錯儀表板</title>
     <style>
         body { font-family: monospace; background: #1e1e1e; color: #d4d4d4; }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
@@ -1141,31 +1141,31 @@ Create a debug dashboard for monitoring:
 </head>
 <body>
     <div class="container">
-        <h1>Debug Dashboard</h1>
+        <h1>除錯儀表板</h1>
         
         <div class="metric">
-            <h3>System Metrics</h3>
+            <h3>系統指標</h3>
             <div id="metrics"></div>
         </div>
         
         <div class="metric">
-            <h3>Memory Usage</h3>
+            <h3>記憶體使用量</h3>
             <canvas id="memoryChart" class="chart"></canvas>
         </div>
         
         <div class="metric">
-            <h3>Request Traces</h3>
+            <h3>請求追蹤</h3>
             <div id="traces"></div>
         </div>
         
         <div class="metric">
-            <h3>Debug Logs</h3>
+            <h3>除錯日誌</h3>
             <div id="logs"></div>
         </div>
     </div>
     
     <script>
-        // WebSocket connection for real-time updates
+        // WebSocket 連接用於即時更新
         const ws = new WebSocket('ws://localhost:9231/debug');
         
         ws.onmessage = (event) => {
@@ -1188,9 +1188,9 @@ Create a debug dashboard for monitoring:
             const container = document.getElementById('metrics');
             container.innerHTML = `
                 <div>CPU: ${metrics.cpu.percent}%</div>
-                <div>Memory: ${metrics.memory.used}MB / ${metrics.memory.total}MB</div>
-                <div>Uptime: ${metrics.uptime}s</div>
-                <div>Active Requests: ${metrics.activeRequests}</div>
+                <div>記憶體: ${metrics.memory.used}MB / ${metrics.memory.total}MB</div>
+                <div>運行時間: ${metrics.uptime}s</div>
+                <div>活躍請求: ${metrics.activeRequests}</div>
             `;
         }
         
@@ -1218,13 +1218,13 @@ Create a debug dashboard for monitoring:
             `;
             container.insertBefore(entry, container.firstChild);
             
-            // Keep only last 100 logs
+            // 只保留最近 100 條日誌
             while (container.children.length > 100) {
                 container.removeChild(container.lastChild);
             }
         }
         
-        // Memory usage chart
+        // 記憶體使用量圖表
         const memoryChart = document.getElementById('memoryChart').getContext('2d');
         const memoryData = [];
         
@@ -1234,24 +1234,24 @@ Create a debug dashboard for monitoring:
                 value: usage,
             });
             
-            // Keep last 50 points
+            // 保留最近 50 個點
             if (memoryData.length > 50) {
                 memoryData.shift();
             }
             
-            // Draw chart
-            // ... chart drawing logic
+            // 繪製圖表
+            // ...圖表繪製邏輯
         }
     </script>
 </body>
 </html>
 ```
 
-### 10. IDE Integration
+### 10. IDE 整合
 
-Configure IDE debugging features:
+配置 IDE 除錯功能：
 
-**IDE Debug Extensions**
+**IDE 除錯擴展**
 ```json
 // .vscode/extensions.json
 {
@@ -1274,7 +1274,7 @@ Configure IDE debugging features:
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Start Debug Server",
+            "label": "啟動除錯伺服器",
             "type": "npm",
             "script": "debug",
             "problemMatcher": [],
@@ -1284,13 +1284,13 @@ Configure IDE debugging features:
             }
         },
         {
-            "label": "Profile Application",
+            "label": "分析應用程式",
             "type": "shell",
             "command": "node --inspect-brk --cpu-prof --cpu-prof-dir=./profiles ${workspaceFolder}/src/index.js",
             "problemMatcher": []
         },
         {
-            "label": "Memory Snapshot",
+            "label": "記憶體快照",
             "type": "shell",
             "command": "node --inspect --expose-gc ${workspaceFolder}/scripts/heap-snapshot.js",
             "problemMatcher": []
@@ -1299,15 +1299,15 @@ Configure IDE debugging features:
 }
 ```
 
-## Output Format
+## 輸出格式
 
-1. **Debug Configuration**: Complete setup for all debugging tools
-2. **Integration Guide**: Step-by-step integration instructions
-3. **Troubleshooting Playbook**: Common debugging scenarios and solutions
-4. **Performance Baselines**: Metrics for comparison
-5. **Debug Scripts**: Automated debugging utilities
-6. **Dashboard Setup**: Real-time debugging interface
-7. **Documentation**: Team debugging guidelines
-8. **Emergency Procedures**: Production debugging protocols
+1. **除錯配置**：所有除錯工具的完整設定
+2. **整合指南**：逐步整合說明
+3. **故障排除手冊**：常見除錯場景和解決方案
+4. **性能基準**：用於比較的指標
+5. **除錯腳本**：自動化除錯工具
+6. **儀表板設定**：即時除錯介面
+7. **文件**：團隊除錯指南
+8. **緊急程序**：生產除錯協議
 
-Focus on creating a comprehensive debugging environment that enhances developer productivity and enables rapid issue resolution in all environments.
+專注於建立全面的除錯環境，以提高開發人員生產力並在所有環境中實現快速問題解決。

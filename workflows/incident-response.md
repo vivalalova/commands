@@ -1,81 +1,81 @@
-Respond to production incidents with coordinated agent expertise for rapid resolution:
+透過協調的代理專業知識，快速解決生產事件：
 
-[Extended thinking: This workflow handles production incidents with urgency and precision. Multiple specialized agents work together to identify root causes, implement fixes, and prevent recurrence.]
+[延伸思考：此工作流程以緊急和精確的方式處理生產事件。多個專業代理協同工作，以識別根本原因、實施修復並防止再次發生。]
 
-## Phase 1: Immediate Response
+## 階段 1：即時響應
 
-### 1. Incident Assessment
-- Use Task tool with subagent_type="incident-responder"
-- Prompt: "URGENT: Assess production incident: $ARGUMENTS. Determine severity, impact, and immediate mitigation steps. Time is critical."
-- Output: Incident severity, impact assessment, immediate actions
+### 1. 事件評估
+- 使用任務工具，子代理類型為「incident-responder」
+- 提示：「緊急：評估生產事件：$ARGUMENTS。確定嚴重性、影響和即時緩解步驟。時間至關重要。」
+- 輸出：事件嚴重性、影響評估、即時行動
 
-### 2. Initial Troubleshooting
-- Use Task tool with subagent_type="devops-troubleshooter"
-- Prompt: "Investigate production issue: $ARGUMENTS. Check logs, metrics, recent deployments, and system health. Identify potential root causes."
-- Output: Initial findings, suspicious patterns, potential causes
+### 2. 初步故障排除
+- 使用任務工具，子代理類型為「devops-troubleshooter」
+- 提示：「調查生產問題：$ARGUMENTS。檢查日誌、指標、最近的部署和系統健康狀況。識別潛在的根本原因。」
+- 輸出：初步發現、可疑模式、潛在原因
 
-## Phase 2: Root Cause Analysis
+## 階段 2：根本原因分析
 
-### 3. Deep Debugging
-- Use Task tool with subagent_type="debugger"
-- Prompt: "Debug production issue: $ARGUMENTS using findings from initial investigation. Analyze stack traces, reproduce issue if possible, identify exact root cause."
-- Output: Root cause identification, reproduction steps, debug analysis
+### 3. 深度除錯
+- 使用任務工具，子代理類型為「debugger」
+- 提示：「使用初步調查結果除錯生產問題：$ARGUMENTS。分析堆疊追蹤、如果可能則重現問題、識別確切的根本原因。」
+- 輸出：根本原因識別、重現步驟、除錯分析
 
-### 4. Performance Analysis (if applicable)
-- Use Task tool with subagent_type="performance-engineer"
-- Prompt: "Analyze performance aspects of incident: $ARGUMENTS. Check for resource exhaustion, bottlenecks, or performance degradation."
-- Output: Performance metrics, resource analysis, bottleneck identification
+### 4. 性能分析（如果適用）
+- 使用任務工具，子代理類型為「performance-engineer」
+- 提示：「分析事件的性能方面：$ARGUMENTS。檢查資源耗盡、瓶頸或性能下降。」
+- 輸出：性能指標、資源分析、瓶頸識別
 
-### 5. Database Investigation (if applicable)
-- Use Task tool with subagent_type="database-optimizer"
-- Prompt: "Investigate database-related aspects of incident: $ARGUMENTS. Check for locks, slow queries, connection issues, or data corruption."
-- Output: Database health report, query analysis, data integrity check
+### 5. 資料庫調查（如果適用）
+- 使用任務工具，子代理類型為「database-optimizer」
+- 提示：「調查事件的資料庫相關方面：$ARGUMENTS。檢查鎖定、慢查詢、連接問題或資料損壞。」
+- 輸出：資料庫健康報告、查詢分析、資料完整性檢查
 
-## Phase 3: Resolution Implementation
+## 階段 3：解決方案實施
 
-### 6. Fix Development
-- Use Task tool with subagent_type="backend-architect"
-- Prompt: "Design and implement fix for incident: $ARGUMENTS based on root cause analysis. Ensure fix is safe for immediate production deployment."
-- Output: Fix implementation, safety analysis, rollout strategy
+### 6. 修復開發
+- 使用任務工具，子代理類型為「backend-architect」
+- 提示：「根據根本原因分析，設計並實施事件修復：$ARGUMENTS。確保修復對於即時生產部署是安全的。」
+- 輸出：修復實施、安全分析、推出策略
 
-### 7. Emergency Deployment
-- Use Task tool with subagent_type="deployment-engineer"
-- Prompt: "Deploy emergency fix for incident: $ARGUMENTS. Implement with minimal risk, include rollback plan, and monitor deployment closely."
-- Output: Deployment execution, rollback procedures, monitoring setup
+### 7. 緊急部署
+- 使用任務工具，子代理類型為「deployment-engineer」
+- 提示：「部署事件的緊急修復：$ARGUMENTS。以最小風險實施，包括回滾計畫，並密切監控部署。」
+- 輸出：部署執行、回滾程序、監控設定
 
-## Phase 4: Stabilization and Prevention
+## 階段 4：穩定與預防
 
-### 8. System Stabilization
-- Use Task tool with subagent_type="devops-troubleshooter"
-- Prompt: "Stabilize system after incident fix: $ARGUMENTS. Monitor system health, clear any backlogs, and ensure full recovery."
-- Output: System health report, recovery metrics, stability confirmation
+### 8. 系統穩定
+- 使用任務工具，子代理類型為「devops-troubleshooter」
+- 提示：「事件修復後穩定系統：$ARGUMENTS。監控系統健康狀況、清除任何積壓，並確保完全恢復。」
+- 輸出：系統健康報告、恢復指標、穩定性確認
 
-### 9. Security Review (if applicable)
-- Use Task tool with subagent_type="security-auditor"
-- Prompt: "Review security implications of incident: $ARGUMENTS. Check for any security breaches, data exposure, or vulnerabilities exploited."
-- Output: Security assessment, breach analysis, hardening recommendations
+### 9. 安全審查（如果適用）
+- 使用任務工具，子代理類型為「security-auditor」
+- 提示：「審查事件的安全影響：$ARGUMENTS。檢查任何安全漏洞、資料洩露或被利用的漏洞。」
+- 輸出：安全評估、漏洞分析、強化建議
 
-## Phase 5: Post-Incident Activities
+## 階段 5：事件後活動
 
-### 10. Monitoring Enhancement
-- Use Task tool with subagent_type="devops-troubleshooter"
-- Prompt: "Enhance monitoring to prevent recurrence of: $ARGUMENTS. Add alerts, improve observability, and set up early warning systems."
-- Output: New monitoring rules, alert configurations, observability improvements
+### 10. 監控增強
+- 使用任務工具，子代理類型為「devops-troubleshooter」
+- 提示：「增強監控以防止事件再次發生：$ARGUMENTS。添加警報、改善可觀察性，並設定早期預警系統。」
+- 輸出：新監控規則、警報配置、可觀察性改進
 
-### 11. Test Coverage
-- Use Task tool with subagent_type="test-automator"
-- Prompt: "Create tests to prevent regression of incident: $ARGUMENTS. Include unit tests, integration tests, and chaos engineering scenarios."
-- Output: Test implementations, regression prevention, chaos tests
+### 11. 測試覆蓋率
+- 使用任務工具，子代理類型為「test-automator」
+- 提示：「建立測試以防止事件回歸：$ARGUMENTS。包括單元測試、整合測試和混沌工程場景。」
+- 輸出：測試實施、回歸預防、混沌測試
 
-### 12. Documentation
-- Use Task tool with subagent_type="incident-responder"
-- Prompt: "Document incident postmortem for: $ARGUMENTS. Include timeline, root cause, impact, resolution, and lessons learned. No blame, focus on improvement."
-- Output: Postmortem document, action items, process improvements
+### 12. 文件
+- 使用任務工具，子代理類型為「incident-responder」
+- 提示：「記錄事件事後分析：$ARGUMENTS。包括時間軸、根本原因、影響、解決方案和經驗教訓。不責備，專注於改進。」
+- 輸出：事後分析文件、行動項目、流程改進
 
-## Coordination Notes
-- Speed is critical in early phases - parallel agent execution where possible
-- Communication between agents must be clear and rapid
-- All changes must be safe and reversible
-- Document everything for postmortem analysis
+## 協調說明
+- 速度在早期階段至關重要 - 盡可能平行執行代理
+- 代理之間的溝通必須清晰快速
+- 所有更改都必須安全且可逆
+- 記錄所有內容以進行事後分析
 
-Production incident: $ARGUMENTS
+生產事件：$ARGUMENTS

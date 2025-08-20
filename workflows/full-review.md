@@ -1,39 +1,39 @@
-Perform a comprehensive review using multiple specialized agents with explicit Task tool invocations:
+使用多個專業代理執行全面審查，並明確調用任務工具：
 
-[Extended thinking: This workflow performs a thorough multi-perspective review by orchestrating specialized review agents. Each agent examines different aspects and the results are consolidated into a unified action plan.]
+[延伸思考：此工作流程透過協調專業審查代理來執行徹底的多視角審查。每個代理檢查不同的方面，結果將整合到一個統一的行動計畫中。]
 
-Execute parallel reviews using Task tool with specialized agents:
+使用任務工具和專業代理平行執行審查：
 
-## 1. Code Quality Review
-- Use Task tool with subagent_type="code-reviewer"
-- Prompt: "Review code quality and maintainability for: $ARGUMENTS. Check for code smells, readability, documentation, and adherence to best practices."
-- Focus: Clean code principles, SOLID, DRY, naming conventions
+## 1. 程式碼品質審查
+- 使用任務工具，子代理類型為「code-reviewer」
+- 提示：「審查：$ARGUMENTS 的程式碼品質和可維護性。檢查程式碼異味、可讀性、文件和是否符合最佳實踐。」
+- 焦點：乾淨程式碼原則、SOLID、DRY、命名約定
 
-## 2. Security Audit
-- Use Task tool with subagent_type="security-auditor"
-- Prompt: "Perform security audit on: $ARGUMENTS. Check for vulnerabilities, OWASP compliance, authentication issues, and data protection."
-- Focus: Injection risks, authentication, authorization, data encryption
+## 2. 安全審計
+- 使用任務工具，子代理類型為「security-auditor」
+- 提示：「對：$ARGUMENTS 執行安全審計。檢查漏洞、OWASP 合規性、身份驗證問題和資料保護。」
+- 焦點：注入風險、身份驗證、授權、資料加密
 
-## 3. Architecture Review
-- Use Task tool with subagent_type="architect-reviewer"
-- Prompt: "Review architectural design and patterns in: $ARGUMENTS. Evaluate scalability, maintainability, and adherence to architectural principles."
-- Focus: Service boundaries, coupling, cohesion, design patterns
+## 3. 架構審查
+- 使用任務工具，子代理類型為「architect-reviewer」
+- 提示：「審查：$ARGUMENTS 中的架構設計和模式。評估可擴展性、可維護性以及是否符合架構原則。」
+- 焦點：服務邊界、耦合、內聚、設計模式
 
-## 4. Performance Analysis
-- Use Task tool with subagent_type="performance-engineer"
-- Prompt: "Analyze performance characteristics of: $ARGUMENTS. Identify bottlenecks, resource usage, and optimization opportunities."
-- Focus: Response times, memory usage, database queries, caching
+## 4. 性能分析
+- 使用任務工具，子代理類型為「performance-engineer」
+- 提示：「分析：$ARGUMENTS 的性能特徵。識別瓶頸、資源使用情況和優化機會。」
+- 焦點：響應時間、記憶體使用、資料庫查詢、快取
 
-## 5. Test Coverage Assessment
-- Use Task tool with subagent_type="test-automator"
-- Prompt: "Evaluate test coverage and quality for: $ARGUMENTS. Assess unit tests, integration tests, and identify gaps in test coverage."
-- Focus: Coverage metrics, test quality, edge cases, test maintainability
+## 5. 測試覆蓋率評估
+- 使用任務工具，子代理類型為「test-automator」
+- 提示：「評估：$ARGUMENTS 的測試覆蓋率和品質。評估單元測試、整合測試，並識別測試覆蓋率中的差距。」
+- 焦點：覆蓋率指標、測試品質、邊緣情況、測試可維護性
 
-## Consolidated Report Structure
-Compile all feedback into a unified report:
-- **Critical Issues** (must fix): Security vulnerabilities, broken functionality, architectural flaws
-- **Recommendations** (should fix): Performance bottlenecks, code quality issues, missing tests
-- **Suggestions** (nice to have): Refactoring opportunities, documentation improvements
-- **Positive Feedback** (what's done well): Good practices to maintain and replicate
+## 綜合報告結構
+將所有回饋編譯成統一的報告：
+- **關鍵問題**（必須修復）：安全漏洞、損壞的功能、架構缺陷
+- **建議**（應該修復）：性能瓶頸、程式碼品質問題、缺少測試
+- **建議**（可選）：重構機會、文件改進
+- **正面回饋**（做得好的地方）：要保持和複製的良好實踐
 
-Target: $ARGUMENTS
+目標：$ARGUMENTS

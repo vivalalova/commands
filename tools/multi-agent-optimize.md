@@ -1,86 +1,86 @@
-Optimize application stack using specialized optimization agents:
+使用專業優化代理優化應用程式堆疊：
 
-[Extended thinking: This tool coordinates database, performance, and frontend optimization agents to improve application performance holistically. Each agent focuses on their domain while ensuring optimizations work together.]
+[延伸思考：此工具協調資料庫、性能和前端優化代理，以全面提高應用程式性能。每個代理專注於其領域，同時確保優化協同工作。]
 
-## Optimization Strategy
+## 優化策略
 
-### 1. Database Optimization
-Use Task tool with subagent_type="database-optimizer" to:
-- Analyze query performance and execution plans
-- Optimize indexes and table structures
-- Implement caching strategies
-- Review connection pooling and configurations
-- Suggest schema improvements
+### 1. 資料庫優化
+使用任務工具，子代理類型為「database-optimizer」以：
+- 分析查詢性能和執行計畫
+- 優化索引和表格結構
+- 實施快取策略
+- 審查連接池和配置
+- 建議模式改進
 
-Prompt: "Optimize database layer for: $ARGUMENTS. Analyze and improve:
-1. Slow query identification and optimization
-2. Index analysis and recommendations
-3. Schema optimization for performance
-4. Connection pool tuning
-5. Caching strategy implementation"
+提示：「優化資料庫層，針對：$ARGUMENTS。分析並改進：
+1. 慢查詢識別和優化
+2. 索引分析和建議
+3. 模式優化以提高性能
+4. 連接池調整
+5. 快取策略實施」
 
-### 2. Application Performance
-Use Task tool with subagent_type="performance-engineer" to:
-- Profile application code
-- Identify CPU and memory bottlenecks
-- Optimize algorithms and data structures
-- Implement caching at application level
-- Improve async/concurrent operations
+### 2. 應用程式性能
+使用任務工具，子代理類型為「performance-engineer」以：
+- 分析應用程式程式碼
+- 識別 CPU 和記憶體瓶頸
+- 優化演算法和資料結構
+- 在應用程式層級實施快取
+- 改進非同步/並發操作
 
-Prompt: "Optimize application performance for: $ARGUMENTS. Focus on:
-1. Code profiling and bottleneck identification
-2. Algorithm optimization
-3. Memory usage optimization
-4. Concurrency improvements
-5. Application-level caching"
+提示：「優化應用程式性能，針對：$ARGUMENTS。專注於：
+1. 程式碼分析和瓶頸識別
+2. 演算法優化
+3. 記憶體使用優化
+4. 並發改進
+5. 應用程式級快取」
 
-### 3. Frontend Optimization
-Use Task tool with subagent_type="frontend-developer" to:
-- Reduce bundle sizes
-- Implement lazy loading
-- Optimize rendering performance
-- Improve Core Web Vitals
-- Implement efficient state management
+### 3. 前端優化
+使用任務工具，子代理類型為「frontend-developer」以：
+- 減少捆綁包大小
+- 實施延遲載入
+- 優化渲染性能
+- 改進核心網頁指標
+- 實施高效的狀態管理
 
-Prompt: "Optimize frontend performance for: $ARGUMENTS. Improve:
-1. Bundle size reduction strategies
-2. Lazy loading implementation
-3. Rendering optimization
-4. Core Web Vitals (LCP, FID, CLS)
-5. Network request optimization"
+提示：「優化前端性能，針對：$ARGUMENTS。改進：
+1. 捆綁包大小縮減策略
+2. 延遲載入實施
+3. 渲染優化
+4. 核心網頁指標 (LCP, FID, CLS)
+5. 網路請求優化」
 
-## Consolidated Optimization Plan
+## 整合優化計畫
 
-### Performance Baseline
-- Current performance metrics
-- Identified bottlenecks
-- User experience impact
+### 性能基準
+- 當前性能指標
+- 已識別的瓶頸
+- 使用者體驗影響
 
-### Optimization Roadmap
-1. **Quick Wins** (< 1 day)
-   - Simple query optimizations
-   - Basic caching implementation
-   - Bundle splitting
+### 優化路線圖
+1. **快速獲勝** (< 1 天)
+   - 簡單的查詢優化
+   - 基本快取實施
+   - 捆綁包拆分
 
-2. **Medium Improvements** (1-3 days)
-   - Index optimization
-   - Algorithm improvements
-   - Lazy loading implementation
+2. **中期改進** (1-3 天)
+   - 索引優化
+   - 演算法改進
+   - 延遲載入實施
 
-3. **Major Optimizations** (3+ days)
-   - Schema redesign
-   - Architecture changes
-   - Full caching layer
+3. **主要優化** (3+ 天)
+   - 模式重新設計
+   - 架構變更
+   - 完整快取層
 
-### Expected Improvements
-- Database query time reduction: X%
-- API response time improvement: X%
-- Frontend load time reduction: X%
-- Overall user experience impact
+### 預期改進
+- 資料庫查詢時間減少：X%
+- API 響應時間改進：X%
+- 前端載入時間減少：X%
+- 整體使用者體驗影響
 
-### Implementation Priority
-- Ordered list of optimizations by impact/effort ratio
-- Dependencies between optimizations
-- Risk assessment for each change
+### 實施優先級
+- 按影響/投入比排序的優化列表
+- 優化之間的依賴關係
+- 每個變更的風險評估
 
-Target for optimization: $ARGUMENTS
+優化目標：$ARGUMENTS
